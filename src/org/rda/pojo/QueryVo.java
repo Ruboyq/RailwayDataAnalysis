@@ -1,11 +1,9 @@
 package org.rda.pojo;
 
 public class QueryVo {
-
-	private String custName;
-	private String custSource;
-	private String custIndustry;
-	private String custLevel;
+	private String userId;
+	private String userName;
+	private String userDep;
 
 	// 当前页码数
 	private Integer page = 1;
@@ -13,29 +11,23 @@ public class QueryVo {
 	private Integer start;
 	// 每页显示数据条数
 	private Integer rows = 10;
-	public String getCustName() {
-		return custName;
+	public String getUserId() {
+		return userId;
 	}
-	public void setCustName(String custName) {
-		this.custName = custName;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getCustSource() {
-		return custSource;
+	public String getUserName() {
+		return userName;
 	}
-	public void setCustSource(String custSource) {
-		this.custSource = custSource;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getCustIndustry() {
-		return custIndustry;
+	public String getUserDep() {
+		return userDep;
 	}
-	public void setCustIndustry(String custIndustry) {
-		this.custIndustry = custIndustry;
-	}
-	public String getCustLevel() {
-		return custLevel;
-	}
-	public void setCustLevel(String custLevel) {
-		this.custLevel = custLevel;
+	public void setUserDep(String userDep) {
+		this.userDep = userDep;
 	}
 	public Integer getPage() {
 		return page;
@@ -55,12 +47,11 @@ public class QueryVo {
 	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
-	public QueryVo(String custName, String custSource, String custIndustry, String custLevel, Integer page,
-			Integer start, Integer rows) {
-		this.custName = custName;
-		this.custSource = custSource;
-		this.custIndustry = custIndustry;
-		this.custLevel = custLevel;
+	
+	public QueryVo(String userId, String userName, String userDep, Integer page, Integer start, Integer rows) {
+		this.userId = userId;
+		this.userName = userName;
+		this.userDep = userDep;
 		this.page = page;
 		this.start = start;
 		this.rows = rows;

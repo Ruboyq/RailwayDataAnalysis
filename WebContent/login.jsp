@@ -42,7 +42,7 @@ top.location.href = location.href;
    <form class="registerform" action="login" method = "post">
    <div class="fm-item">
 	   <label for="logonId" class="form-label">系统登陆：</label>
-	   <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" value="输入账号" maxlength="100" id="id" name = "id" class="i-text"  datatype="s5-18" errormsg="请输入5位的用户ID！"  >    
+	   <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" value="输入账号" maxlength="100" id="id" name = "id" class="i-text"  datatype="s5-5" errormsg="请输入5位的用户ID！"  >    
        <div class="ui-form-explain"></div>
   </div>
   

@@ -2,15 +2,11 @@ package org.rda.controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.rda.exceptions.ResourceNotFoundException;
-import org.rda.pojo.SysUser;
-import org.rda.service.CheckCodeService;
-import org.rda.service.SysUserService;
+import org.rda.pojo.User;
+import org.rda.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +18,7 @@ import net.sf.json.JSONObject;
 @Controller
 public class LoginController {
 	@Autowired
-	CheckCodeService checkCodeService;
-	@Autowired
-	SysUserService sysuserService;
+	LoginService loginService;
 
 	/**
 	 * 生成随机验证码
@@ -39,7 +33,7 @@ public class LoginController {
 		// 设置图片格式
 		response.setContentType("image/" + format);
 		// 禁止浏览器缓存图片
-		String code = this.checkCodeService.sendCheckCode(response.getOutputStream(), format);
+		String code = this.loginService.sendCheckCode(response.getOutputStream(), format);
 		session.setAttribute("code", code);
 	}
 	
@@ -71,11 +65,11 @@ public class LoginController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public String login(String id,String password,HttpSession session) throws IOException, JSONException {
+	public String login(int id,String password,HttpSession session) throws IOException, JSONException {
 		JSONObject jb = new JSONObject();
-		SysUser su = this.sysuserService.loginSysUser(Long.parseLong(id), password);
-		if (su != null) {
-			session.setAttribute("userId", id);
+		User u = this.loginService.loginUser(id, password);
+		if (u != null) {
+			session.setAttribute("uid", id);
 			jb.put("info", "登录成功！");
 			jb.put("status", "y");
 		} else {

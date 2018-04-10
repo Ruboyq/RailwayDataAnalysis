@@ -2,12 +2,22 @@ package org.rda.service;
 
 import java.util.List;
 
-import org.rda.mapper.SysUserMapper;
-import org.rda.pojo.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ManagerAuthorityImpl implements ManagerAuthorityService{
-	@Autowired
+
+	@Override
+	public List<String> searchUserAuthority(Long UseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateUserAuthority(Long useId, List<String> UserAuthorityList) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	/*@Autowired
 	//ManagerAuthorityMapper名称暂定
 	private ManagerAuthorityMapper managerAuthorityMapper;
 	
@@ -23,5 +33,5 @@ public class ManagerAuthorityImpl implements ManagerAuthorityService{
 		//数据库更改用户权限
 		boolean updateUserAuthority = managerAuthorityMapper.updateUserAuthority(userId,userAuthorityList);
 		return updateUserAuthority;
-	}
+	}*/
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.rda.mapper.UserMapper">
+	<sql id="userQueryVo">
+		<where>
+			<if test="userId != null">
+				AND a.id LIKE '%${userId}%'
+			</if>
+			<if test="userName != null">
+				AND a.name LIKE '%${userName}%'
+			</if>
+			<if test="userDep != null and userDep != ''">
+				AND a.department = #{userDep}
+			</if>
+		</where>
+	</sql>
+	<resultMap id="BaseResultMap" type="org.rda.pojo.User">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		<id property="user_id" column="id" />
+		<result property="user_name" column="name" />
+		<result property="user_pwd" column="pwd" />
+		<result property="user_token" column="token" />
+		<result property="user_activatetime" column="activatetime" />
+		<result property="user_createdate" column="createdate" />
+		<result property="user_isValid" column="isValid" />
+		<result property="user_email" column="email" />
+		<result property="user_department" column="department" />
+		<result property="user_tel" column="tel" />
+	</resultMap>
+	<!-- 根据id查询用户 -->
+	<select id="loginUser" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
+		SELECT * FROM user WHERE id =
+		#{id} and pwd = #{password}
+	</select>
+
+	<!-- 根据queryVo分页查询数据 -->
+	<select id="queryUserByQueryVo" resultMap="BaseResultMap" parameterType="org.rda.pojo.QueryVo"
+		resultType="org.rda.pojo.User">
+		SELECT
+		a.id,
+		a.name,
+		a.pwd,
+		a.token,
+		a.activatetime,
+		a.createdate,
+		a.isValid,
+		a.email,
+		b.dict_item_name department,
+		a.tel
+		FROM
+		user a
+		LEFT JOIN
+		base_dict b ON a.department = b.dict_id
+		<include refid="userQueryVo" />
+		<if test="start != null">
+			LIMIT #{start}, #{rows}
+		</if>
+	</select>
+
+	<!-- 根据queryVo查询数据条数 -->
+	<select id="queryCountByQueryVo" parameterType="org.rda.pojo.QueryVo"
+		resultType="int">
+		SELECT count(1) FROM user a
+		<include refid="userQueryVo" />
+	</select>
+	<!-- 根据id查询用户 -->
+	<select id="queryUserById" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
+		SELECT * FROM user WHERE id = #{id}
+	</select>
+
+	<select id="updateUserById" parameterType="org.rda.pojo.User">
+		UPDATE `user`
+		SET
+		<if test="user_id !=null and user_id != ''">
+			`id` = #{user_id},
+		</if>
+		<if test="user_name !=null and user_name != ''">
+			`name` = #{user_name},
+		</if>
+		<if test="user_pwd !=null and user_pwd != ''">
+			`pwd` = #{user_pwd},
+		</if>
+		<if test="user_email !=null and user_email != ''">
+			`email` = #{user_email},
+		</if>
+		<if test="user_department !=null and user_department != ''">
+			`department` = #{user_department},
+		</if>
+		<if test="user_tel !=null and user_tel != ''">
+			`tel` = #{user_tel}
+		</if>
+		WHERE
+		(`id` = #{user_id});
+	</select>
+
+	<delete id="deleteUserById">
+		delete from user where id=#{xxx}
+	</delete>
+
+</mapper>

@@ -56,7 +56,7 @@ public class LogAspect {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();  
         HttpSession session = request.getSession();  
         //读取session中的用户  
-        String userId = (String)session.getAttribute("userId");  
+        String userId = String.valueOf(session.getAttribute("uid"));    
         //请求的IP  
         String ip = request.getRemoteAddr();  
         //日志文件地址
@@ -91,7 +91,7 @@ public class LogAspect {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();  
         HttpSession session = request.getSession();  
         //读取session中的用户  
-        String userId = (String)session.getAttribute("userId");  
+        String userId = String.valueOf(session.getAttribute("uid"));  
         //请求的IP  
         String ip = request.getRemoteAddr();  
         //日志文件地址
