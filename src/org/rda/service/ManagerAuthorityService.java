@@ -9,7 +9,7 @@ public interface ManagerAuthorityService {
 	 * @param UserId
 	 * @return
 	 */
-	List<String> searchUserAuthority(Long UseId);
+	String searchUserAuthority(Integer UseId);
 	
 	/**
 	 * 根据UserId和新的UserAuthorityList更改用户拥有的权限
@@ -17,5 +17,5 @@ public interface ManagerAuthorityService {
 	 * @param userId,UserAuthorityList
 	 * @return
 	 */
-	boolean updateUserAuthority(Long useId,List<String> UserAuthorityList);
+	boolean updateUserAuthority(Integer useId,String UserAuthorityList);
 }

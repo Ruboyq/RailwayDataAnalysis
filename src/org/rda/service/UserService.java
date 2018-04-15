@@ -34,4 +34,18 @@ public interface UserService {
 	 * @param id
 	 */
 	void deleteUserById(int id);
+
+	/**
+	 * 添加用户
+	 * @param user
+	 * @return
+	 */
+	boolean addUser(User user);
+	
+	/**
+	 * 根据邮件查询用户
+	 * @param email
+	 * @return
+	 */
+	User getUserByEmail(String email);
 }

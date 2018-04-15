@@ -9,18 +9,18 @@ import org.rda.pojo.UserAuthority;
 public interface UserAuthorityMapper {
 		
 	/**
-	 * 根据用户id查询用户所具有的权限
-	 * 
-	 * @param userId
-	 * @return 用户权限数组
+	 * 根据id获得用户权限
+	 * @param id
+	 * @return 权限
 	 */
-	List<String> searchUserAuthority(int userId);
+	String getAuthorityByUserId(int userId);
 	
 	/**
 	 * 修改用户权限
-	 * 
-	 * @param userId,userAuthorityList
+	 * @param id,userAuthority
+	 * @return 
 	 */
-	void updateUserById(int userId,List<String> userAuthorityList);
+	boolean updateUserAuthority(@Param("userId") Integer userId,@Param("userAuthority") String userAuthority);
+
 
 }

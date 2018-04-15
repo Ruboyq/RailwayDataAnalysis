@@ -54,4 +54,20 @@ public class UserServiceImpl implements UserService {
 	public void deleteUserById(int id) {
 		this.userMapper.deleteUserById(id);
 	}
+
+	@Override
+	public boolean addUser(User user) {
+		// TODO 自动生成的方法存根
+		boolean flag=false;
+		if(userMapper.queryUserById(user.getUser_id())==null){
+			flag=userMapper.addUser(user);
+		}
+		return flag;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		// TODO 自动生成的方法存根
+		return userMapper.getUserByEmail(email);
+	}
 }

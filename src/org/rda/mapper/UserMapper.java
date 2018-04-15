@@ -40,11 +40,19 @@ public interface UserMapper {
 	User queryUserById(int id);
 	
 	/**
-	 * 根据id编辑客户
+	 * 根据id更新客户
 	 * 
 	 * @param user
 	 */
 	void updateUserById(User user);
+	
+	/**
+	 * 根据email查询客户
+	 * 
+	 * @param user
+	 * @return
+	 */
+	User getUserByEmail(String email);
 	
 	/**
 	 * 根据id删除客户
@@ -53,4 +61,10 @@ public interface UserMapper {
 	 */
 	void deleteUserById(int id);
 
+	/**
+	 * 添加用户
+	 * @param user
+	 * @return
+	 */
+	boolean addUser(User user);
 }

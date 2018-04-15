@@ -1,8 +1,12 @@
 package org.rda.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,9 +22,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
+import org.rda.utils.MailUtil;
 
 @Controller
 @RequestMapping("/user")
@@ -30,6 +38,7 @@ public class UserController {
 	BaseDictService baseDictService;
 	@Autowired
 	UserService userService;
+	
 	/**
 	 * 查询所有用户,返回user页面
 	 * 
@@ -119,5 +128,92 @@ public class UserController {
 		session.setAttribute("uid", null);
 		session.setAttribute("code", null);
 		return "redirect:/";
+	}
+	
+	/**
+	 * 添加用户
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/adduser")
+	@ResponseBody
+	public String addUser(User user){
+		JSONObject jb=new JSONObject();
+		boolean flag=userService.addUser(user);
+		if(flag){
+			//发送激活邮件
+			try {
+				user = MailUtil.activateMail(user);
+				// 重新设置了有效时间和token激活码
+				userService.updateUserById(user);
+			} catch (AddressException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			jb.put("info", "添加成功");
+			jb.put("status", "y");
+		}else{
+			jb.put("info", "添加失败，工号重复");
+			jb.put("status", "n");
+		}
+		return jb.toString();
+	}
+	
+	/**
+	 * 激活账号
+	 * @return
+	 */
+	@RequestMapping("/toActivate")
+	public String activateUser(@RequestParam("email") String email,@RequestParam("token") String token,Model model){
+		String message = null;
+		Long time = System.currentTimeMillis();
+		User user = userService.getUserByEmail(email);
+		try{
+			if (user != null) {
+				if (user.getUser_isValid() == 0 && user.getUser_activatetime() != 0) {  //未激活
+					
+					if (user.getUser_activatetime() < time) { // 过期--激活失败
+						// 重新发送激活邮件
+						user = MailUtil.activateMail(user);
+						// 重新设置了有效时间和token激活码
+						userService.updateUserById(user);
+					} else if (user.getUser_activatetime() > time) {// 在时间内
+						
+						if (user.getUser_token().equals(token)) {// 在时间内且激活码通过，激活成功
+							user.setUser_isValid(1);
+							user.setUser_createdate(new Date().toString());
+							// 重新设置token防止被禁用的用户利用激活
+							user.setUser_token(token.replace("1", "c"));
+							userService.updateUserById(user);
+							// resp.getWriter().write(JsonUtil.toJson(u));
+							message = "Activate successfully！";
+							model.addAttribute("message", message);
+						} else { // 在时间内但是激活码错误 
+							message = "The activation code is wrong！";
+							model.addAttribute("message", message);
+						}
+					}
+				} else if (user.getUser_isValid() == 1) { // 已经被激活的重复点链接
+					message = "The user has been activated！";
+					model.addAttribute("message", message);
+				}
+				// u为空
+			} else if (user == null) {
+				message = "Wrong user！";
+				model.addAttribute("message", message);
+			}
+		}
+		catch(MessagingException | NoSuchAlgorithmException e){
+			
+			// Redirect to exception page
+			return "redirect:/toError";
+		}
+		return "result";
 	}
 }
