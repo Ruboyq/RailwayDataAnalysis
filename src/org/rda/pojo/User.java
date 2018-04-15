@@ -11,8 +11,9 @@ public class User {
 	private String user_email;
 	private String user_department;
 	private String user_tel;
+	private String user_authority;
 	public User(int user_id, String user_name, String user_pwd, String user_token, Long user_activatetime,
-			String user_createdate, int user_isValid, String user_email, String user_department, String user_tel) {
+			String user_createdate, int user_isValid, String user_email, String user_department, String user_tel,String user_authority) {
 		this.user_id = user_id;
 		this.user_name = user_name;
 		this.user_pwd = user_pwd;
@@ -23,6 +24,7 @@ public class User {
 		this.user_email = user_email;
 		this.user_department = user_department;
 		this.user_tel = user_tel;
+		this.user_authority = user_authority;
 	}
 	public User(){}
 	public int getUser_id() {
@@ -84,5 +86,11 @@ public class User {
 	}
 	public void setUser_tel(String user_tel) {
 		this.user_tel = user_tel;
+	}
+	public String getUser_authority() {
+		return user_authority;
+	}
+	public void setUser_authority(String user_authority) {
+		this.user_authority = user_authority;
 	}
 }
