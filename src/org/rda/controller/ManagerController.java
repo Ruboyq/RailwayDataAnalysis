@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONObject;
 
+
 public class ManagerController {
 	@Autowired
 	ManagerAuthorityService managerAuthorityService;
@@ -23,8 +24,11 @@ public class ManagerController {
 	@RequestMapping("/Authority")
 	@ResponseBody
 	public String SearchAuthority(String useId){
-		String AuthorityList = this.managerAuthorityService.searchUserAuthority(Integer.parseInt(useId));
-		return AuthorityList;
+		JSONObject jb=new JSONObject();
+		String authorityList = this.managerAuthorityService.searchUserAuthority(Integer.parseInt(useId));
+		String[] rights=authorityList.split(",");
+		jb.put("rights", rights);
+		return jb.toString();
 	}
 	
 	/**
