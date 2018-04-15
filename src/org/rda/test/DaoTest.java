@@ -15,13 +15,13 @@ public class DaoTest extends BaseTest{
 	//private UserMapper userMapper;
 	private UserAuthorityMapper userAuthorityMapper;
 	
-	@Test
-	public void getUser(){
-		System.out.println("ddddddd");
-		//User user = userMapper.loginUser(333, "");
-		List<String> a = 
-				userAuthorityMapper.searchUserAuthority(333);
-		System.out.println("ddddddd");
-		System.out.println(a.get(0));
-	}
+//	@Test
+//	public void getUser(){
+//		System.out.println("ddddddd");
+//		//User user = userMapper.loginUser(333, "");
+//		List<String> a = 
+//				userAuthorityMapper.searchUserAuthority(333);
+//		System.out.println("ddddddd");
+//		System.out.println(a.get(0));
+//	}
 }

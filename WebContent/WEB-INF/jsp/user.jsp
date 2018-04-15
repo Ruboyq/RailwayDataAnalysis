@@ -13,7 +13,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" conte nt="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -50,54 +50,7 @@
 
 	<div id="wrapper">
 
-		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.html">Railway Data Analysis System</a>
-		</div>
-		<!-- /.navbar-header -->
-
-		<ul class="nav navbar-top-links navbar-right">
-			<!-- /.dropdown -->
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
-					<i class="fa fa-caret-down"></i>
-			</a>
-				<ul class="dropdown-menu dropdown-user">
-					<li><a href="logoff"><i class="fa fa-sign-out fa-fw"></i>
-							退出登录</a></li>
-				</ul> <!-- /.dropdown-user --></li>
-			<!-- /.dropdown -->
-		</ul>
-		<!-- /.navbar-top-links -->
-
-		<div class="navbar-default sidebar" role="navigation">
-			<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-					<li class="sidebar-search">
-						<div class="input-group custom-search-form">
-							<input type="text" class="form-control" placeholder="查询内容...">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">
-									<i class="fa fa-search" style="padding: 3px 0 3px 0;"></i>
-								</button>
-							</span>
-						</div> <!-- /input-group -->
-					</li>
-					<li><a href="customer.action" class="active"><i
-							class="fa fa-edit fa-fw"></i> 用户管理</a></li>
-				</ul>
-			</div>
-			<!-- /.sidebar-collapse -->
-		</div>
-		<!-- /.navbar-static-side --> </nav>
+		
 
 		<div id="page-wrapper">
 			<div class="row">
@@ -128,7 +81,9 @@
 							</select>
 						</div>
 						<button type="submit" class="btn btn-primary">查询</button>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#userAddDialog" >新增</a>
 					</form>
+					    
 				</div>
 			</div>
 			<div class="row">
@@ -161,6 +116,7 @@
 										<td>${row.user_isValid}</td>
 										<td>
 											<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#userEditDialog" onclick="editUser(${row.user_id})">修改</a>
+											<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#userEditAuthDialog" onclick="editUserAuth(${row.user_id})">权限管理</a>
 											<a href="#" class="btn btn-danger btn-xs" onclick="deleteUser(${row.user_id})">删除</a>
 										</td>
 									</tr>
@@ -238,6 +194,94 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 客户添加对话框 -->
+	<div class="modal fade" id="userAddDialog" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加新用户</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="add_user_form">
+						<input type="hidden" id="add_user_id" name="user_id"/>
+						<div class="form-group">
+							<label for="add_userName" class="col-sm-2 control-label">用户名称</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="add_userName" placeholder="用户名称" name="user_name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="add_userPwd" class="col-sm-2 control-label">用户密码</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="add_userPwd" placeholder="用户密码" name="user_pwd">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="add_userEmail" class="col-sm-2 control-label">用户邮箱</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="add_userEmail" placeholder="用户名称" name="user_email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="add_userTel" class="col-sm-2 control-label">用户电话</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="add_userTel" placeholder="用户名称" name="user_tel">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="add_userDepartment" style="float:left;padding:7px 15px 0 27px;">用户部门</label> 
+							<div class="col-sm-10">
+								<select	class="form-control" id="add_userDepartment" placeholder="用户部门" name="user_department">
+									<option value="">--请选择--</option>
+									<c:forEach items="${depType}" var="item">
+										<option value="${item.dict_id}"<c:if test="${item.dict_id == user_department}"> selected</c:if>>${item.dict_item_name }</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="addUser()">添加用户</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 客户权限修改对话框 -->
+	<div class="modal fade" id="userEditAuthDialog" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">管理用户权限</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="edit_user_auth_form">
+						<label><input name="rights" type="checkbox" value="00" /> 用户管理 </label>
+						<label><input name="rights" type="checkbox" value="01" /> 数据查询 </label> 
+						<label><input name="rights" type="checkbox" value="02" /> 数据分析 </label> 
+						<label><input name="rights" type="checkbox" value="03" /> 数据预测 </label> 
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="updateUserAuth()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- /#wrapper -->
 
 	<!-- jQuery -->
@@ -271,10 +315,32 @@
 					$("#edit_userDepartment").val(data.user_department);
 				}
 			});
+		}function editUserAuth(id) {
+			$.ajax({
+				type:"get",
+				url:"<%=basePath%>user/editAuth.action",
+				data:{"id":id},
+				success:function(data) {  
+					
+				}
+			});
+		}
+		function updateUserAuth() {
+			$.post("<%=basePath%>user/update.action",$("#edit_user_auth_form").serialize(),function(data){
+				alert("用户权限更新成功！");
+				window.location.reload();
+			});
 		}
 		function updateUser() {
 			$.post("<%=basePath%>user/update.action",$("#edit_user_form").serialize(),function(data){
-				alert("客户信息更新成功！");
+				alert("用户信息更新成功！");
+				window.location.reload();
+			});
+		}
+		
+		function addUser() {
+			$.post("<%=basePath%>user/add.action",$("#add_user_form").serialize(),function(data){
+				alert("添加用户成功！已发送激活邮件到用户邮箱!");
 				window.location.reload();
 			});
 		}

@@ -23,6 +23,8 @@
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
 	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
 	<mvc:resources mapping="/scss/**" location="/WEB-INF/scss/" />
+	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" />
+	<mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -14,15 +14,25 @@
 <title>系统登录</title>
 <link href="<%=basePath%>css/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
 <link href="<%=basePath%>css/demo.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+
 <script type="text/javascript" src="<%=basePath%>js/jquery1.42.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/jquery.SuperSlide.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/login.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery.particleground.min.js"></script>
 <script language="JavaScript"> 
 if (window != top) 
 top.location.href = location.href; 
 </script>
-
+<script>
+$(document).ready(function() {
+  $j11('#1').particleground({
+    dotColor: '#FFFFFF',
+    lineColor: '#5cbdaa'
+  });
+});
+</script>
 </head>
 
 <body>
@@ -32,7 +42,7 @@ top.location.href = location.href;
   <h1 class="headerLogo"><a title="后台管理系统" target="_blank"><img alt="logo" src="<%=basePath%>images/logo.jpg"></a></h1>
 </div>
 
-<div class="banner">
+<div class="banner" id="1" style="background:#16a085">
 
 <div class="login-aside">
   <div id="o-box-up"></div>
@@ -71,10 +81,13 @@ top.location.href = location.href;
 </div>
 
 	<div class="bd">
+		<!--  
 		<ul>
 			<li style="background:url(<%=basePath%>images/theme-pic1.jpg) #CCE1F3 center 0 no-repeat;"></li>
 			<li style="background:url(<%=basePath%>images/theme-pic2.jpg) #BCE0FF center 0 no-repeat;"></li>
 		</ul>
+		 -->
+		 <label>验证码</label>
 	</div>
 
 	<div class="hd"><ul></ul></div>
@@ -85,7 +98,7 @@ top.location.href = location.href;
 <div class="banner-shadow"></div>
 
 <div class="footer">
-   <p>Copyright &copy; 2017.Group JAVAEE All rights reserved.</p>
+   <p>Copyright &copy; 2017.Group Beauty and the Beast All rights reserved.</p>
 </div>
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
