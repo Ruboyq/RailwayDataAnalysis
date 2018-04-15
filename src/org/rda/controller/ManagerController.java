@@ -6,6 +6,7 @@ import org.rda.service.ManagerAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONObject;
@@ -40,8 +41,15 @@ public class ManagerController {
 	
 	@RequestMapping("/AuthorityGranting")
 	@ResponseBody
-	public String GrantAuthority(String useId,String authorityList){
+	public String GrantAuthority(String useId,@RequestParam("rights") String[] rights){
 		JSONObject jb=new JSONObject();
+		String authorityList="";
+		for(int i=0;i<rights.length;i++){
+			if(i==rights.length-1)
+				authorityList+=rights[i];
+			else
+				authorityList=authorityList+rights[i]+",";
+		}
 		boolean isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(useId), authorityList);
 		if(isGrant){
 			jb.put("info", "授予成功");
