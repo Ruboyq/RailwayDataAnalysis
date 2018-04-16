@@ -14,6 +14,7 @@ import org.rda.pojo.BaseDict;
 import org.rda.pojo.QueryVo;
 import org.rda.pojo.User;
 import org.rda.service.BaseDictService;
+import org.rda.service.ManagerAuthorityService;
 import org.rda.service.UserService;
 import org.rda.utils.Page;
 import org.rda.utils.SystemControllerLog;
@@ -38,6 +39,8 @@ public class UserController {
 	BaseDictService baseDictService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	ManagerAuthorityService managerAuthorityService;
 	
 	/**
 	 * 查询所有用户,返回user页面
@@ -135,7 +138,7 @@ public class UserController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/adduser")
+	@RequestMapping("/add")
 	@ResponseBody
 	public String addUser(User user){
 		JSONObject jb=new JSONObject();
@@ -215,5 +218,49 @@ public class UserController {
 			return "redirect:/toError";
 		}
 		return "result";
+	}
+	
+	/**
+	 * 查看一个账号拥有的所有权限
+	 * 
+	 * @param UserId
+	 * @return
+	 */
+	@RequestMapping("/editAuth")
+	@ResponseBody
+	public String SearchAuthority(String id){
+		JSONObject jb=new JSONObject();
+		String authorityList = this.managerAuthorityService.searchUserAuthority(Integer.parseInt(id));
+		String[] rights=authorityList.split(",");
+		jb.put("rights", rights);
+		return jb.toString();
+	}
+	
+	/**
+	 * 授予某个账号一个或多个权限
+	 * 
+	 * @param userId,authorityList
+	 * @return
+	 */
+	@RequestMapping("/updateAuth")
+	@ResponseBody
+	public String GrantAuthority(String id,@RequestParam("rights") String[] rights){
+		JSONObject jb=new JSONObject();
+		String authorityList="";
+		for(int i=0;i<rights.length;i++){
+			if(i==rights.length-1)
+				authorityList+=rights[i];
+			else
+				authorityList=authorityList+rights[i]+",";
+		}
+		boolean isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(id), authorityList);
+		if(isGrant){
+			jb.put("info", "授予成功");
+			jb.put("status", "y");
+		}else{
+			jb.put("info", "授予失败");
+			jb.put("status", "n");
+		}
+		return jb.toString();
 	}
 }

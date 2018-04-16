@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "添加用户")
 	public boolean addUser(User user) {
 		// TODO 自动生成的方法存根
 		boolean flag=false;
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "通过email获取用户")
 	public User getUserByEmail(String email) {
 		// TODO 自动生成的方法存根
 		return userMapper.getUserByEmail(email);
