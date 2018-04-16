@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+PUBLIC "-//mybatis.org//DTD Mapper 3.0"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.rda.mapper.UserMapper">
 	<sql id="userQueryVo">
@@ -35,6 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="loginUser" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
 		SELECT * FROM user WHERE id =
 		#{id} and pwd = #{password}
+	</select>
+	
+	<select id="getFilterResult" resultMap="BaseResultMap" resultType="org.rda.pojo.RailwayData">
+	select * from railwaydata
+	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
+	
 	</select>
 
 	<!-- 根据queryVo分页查询数据 -->
@@ -151,7 +157,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   #{user_authority})
 	</insert>
 
-
-
-
+	<update id="updateUserPwd">
+	     update user set pwd=#{userPwd}
+	      where id=#{userId}
+	</update>
 </mapper>

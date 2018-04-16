@@ -2,6 +2,7 @@ package org.rda.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.rda.pojo.City;
 import org.rda.pojo.RailwayData;
 
@@ -18,7 +19,7 @@ public interface RailwayDataMapper {
 	 * @param to
 	 * @return
 	 */
-	List<RailwayData> getFilterResult(String from,String to);
+	List<RailwayData> getFilterResult(@Param("fromCity") String fromCity,@Param("toCity") String toCity);
 	
 	
 }

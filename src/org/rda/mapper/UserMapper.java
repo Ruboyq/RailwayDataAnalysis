@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.pojo.QueryVo;
+import org.rda.pojo.RailwayData;
 import org.rda.pojo.User;
 
 public interface UserMapper {
@@ -82,4 +83,18 @@ public interface UserMapper {
 	 */
 	boolean updateUserAuthority(@Param("userId") Integer userId,@Param("userAuthority") String userAuthority);
 
+	/**
+	 * 修改用户密码
+	 * @param id,userAuthority
+	 * @return 
+	 */
+	boolean updateUserPwd(@Param("userId") Integer userId,@Param("userPwd") String userPwd);
+
+	/**
+	 * 获取模糊查询结果
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	List<RailwayData> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
 }

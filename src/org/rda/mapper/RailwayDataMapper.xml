@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.rda.mapper.RailwayDataMapper">
+    <resultMap id="BaseResult" type="org.rda.pojo.RailwayData">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		<id property="id" column="id" />
+		<result property="productName" column="productName" />
+		<result property="productId" column="productId" />
+		<result property="fromCity" column="fromCity" />
+		<result property="toCity" column="toCity" />
+		<result property="isTotal" column="isTotal" />
+		<result property="carNum" column="carNum" />
+		<result property="tonnage" column="tonnage" />
+		<result property="fromLongitude" column="fromLongitude" />
+		<result property="fromLatitude" column="fromLatitude" />
+		<result property="toLongitude" column="toLongitude" />
+		<result property="toLatitude" column="toLatitude" />
+	</resultMap>
+	
+	<select id="getFilterResult" resultMap="BaseResult" resultType="org.rda.pojo.RailwayData">
+	select * from railwaydata
+	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
+	
+	</select>
+</mapper>
+	
