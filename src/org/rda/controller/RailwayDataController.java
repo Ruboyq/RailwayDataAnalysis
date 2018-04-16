@@ -8,6 +8,7 @@ import org.rda.pojo.RailwayData;
 import org.rda.service.RailwayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -21,9 +22,10 @@ public class RailwayDataController {
 	 * @return
 	 */
 	@RequestMapping("/originalCity")
-	public List<City> showAllOriCity(){
+	public String showAllOriCity(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
-		return list;
+		model.addAttribute("cityList",list);
+		return "WelcomeMap";
 	}
 	
 	/**

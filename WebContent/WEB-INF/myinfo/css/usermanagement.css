@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+body{   
+    margin:0;   
+    padding:0;   
+    background-color: #fafafa;
+}   
+.parent{   
+	width: 1350px;
+	height:100%;
+    text-align:left;   
+    line-height:25px;  
+}   
+.user_top{   
+	margin-left:20px; 
+	margin-top:10px; 
+    width:1200px;   
+    height:430px;   
+    float:left;    
+}   
+.user_buttom{   
+    width:1200px;  
+    height:500px; 
+    margin-top:10px;  
+    float:left;   
+    text-align: right;
+    padding:15px;
+} 

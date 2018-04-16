@@ -48,7 +48,7 @@ $(document).ready(function() {
   <div id="o-box-down"  style="table-layout:fixed;">
    <div class="error-box"></div>
    
-   <form class="registerform" action="login" method = "post">
+   <form class="loginform" action="login" method = "post">
    <div class="fm-item">
 	   <label for="logonId" class="form-label">系统登陆：</label>
 	   <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" value="输入账号" maxlength="100" id="id" name = "id" class="i-text"  datatype="s5-5" errormsg="请输入5位的用户工号！"  >    
@@ -101,4 +101,36 @@ $(document).ready(function() {
 </div>
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
+<script>
+$(function(){
+$(".loginform").Validform({
+	tiptype:function(msg,o,cssctl){
+		var objtip=$(".error-box");
+		cssctl(objtip,o.type);
+		objtip.text(msg);
+	},
+	ajaxPost:true,
+	callback:function(data){
+		var res = data.status;
+		var objtip=$(".error-box");
+		if(res == 'n'){
+			objtip.text('用户id或密码错误!');
+			init();
+			myReload();
+		}
+		if(res == 'y'){
+			objtip.text('登录成功!');
+			window.location.assign("<%=basePath%>homepage");
+			 /*if($.browser.mozilla)
+				// window.location.assign("user/list");
+				 window.location.assign("homepage");
+			 else
+				// window.location='user/list';
+				// window.location("homepage");
+				 window.location.assign("homepage");*/
+		}
+	},
+});
+});
+</script>
 </html>

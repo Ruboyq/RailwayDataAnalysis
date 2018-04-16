@@ -105,6 +105,23 @@ public class UserController {
 		this.userService.updateUserById(user);
 		return "user";
 	}
+	/**
+	 * 更新个人用户信息,返回JSON响应串
+	 * 
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(value="/updateProfile",method = {RequestMethod.POST})
+	//此处为记录AOP拦截Controller记录用户操作  
+    @SystemControllerLog(description = "更新用户个人信息")
+	@ResponseBody
+	public String updateUserInfoBySelf(User user) {
+		this.userService.updateUserById(user);
+		JSONObject jb=new JSONObject();
+		jb.put("info", "修改成功");
+		jb.put("status", "y");
+		return jb.toString();
+	}
 	
 	/**
 	 * 根据id删除用户信息,返回user页面
@@ -186,8 +203,9 @@ public class UserController {
 						user = MailUtil.activateMail(user);
 						// 重新设置了有效时间和token激活码
 						userService.updateUserById(user);
+						message = "该激活码已失效！激活邮件已重新发送！请及时激活账号！";
+						model.addAttribute("message", message);
 					} else if (user.getUser_activatetime() > time) {// 在时间内
-						
 						if (user.getUser_token().equals(token)) {// 在时间内且激活码通过，激活成功
 							user.setUser_isValid(1);
 							user.setUser_createdate(new Date().toString());
@@ -195,29 +213,31 @@ public class UserController {
 							user.setUser_token(token.replace("1", "c"));
 							userService.updateUserById(user);
 							// resp.getWriter().write(JsonUtil.toJson(u));
-							message = "Activate successfully！";
+							message = "激活成功！请登陆！";
 							model.addAttribute("message", message);
 						} else { // 在时间内但是激活码错误 
-							message = "The activation code is wrong！";
+							message = "激活码错误！请联系管理员！";
 							model.addAttribute("message", message);
 						}
 					}
 				} else if (user.getUser_isValid() == 1) { // 已经被激活的重复点链接
-					message = "The user has been activated！";
+					message = "该用户已被激活！请登陆！";
 					model.addAttribute("message", message);
+					
 				}
 				// u为空
 			} else if (user == null) {
-				message = "Wrong user！";
+				message = "该用户不存在！请联系管理员！";
 				model.addAttribute("message", message);
 			}
 		}
 		catch(MessagingException | NoSuchAlgorithmException e){
-			
 			// Redirect to exception page
-			return "redirect:/toError";
+			message = "激活异常！请联系管理员！";
+			return "login";
 		}
-		return "redirect:/";
+		model.addAttribute("Id", user.getUser_id());
+		return "login";
 	}
 	
 	/**

@@ -1,0 +1,126 @@
+@font-face {
+  font-family: 'simple-line-icons';
+  src: url('../fonts/Simple-Line-Icons.eot?v=2.4.0');
+  src: url('../fonts/Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'), url('../fonts/Simple-Line-Icons.woff2?v=2.4.0') format('woff2'), url('../fonts/Simple-Line-Icons.ttf?v=2.4.0') format('truetype'), url('../fonts/Simple-Line-Icons.woff?v=2.4.0') format('woff'), url('../fonts/Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon-arrow-down{
+  font-family: 'simple-line-icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+body{
+     background:#e4e5e6;
+    }
+    
+.main{
+	margin:0 auto; 
+	width: 400px; 
+	overflow :hidden ; 
+	padding:0;}
+
+
+.middle{ 
+	width:400px ;
+	margin:0 0 0 380px; 
+	overflow :hidden ;}
+
+.tree{
+	list-style:none;
+	padding-left:0;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-o-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+.tree>.tree-node .tree{
+	display:block;
+	overflow-y:hidden;
+	max-height:300px;
+	height:auto;
+	-webkit-transition:max-height .5s ease-in;
+	-moz-transition:max-height .5s ease-in;
+	-o-transition:max-height .5s ease-in;
+	-ms-transition:max-height .5s ease-in;
+	transition:max-height .5s ease-in;
+}
+.tree-node{
+	margin-top:3px;
+}
+.tree input.node-check{
+	display:none;
+}
+
+.tree>.tree-node>label{
+	cursor:pointer;
+}
+.tree .node-content{
+	display:inline-block;
+}
+.tree .node-content>.node-text{
+    height: auto;
+    line-height: 25px;
+    text-align: left;
+    width: auto;
+	font-size:25px;
+	color:#263238;
+	font-family:"SimSun","sans-serif","cursive","fantasy","monospace";
+	font-weight:bold;
+	margin-top:30px;
+	margin-bottom:30px;
+}
+.tree .node-content>.node-text:hover{
+	color:#104E8B;
+}
+.node-icon{
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+	display:inline-block;
+	vertical-align:middle;
+	width:16px;
+	height:16px;
+}
+
+.node-check:checked+.node-content>.tree{
+	max-height:0;
+}
+.node-check:checked+.node-content>.icon-folder{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/folder.gif);
+}
+.node-check:checked+.node-content>.icon-expand{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow-end-plus-nl.gif);
+}
+
+.icon-expand{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow-end-minus-nl.gif);
+}
+.icon-minus{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow-minus.gif);
+}
+.icon-elbow{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow.gif);
+}
+.icon-elbow-line{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow-line.gif);
+}
+.icon-elbow-end{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/elbow-end.gif);
+}
+.icon-file{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/leaf.gif);
+}
+.icon-folder{
+	background-image:url(http://sandbox.runjs.cn/uploads/rs/193/ybc7pl9z/folder-open.gif);
+}

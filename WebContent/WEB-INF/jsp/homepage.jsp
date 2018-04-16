@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -10,7 +11,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>Apricot v 1.2</title>
+<title>RailwayDataAnalysisSystem</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -38,11 +39,6 @@
 
 <body
 	style="background: url('assets/img/bg.jpg') no-repeat center center fixed;">
-	<div id="awwwards" class="right black">
-		<a
-			href="http://www.awwwards.com/best-websites/apricot-navigation-admin-dashboard-template"
-			target="_blank">best websites of the world</a>
-	</div>
 	<!-- Preloader -->
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
@@ -66,7 +62,7 @@
 
 			<div id="logo-mobile" class="visible-xs">
 				<h1>
-					Apricot<span>v1.3</span>
+					RailwayData<span>v0.1</span>
 				</h1>
 			</div>
 
@@ -78,80 +74,9 @@
 			class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 
-				<li class="dropdown"><a data-toggle="dropdown"
-					class="dropdown-toggle" href="#"><i style="font-size: 20px;"
-						class="icon-conversation"></i>
-					<div class="noft-red">23</div></a>
-
-
-					<ul style="margin: 11px 0 0 9px;" role="menu"
-						class="dropdown-menu dropdown-wrap">
-						<li><a href="#"> <img alt="" class="img-msg img-circle"
-								src="http://api.randomuser.me/portraits/thumb/men/1.jpg">Jhon
-								Doe <b>Just Now</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <img alt="" class="img-msg img-circle"
-								src="http://api.randomuser.me/portraits/thumb/women/1.jpg">Jeniffer
-								<b>3 Min Ago</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <img alt="" class="img-msg img-circle"
-								src="http://api.randomuser.me/portraits/thumb/men/2.jpg">Dave
-								<b>2 Hours Ago</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <img alt="" class="img-msg img-circle"
-								src="http://api.randomuser.me/portraits/thumb/men/3.jpg"><i>Keanu</i>
-								<b>1 Day Ago</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <img alt="" class="img-msg img-circle"
-								src="http://api.randomuser.me/portraits/thumb/men/4.jpg"><i>Masashi</i>
-								<b>2 Mounth Ago</b>
-						</a></li>
-						<li class="divider"></li>
-						<li>
-							<div>See All Messege</div>
-						</li>
-					</ul></li>
-				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#"><i
-						style="font-size: 19px;" class="icon-warning tooltitle"></i>
-					<div class="noft-green">5</div></a>
-					<ul style="margin: 12px 0 0 0;" role="menu"
-						class="dropdown-menu dropdown-wrap">
-						<li><a href="#"> <span style="background: #DF2135"
-								class="noft-icon maki-bus"></span><i>From Station</i> <b>01B</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <span style="background: #AB6DB0"
-								class="noft-icon maki-ferry"></span><i>Departing at</i> <b>9:00
-									AM</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <span style="background: #FFA200"
-								class="noft-icon maki-aboveground-rail"></span><i>Delay for</i>
-								<b>09 Min</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <span style="background: #86C440"
-								class="noft-icon maki-airport"></span><i>Take of</i> <b>08:30
-									AM</b>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#"> <span style="background: #0DB8DF"
-								class="noft-icon maki-bicycle"></span><i>Take of</i> <b>08:30
-									AM</b>
-						</a></li>
-						<li class="divider"></li>
-						<li>
-							<div>See All Notification</div>
-						</li>
-					</ul></li>
 				<li><a href="#"><i data-toggle="tooltip"
 						data-placement="bottom" title="Help" style="font-size: 20px;"
 						class="icon-help tooltitle"></i></a></li>
-
 			</ul>
 			<div id="nt-title-container"
 				class="navbar-left running-text visible-lg">
@@ -198,23 +123,21 @@
 			<ul style="margin-right: 0;" class="nav navbar-nav navbar-right">
 				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<img alt="" class="admin-pic img-circle"
-						src="http://api.randomuser.me/portraits/thumb/men/10.jpg">Hi,
-						Dave Mattew <b class="caret"></b>
+						src="<%=basePath%>images/users/${user.user_id}.jpg">Hi,
+						${user.user_name} <b class="caret"></b>
 				</a>
 					<ul style="margin-top: 14px;" role="menu"
 						class="dropdown-setting dropdown-menu">
-						<li><a href="#"> <span class="entypo-user"></span>&#160;&#160;My
+						<li><a href="<%=basePath%>toChangeProfile" target="main" onclick="changeTitle('My Profile')"> <span class="entypo-user"></span>&#160;&#160;My
 								Profile
 						</a></li>
-						<li><a href="#"> <span class="entypo-vcard"></span>&#160;&#160;Account
-								Setting
-						</a></li>
-						<li><a href="#"> <span class="entypo-lifebuoy"></span>&#160;&#160;Help
+						<li><a href="<%=basePath%>toChangePassword" target="main" onclick="changeTitle('Security Service')"> <span class="entypo-vcard"></span>&#160;&#160;Change
+								Password
 						</a></li>
 						<li class="divider"></li>
 						<li><a
-							href="http://themeforest.net/item/apricot-navigation-admin-dashboard-template/7664475?WT.ac=category_item&WT.z_author=themesmile">
-								<span class="entypo-basket"></span>&#160;&#160; Purchase
+							href="<%=basePath%>user/logoff">
+								<span class="entypo-lifebuoy"></span>&#160;&#160; Log off
 						</a></li>
 					</ul></li>
 				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -253,7 +176,7 @@
 	<div id="skin-select">
 		<div id="logo">
 			<h1>
-				Apricot<span>v1.3</span>
+				Railway<span>v 0.1</span>
 			</h1>
 		</div>
 
@@ -289,14 +212,12 @@
 				<div class="side-bar">
 					<ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="widget-menu"></span> <i
-								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
+							class="title-menu-left"> <span class="widget-menu"></span> 
 
 						</a></li>
 
 						<li><a class="tooltip-tip ajax-load" href="#"
-							title="Blog App"> <i class="icon-document-edit"></i> <span>Blog
-									App</span>
+							title="Blog App"> <i class="icon-document-edit"></i> <span>系统管理</span>
 
 						</a>
 							<ul>
@@ -306,7 +227,7 @@
 								</li>
 								<li><a class="tooltip-tip2 ajax-load"
 									href="blog-detail.html" title="Blog Detail"><i
-										class="entypo-newspaper"></i><span>Blog Details</span></a></li>
+										class="entypo-newspaper"></i><span>日志管理</span></a></li>
 							</ul></li>
 						<li><a class="tooltip-tip ajax-load" href="social.html"
 							title="Social"> <i class="icon-feed"></i> <span>Social</span>
@@ -498,18 +419,13 @@
 	<div class="wrap-fluid">
 		<div class="container-fluid paper-wrap bevel tlbr">
 
-
-
-
-
 			<!-- CONTENT -->
 			<!--TITLE -->
 			<div class="row">
 				<div id="paper-top">
 					<div class="col-sm-3">
 						<h2 class="tittle-content-header">
-							<span class="entypo-doc-text"></span> <span id="contentTitle">Blog
-								List </span>
+							<span class="entypo-doc-text"></span> <span id="contentTitle">OriginalData</span>
 						</h2>
 
 					</div>
@@ -519,37 +435,14 @@
 						<div class="tittle-middle-header">
 
 							<div class="alert">
-								<button type="button" class="close" data-dismiss="alert">×</button>
 								<span class="tittle-alert entypo-info-circled"></span> Welcome
-								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;Your last
+								back,&nbsp; <strong>${user.user_name}!</strong>&nbsp;&nbsp;Your last
 								sig in at Yesterday, 16:54 PM
+								<button type="button" class="close" data-dismiss="alert">×</button>
 							</div>
 
 
 						</div>
-
-					</div>
-					<div class="col-sm-2">
-						<div class="devider-vertical visible-lg"></div>
-						<div class="btn-group btn-wigdet pull-right visible-lg">
-							<div class="btn">Widget</div>
-							<button data-toggle="dropdown" class="btn dropdown-toggle"
-								type="button">
-								<span class="caret"></span> <span class="sr-only">Toggle
-									Dropdown</span>
-							</button>
-							<ul role="menu" class="dropdown-menu">
-								<li><a href="#"> <span
-										class="entypo-plus-circled margin-iconic"></span>Add New
-								</a></li>
-								<li><a href="#"> <span
-										class="entypo-heart margin-iconic"></span>Favorite
-								</a></li>
-								<li><a href="#"> <span class="entypo-cog margin-iconic"></span>Setting
-								</a></li>
-							</ul>
-						</div>
-
 
 					</div>
 				</div>
@@ -559,7 +452,7 @@
 
 			<!--CONTENT-->
 			<div class="row" style="margin-top: 30px; padding: 0 15px;">
-				<iframe name="main" scrolling="auto" height="100%" width="100%"
+				<iframe src="<%=basePath%>railwayData/originalCity" name="main" scrolling="auto" height="100%" width="100%"
 					frameborder="0"
 					onload="this.height=main.document.body.scrollHeight"></iframe>
 			</div>
@@ -578,8 +471,8 @@
 					<p id="clock">
 				</div>
 				<div class="copyright">
-					Make with Love <span class="entypo-heart"></span>Collect from <a
-						href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+					Make with Love <span class="entypo-heart"></span>From <a
+						href="#" title="BeautyAndTheBeast" target="_blank">Beauty and the Beast</a>
 					All Rights Reserved
 				</div>
 				<div class="devider-footer"></div>
@@ -628,74 +521,6 @@
 					<div class="widget-def">
 						<b>Overall result</b> <br> <i>30KM/h avarage Result</i>
 					</div>
-				</div>
-			</div>
-		</div>
-
-		<div style="margin-top: 0;" class="right-wrapper">
-			<div class="row">
-				<h3>
-					<span><i class="entypo-chat"></i>&nbsp;&nbsp;CHAT</span>
-				</h3>
-				<div class="col-sm-12">
-					<span class="label label-warning label-chat">Online</span>
-					<ul class="chat">
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/20.jpg">
-							</span><b>Dave Junior</b> <br>
-							<i>Last seen : 08:00 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/21.jpg">
-							</span><b>Kenneth Lucas</b> <br>
-							<i>Last seen : 07:21 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/22.jpg">
-							</span><b>Heidi Perez</b> <br>
-							<i>Last seen : 05:43 PM</i>
-						</a></li>
-
-
-					</ul>
-
-					<span class="label label-chat">Offline</span>
-					<ul class="chat">
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-offline img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/23.jpg">
-							</span><b>Dave Junior</b> <br>
-							<i>Last seen : 08:00 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-offline img-circle"
-									src="http://api.randomuser.me/portraits/thumb/women/24.jpg">
-							</span><b>Kenneth Lucas</b> <br>
-							<i>Last seen : 07:21 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-offline img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/25.jpg">
-							</span><b>Heidi Perez</b> <br>
-							<i>Last seen : 05:43 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-offline img-circle"
-									src="http://api.randomuser.me/portraits/thumb/women/25.jpg">
-							</span><b>Kenneth Lucas</b> <br>
-							<i>Last seen : 07:21 PM</i>
-						</a></li>
-						<li><a href="#"> <span> <img alt=""
-									class="img-chat img-offline img-circle"
-									src="http://api.randomuser.me/portraits/thumb/men/26.jpg">
-							</span><b>Heidi Perez</b> <br>
-							<i>Last seen : 05:43 PM</i>
-						</a></li>
-
-					</ul>
 				</div>
 			</div>
 		</div>

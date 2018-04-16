@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+.close { 
+	position: absolute; 
+	right: 90px; 
+	top: -25px; 
+	width: 30px; 
+	height: 30px; 
+	background: silver; 
+	border-radius: 25px; 
+	box-shadow: 2px 2px 5px 0px black; 
+	cursor: pointer;}
+.close:hover { 
+	background: red;
+	}
+.close:before { 
+	position: absolute; 
+	content: ''; 
+	width: 25px; 
+	height: 8px; 
+	background: white; 
+	transform: rotate(45deg); 
+	top: 11px; left: 2px;}
+.close:after{ 
+	content: ''; 
+	position: absolute; 
+	width: 25px; 
+	height: 8px; 
+	background: white; 
+	transform: rotate(-45deg); 
+	top: 11px; 
+	left: 2px;}

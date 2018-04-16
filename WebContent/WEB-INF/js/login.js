@@ -12,7 +12,6 @@ function myReload() {
             + "?nocache=" + new Date().getTime();  
 }  
 $(function(){
-
 $(".i-text").focus(function(){
 $(this).addClass('h-light');
 });
@@ -58,35 +57,4 @@ $("#yzm").focusout(function(){
  $(this).val('输入验证码');
  }
 });
-
-
-$(".registerform").Validform({
-	tiptype:function(msg,o,cssctl){
-		var objtip=$(".error-box");
-		cssctl(objtip,o.type);
-		objtip.text(msg);
-	},
-	ajaxPost:true,
-	callback:function(data){
-		var res = data.status;
-		var objtip=$(".error-box");
-		if(res == 'n'){
-			objtip.text('用户id或密码错误!');
-			init();
-			myReload();
-		}
-		if(res == 'y'){
-			objtip.text('登录成功!');
-			window.location.assign("homepage");
-			 /*if($.browser.mozilla)
-				// window.location.assign("user/list");
-				 window.location.assign("homepage");
-			 else
-				// window.location='user/list';
-				// window.location("homepage");
-				 window.location.assign("homepage");*/
-		}
-	},
-});
-
 });

@@ -25,6 +25,9 @@
 	<mvc:resources mapping="/scss/**" location="/WEB-INF/scss/" />
 	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" />
 	<mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
+	<mvc:resources mapping="/yzm/**" location="/WEB-INF/yzm/" />
+	<mvc:resources mapping="/map/**" location="/WEB-INF/map/" />
+	<mvc:resources mapping="/myinfo/**" location="/WEB-INF/myinfo/" />
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
