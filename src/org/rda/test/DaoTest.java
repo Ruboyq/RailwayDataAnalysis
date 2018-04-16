@@ -19,7 +19,7 @@ public class DaoTest extends BaseTest{
 	@Test
 	public void getUser(){
 		System.out.println("ddddddd");
-		List<RailwayData> a=rail.getFilterResult("","");
+		List<RailwayData> a=rail.getFilterResult("广州","");
 		
 		//userMapper.updateUserPwd(12, "22222");
 		//userMapper.addUser(new User(122, "dddd","ddd","aa",22L, "s", 0, "d", "er", "ww", "fff"));

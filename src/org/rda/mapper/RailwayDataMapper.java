@@ -19,7 +19,7 @@ public interface RailwayDataMapper {
 	 * @param to
 	 * @return
 	 */
-	List<RailwayData> getFilterResult(@Param("fromCity") String fromCity,@Param("toCity") String toCity);
+	List<RailwayData> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
 	
 	
 }

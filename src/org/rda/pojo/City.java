@@ -1,14 +1,14 @@
 package org.rda.pojo;
 
 public class City {
-	private String id;
+	private int id;
 	private String name;
 	private double longitude;
 	private double latitude;
 	private int isCenter;
 	private int distinctId;
 
-	public City(String id, String name, double longitude, double latitude, int isCenter, int distinctId) {
+	public City(int id, String name, double longitude, double latitude, int isCenter, int distinctId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,11 +18,11 @@ public class City {
 		this.distinctId = distinctId;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
