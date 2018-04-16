@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="user_email" column="email" />
 		<result property="user_department" column="department" />
 		<result property="user_tel" column="tel" />
+		<result property="user_authority" column="authority" />
 	</resultMap>
 	<!-- 根据id查询用户 -->
 	<select id="loginUser" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
@@ -50,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		a.email,
 		b.dict_item_name department,
 		a.tel
+		a.authority
 		FROM
 		user a
 		LEFT JOIN
@@ -86,11 +88,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="user_email !=null and user_email != ''">
 			`email` = #{user_email},
 		</if>
+		<if test="user_token !=null and user_token != ''">
+			`token` = #{user_token},
+		</if>		
+		<if test="user_activatetime !=null and user_activatetime != ''">
+			`activatetime` = #{user_activatetime},
+		</if>
+		<if test="user_createdate !=null and user_createdate != ''">
+			`createdate` = #{user_createdate},
+		</if>
+		<if test="user_isValid !=null and user_isValid != ''">
+			`isValid` = #{user_isValid},
+		</if>
+		
 		<if test="user_department !=null and user_department != ''">
 			`department` = #{user_department},
 		</if>
 		<if test="user_tel !=null and user_tel != ''">
-			`tel` = #{user_tel}
+			`tel` = #{user_tel},
+		</if>
+		<if test="user_authority !=null and user_authority != ''">
+			`authority` = #{user_authority} 
 		</if>
 		WHERE
 		(`id` = #{user_id});
