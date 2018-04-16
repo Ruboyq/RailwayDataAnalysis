@@ -77,12 +77,14 @@ $(".registerform").Validform({
 		}
 		if(res == 'y'){
 			objtip.text('登录成功!');
-			 if($.browser.mozilla)
-				 //window.location.assign("user/list");
+			window.location.assign("homepage");
+			 /*if($.browser.mozilla)
+				// window.location.assign("user/list");
 				 window.location.assign("homepage");
 			 else
-				 //window.location='user/list';
-				 window.location("homepage");
+				// window.location='user/list';
+				// window.location("homepage");
+				 window.location.assign("homepage");*/
 		}
 	},
 });

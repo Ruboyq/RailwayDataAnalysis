@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0"
 		a.isValid,
 		a.email,
 		b.dict_item_name department,
-		a.tel
+		a.tel,
 		a.authority
 		FROM
 		user a

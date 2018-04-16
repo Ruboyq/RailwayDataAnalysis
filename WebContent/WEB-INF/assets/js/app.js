@@ -4,7 +4,7 @@
   $(function() {
       $("#button-bg").click(function() {
           $("body").css({
-              "background": "url('assets/img/bg5.jpg')no-repeat center center fixed"
+              "background": "url('assets/img/bg.jpg')no-repeat center center fixed"
           });
       });
       $("#button-bg2").click(function() {
@@ -16,7 +16,7 @@
 
       $("#button-bg3").click(function() {
           $("body").css({
-              "background": "url('assets/img/bg.jpg')no-repeat center center fixed"
+              "background": "url('assets/img/bg5.jpg')no-repeat center center fixed"
           });
 
 

@@ -48,6 +48,7 @@
 			<mvc:exclude-mapping path="/checkcode" />
 			<mvc:exclude-mapping path="/login" />
 			<mvc:exclude-mapping path="/error/*" />
+			<mvc:exclude-mapping path="/user/toActivate" />
 			<bean class="org.rda.interceptor.AuthorityInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

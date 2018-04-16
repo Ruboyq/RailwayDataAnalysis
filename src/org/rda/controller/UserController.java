@@ -70,7 +70,6 @@ public class UserController {
 		Page<User> page = this.userService.queryUserByQueryVo(queryVo);
 		// 把分页查询的结果放到模型中
 		model.addAttribute("page", page);
-		System.out.println("uid############"+queryVo.getUserId());
 		// 数据回显
 		model.addAttribute("userId", queryVo.getUserId());
 		model.addAttribute("userName", queryVo.getUserName());
@@ -217,7 +216,7 @@ public class UserController {
 			// Redirect to exception page
 			return "redirect:/toError";
 		}
-		return "result";
+		return "redirect:/";
 	}
 	
 	/**
@@ -231,8 +230,10 @@ public class UserController {
 	public String SearchAuthority(String id){
 		JSONObject jb=new JSONObject();
 		String authorityList = this.managerAuthorityService.searchUserAuthority(Integer.parseInt(id));
-		String[] rights=authorityList.split(",");
-		jb.put("rights", rights);
+		if (authorityList != null){
+			String[] rights=authorityList.split(",");
+			jb.put("rights", rights);
+		}
 		return jb.toString();
 	}
 	
@@ -244,7 +245,7 @@ public class UserController {
 	 */
 	@RequestMapping("/updateAuth")
 	@ResponseBody
-	public String GrantAuthority(String id,@RequestParam("rights") String[] rights){
+	public String GrantAuthority(String user_id,@RequestParam("rights") String[] rights){
 		JSONObject jb=new JSONObject();
 		String authorityList="";
 		for(int i=0;i<rights.length;i++){
@@ -253,7 +254,7 @@ public class UserController {
 			else
 				authorityList=authorityList+rights[i]+",";
 		}
-		boolean isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(id), authorityList);
+		boolean isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(user_id), authorityList);
 		if(isGrant){
 			jb.put("info", "授予成功");
 			jb.put("status", "y");

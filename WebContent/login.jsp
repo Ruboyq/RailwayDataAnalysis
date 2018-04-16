@@ -16,7 +16,6 @@
 <link href="<%=basePath%>css/demo.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
 
 <script type="text/javascript" src="<%=basePath%>js/jquery1.42.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/jquery.SuperSlide.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/login.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
@@ -52,7 +51,7 @@ $(document).ready(function() {
    <form class="registerform" action="login" method = "post">
    <div class="fm-item">
 	   <label for="logonId" class="form-label">系统登陆：</label>
-	   <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" value="输入账号" maxlength="100" id="id" name = "id" class="i-text"  datatype="s5-5" errormsg="请输入5位的用户ID！"  >    
+	   <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" value="输入账号" maxlength="100" id="id" name = "id" class="i-text"  datatype="s5-5" errormsg="请输入5位的用户工号！"  >    
        <div class="ui-form-explain"></div>
   </div>
   
