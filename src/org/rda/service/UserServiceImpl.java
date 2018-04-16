@@ -72,4 +72,11 @@ public class UserServiceImpl implements UserService {
 		// TODO 自动生成的方法存根
 		return userMapper.getUserByEmail(email);
 	}
+
+	@Override
+	@SystemServiceLog(description = "更新用户密码")
+	public boolean updatePassword(int userId, String userPwd) {
+		// TODO 自动生成的方法存根
+		return userMapper.updateUserPwd(userId, userPwd);
+	}
 }

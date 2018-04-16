@@ -10,6 +10,7 @@ import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.exceptions.IbatisException;
 import org.rda.pojo.BaseDict;
 import org.rda.pojo.QueryVo;
 import org.rda.pojo.User;
@@ -260,6 +261,28 @@ public class UserController {
 			jb.put("status", "y");
 		}else{
 			jb.put("info", "授予失败");
+			jb.put("status", "n");
+		}
+		return jb.toString();
+	}
+	
+	/**
+	 * 修改用户密码
+	 * @param password
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/changePassword")
+	@ResponseBody
+	public String changePassword(String password,HttpSession session){
+		JSONObject jb=new JSONObject();
+		int uid=(int) session.getAttribute("uid");
+		boolean flag=userService.updatePassword(uid, password);
+		if(flag){
+			jb.put("info", "修改成功");
+			jb.put("status", "y");
+		}else{
+			jb.put("info", "修改失败");
 			jb.put("status", "n");
 		}
 		return jb.toString();

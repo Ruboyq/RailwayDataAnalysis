@@ -48,4 +48,12 @@ public interface UserService {
 	 * @return
 	 */
 	User getUserByEmail(String email);
+	
+	/**
+	 * 根据id更改密码
+	 * @param id
+	 * @param password
+	 * @return
+	 */
+	boolean updatePassword(int userId,String userPwd);
 }
