@@ -68,54 +68,90 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT count(1) FROM user a
 		<include refid="userQueryVo" />
 	</select>
+	
 	<!-- 根据id查询用户 -->
 	<select id="queryUserById" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
 		SELECT * FROM user WHERE id = #{id}
 	</select>
+	
+	<select id="getUserByEmail" resultMap="BaseResultMap" resultType="org.rda.pojo.User">
+		SELECT * FROM user WHERE email = #{email}
+	</select>
+	
 
-	<select id="updateUserById" parameterType="org.rda.pojo.User">
+	<update id="updateUserById" parameterType="org.rda.pojo.User">
 		UPDATE `user`
-		SET
+		<trim prefix="set" suffixOverrides=",">
 		<if test="user_id !=null and user_id != ''">
-			`id` = #{user_id},
+			id = #{user_id},
 		</if>
 		<if test="user_name !=null and user_name != ''">
-			`name` = #{user_name},
+			name = #{user_name},
 		</if>
 		<if test="user_pwd !=null and user_pwd != ''">
-			`pwd` = #{user_pwd},
+			pwd = #{user_pwd},
 		</if>
 		<if test="user_email !=null and user_email != ''">
-			`email` = #{user_email},
+			email = #{user_email},
 		</if>
 		<if test="user_token !=null and user_token != ''">
-			`token` = #{user_token},
+			token = #{user_token},
 		</if>		
 		<if test="user_activatetime !=null and user_activatetime != ''">
-			`activatetime` = #{user_activatetime},
+			activatetime = #{user_activatetime},
 		</if>
 		<if test="user_createdate !=null and user_createdate != ''">
-			`createdate` = #{user_createdate},
+			createdate = #{user_createdate},
 		</if>
 		<if test="user_isValid !=null and user_isValid != ''">
-			`isValid` = #{user_isValid},
+			isValid = #{user_isValid},
 		</if>
 		
 		<if test="user_department !=null and user_department != ''">
-			`department` = #{user_department},
+			department = #{user_department},
 		</if>
 		<if test="user_tel !=null and user_tel != ''">
-			`tel` = #{user_tel},
+			tel = #{user_tel},
 		</if>
 		<if test="user_authority !=null and user_authority != ''">
-			`authority` = #{user_authority} 
+			authority = #{user_authority}, 
 		</if>
+		</trim>
 		WHERE
-		(`id` = #{user_id});
-	</select>
+		(id = #{user_id});
+	</update>
 
 	<delete id="deleteUserById">
 		delete from user where id=#{xxx}
 	</delete>
+	
+	<select id="getAuthorityByUserId" parameterType = "Integer" resultType="String">
+	     select authority from user
+	      where id=#{userId}
+	</select>
+	
+	<update id="updateUserAuthority">
+	     update user set authority=#{userAuthority}
+	      where id=#{userId}
+	</update>
+	
+	<insert id="addUser" parameterType="org.rda.pojo.User">
+		insert into user(id,name,pwd,token,activatetime,
+		   createdate,isValid,email,department,tel,authority)
+		   values(#{user_id},
+		   #{user_name},
+		   #{user_pwd},
+		   #{user_token},
+		   #{user_activatetime},
+		   #{user_createdate},
+		   #{user_isValid},
+		   #{user_email},
+		   #{user_department},
+		   #{user_tel},
+		   #{user_authority})
+	</insert>
+
+
+
 
 </mapper>

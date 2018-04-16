@@ -67,4 +67,19 @@ public interface UserMapper {
 	 * @return
 	 */
 	boolean addUser(User user);
+	
+	/**
+	 * 根据id获得用户权限
+	 * @param id
+	 * @return 权限
+	 */
+	String getAuthorityByUserId(int userId);
+	
+	/**
+	 * 修改用户权限
+	 * @param id,userAuthority
+	 * @return 
+	 */
+	boolean updateUserAuthority(@Param("userId") Integer userId,@Param("userAuthority") String userAuthority);
+
 }
