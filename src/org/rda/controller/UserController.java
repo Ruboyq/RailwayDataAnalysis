@@ -101,9 +101,13 @@ public class UserController {
 	@RequestMapping(value="/update",method = {RequestMethod.POST})
 	//此处为记录AOP拦截Controller记录用户操作  
     @SystemControllerLog(description = "更新用户信息")
+	@ResponseBody
 	public String updateUserInfo(User user) {
 		this.userService.updateUserById(user);
-		return "user";
+		JSONObject jb=new JSONObject();
+		jb.put("info", "修改成功");
+		jb.put("status", "y");
+		return jb.toString();
 	}
 	/**
 	 * 更新个人用户信息,返回JSON响应串

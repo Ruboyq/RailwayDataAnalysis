@@ -158,7 +158,7 @@
 					<h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal edit_user_form" id="edit_user_form">
+					<form class="form-horizontal edit_user_form" id="edit_user_form" action="<%=basePath%>user/update">
 						<input type="hidden" id="edit_user_id" name="user_id" />
 						<div class="form-group">
 							<label for="edit_userName" class="col-sm-2 control-label">用户名称</label>
@@ -205,15 +205,21 @@
 								</select>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="edit_userDepartment"
+								style="float: left; padding: 7px 15px 0 27px;">提示</label>
+							<div class="col-sm-10">
+								<div class="edit_error_box" style="color: #F00"></div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary">保存修改</button>
+						</div>
 					</form>
-					<div class="form-group">
-						<div class="edit_error_box" style="color: #F00"></div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary"
-						onclick="updateUser()">保存修改</button>
 				</div>
 			</div>
 		</div>
@@ -232,7 +238,8 @@
 					<h4 class="modal-title" id="myModalLabel">添加新用户</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal add_user_form" id="add_user_form">
+					<form class="form-horizontal add_user_form" id="add_user_form"
+						action="<%=basePath%>user/add">
 						<div class="form-group">
 							<label for="add_userId" class="col-sm-2 control-label">用户工号</label>
 							<div class="col-sm-10">
@@ -288,14 +295,21 @@
 								</select>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="add_userDepartment"
+								style="float: left; padding: 7px 15px 0 27px;">提示</label>
+							<div class="col-sm-10">
+								<div class="add_error_box" style="color: #F00"></div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary">添加用户</button>
+						</div>
 					</form>
-					<div class="form-group">
-						<div class="add_error_box" style="color: #F00"></div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="addUser()">添加用户</button>
 				</div>
 			</div>
 		</div>
@@ -315,11 +329,10 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" id="edit_user_auth_form">
-					<input type="hidden" id="edit_auth_user_id" name="user_id" />
-						<label><input name="rights" type="checkbox" value="1" />
-							用户管理 </label> <label><input name="rights" type="checkbox"
-							value="2" /> 数据查询 </label> <label><input name="rights"
-							type="checkbox" value="3" /> 数据分析 </label> <label><input
+						<input type="hidden" id="edit_auth_user_id" name="user_id" /> <label><input
+							name="rights" type="checkbox" value="1" /> 用户管理 </label> <label><input
+							name="rights" type="checkbox" value="2" /> 数据查询 </label> <label><input
+							name="rights" type="checkbox" value="3" /> 数据分析 </label> <label><input
 							name="rights" type="checkbox" value="4" /> 数据预测 </label>
 					</form>
 				</div>
@@ -389,11 +402,14 @@
 				dataType:'json',
 				success:function(data){
 					$("#edit_auth_user_id").val(id);
+					$("input[name='rights'][value='1']").attr("checked",false);
+					$("input[name='rights'][value='2']").attr("checked",false);
+					$("input[name='rights'][value='3']").attr("checked",false);
+					$("input[name='rights'][value='4']").attr("checked",false);
 					var rights = data.rights;
 					for(var i = 0;i < rights.length;i++){
 						 $("input[name='rights'][value='"+rights[i]+"']").attr("checked",true);
 					}
-					
 				},
 				error: function(json){  
 					alert("用户数据加载异常，请刷新后重试...");  
@@ -420,19 +436,19 @@
 			alert("请为用户分配至少一项权限!");
 			return false;
 		}
-		function updateUser() {
+		<%--function updateUser() {
 			$.post("<%=basePath%>user/update.action",$("#edit_user_form").serialize(),function(data){
 				alert("用户信息更新成功！");
 				window.location.reload();
 			});
-		}
+		}--%>
 		
-		function addUser() {
+	<%-- 	function addUser() {
 			$.post("<%=basePath%>user/add.action",$("#add_user_form").serialize(),function(data){
 				alert("添加用户成功！已发送激活邮件到用户邮箱!");
 				window.location.reload();
 			});
-		}
+		} --%>
 		
 		function deleteUser(id) {
 			if(confirm('确实要删除该客户吗?')) {
@@ -452,6 +468,19 @@ $(function(){
 			cssctl(objtip,o.type);
 			objtip.text(msg);
 		},
+		ajaxPost : true,
+		callback : function(data) {
+			var res = data.status;
+			var objtip = $(".add_error_box");
+			if (res == 'n') {
+				alert("添加用户失败!请刷新页面重试!");
+				objtip.text('添加失败!');
+			}
+			if (res == 'y') {
+				alert("添加用户成功！已发送激活邮件到用户邮箱!");
+				window.location.reload();
+			}
+		}
 	});
 });
 $(function(){
@@ -461,6 +490,19 @@ $(function(){
 			cssctl(objtip,o.type);
 			objtip.text(msg);
 		},
+		ajaxPost : true,
+		callback : function(data) {
+			var res = data.status;
+			var objtip = $(".edit_error_box");
+			if (res == 'n') {
+				alert("用户信息更新失败!请刷新页面重试!");
+				objtip.text('更新失败!');
+			}
+			if (res == 'y') {
+				alert("用户信息更新成功！");
+				window.location.reload();
+			}
+		}
 	});
 });
 </script>

@@ -212,56 +212,37 @@
 				<div class="side-bar">
 					<ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="widget-menu"></span> 
+							class="title-menu-left"> <span class="wid">系统管理</span> 
 
 						</a></li>
 
-						<li><a class="tooltip-tip ajax-load" href="#"
-							title="Blog App"> <i class="icon-document-edit"></i> <span>系统管理</span>
-
-						</a>
-							<ul>
-								<li><a class="tooltip-tip2 ajax-load"
-									href="<%=basePath%>user/list" title="Blog List" target="main"
-									onclick="changeTitle('用户管理')"><i class="entypo-doc-text"></i><span>用户管理</span></a>
-								</li>
-								<li><a class="tooltip-tip2 ajax-load"
-									href="blog-detail.html" title="Blog Detail"><i
-										class="entypo-newspaper"></i><span>日志管理</span></a></li>
-							</ul></li>
-						<li><a class="tooltip-tip ajax-load" href="social.html"
-							title="Social"> <i class="icon-feed"></i> <span>Social</span>
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>user/list" title="Blog List" target="main"
+									onclick="changeTitle('User Management')"
+							title="Social"> <i class="icon-document-edit"></i> <span>用户管理</span>
 
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="media.html"
-							title="Media"> <i class="icon-camera"></i> <span>Media</span>
+							title="Media"> <i class="entypo-newspaper"></i> <span>日志管理</span>
 
 						</a></li>
 					</ul>
 
 					<ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="design-kit"></span> <i
+							class="title-menu-left"> <span class="design">数据查询</span> <i
 								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
 
 						</a></li>
-
+						
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originalCity"
+							onclick="changeTitle('Map')" target="main" title="Mail"> <i class="icon-location"></i> <span>地图展示</span>
+						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="index.html"
-							title="Dashboard"> <i class="icon-window"></i> <span>Dashboard</span>
+							title="Dashboard"> <i class="icon-window"></i> <span>icons</span>
 
 						</a></li>
-						<li><a class="tooltip-tip ajax-load" href="mail.html"
-							title="Mail"> <i class="icon-mail"></i> <span>mail</span>
-								<div class="noft-blue">289</div>
-						</a></li>
-
-						<li><a class="tooltip-tip ajax-load" href="icon.html"
-							title="Icons"> <i class="icon-preview"></i> <span>Icons</span>
-								<div class="noft-blue"
-									style="display: inline-block; float: none;">New</div>
-						</a></li>
-
-						<li><a class="tooltip-tip" href="#" title="Extra Pages">
+					
+						<!--<li><a class="tooltip-tip" href="#" title="Extra Pages">
 								<i class="icon-document-new"></i> <span>Extra Page</span>
 						</a>
 							<ul>
@@ -289,17 +270,15 @@
 								<li><a class="tooltip-tip2" href="lock-screen.html"
 									title="Lock Screen"><i class="icon-lock"></i><span>Lock
 											Screen</span></a></li>
-							</ul></li>
+							</ul></li>-->
 
-						<li><a class="tooltip-tip " href="login.html" title="login">
-								<i class="icon-download"></i> <span>Login</span>
-						</a></li>
+					
 
 					</ul>
 
 					<ul id="menu-showhide" class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="component"></span> <i
+							class="title-menu-left"> <span class="coonent">数据分析</span> <i
 								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
 
 						</a></li>
@@ -351,6 +330,13 @@
 									href="file-upload.html" title="File Upload"><i
 										class="icon-upload"></i><span>File Upload</span></a></li>
 							</ul></li>
+							</ul>
+							<ul class="topnav menu-left-nest">
+						<li><a href="#" style="border-left: 0px solid !important;"
+							class="title-menu-left"> <span class="design">数据预测</span> <i
+								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
+
+						</a></li>
 						<li><a class="tooltip-tip" href="#" title="Tables"> <i
 								class="icon-view-thumb"></i> <span>Tables</span>
 						</a>
