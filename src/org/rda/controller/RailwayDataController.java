@@ -28,6 +28,12 @@ public class RailwayDataController {
 		return "WelcomeMap";
 	}
 	
+	@RequestMapping("/map")
+	public String returnMap(Model model) {
+		List<City> list=railwayDataService.getOriginalCitys();
+		model.addAttribute("cityList",list);
+		return "map";
+	}
 	/**
 	 * 获取模糊查询结果
 	 * @param from

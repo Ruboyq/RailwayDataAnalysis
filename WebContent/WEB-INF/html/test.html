@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">2
+    <title>JS Bin</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style id="jsbin-css">
+    body{
+    margin:0;
+    }
+	.an{position:absolute;top:0;left:0px;width:640px;z-index: 0;background-color: #ffffff;}
+	.touch_area{width: 0;height: 0; position: absolute;top: 0;left: 0;z-index: 5;}
+	#ar{position:absolute; width: 640px; top: 250px;z-index: 1}
+	#ar_1{position:absolute; width: 640px; top: 0;z-index: 0}
+	#ar_2{position:absolute; width: 640px; top: 0;z-index: 0}
+	.bnt{position: absolute; width: 0; top: 158px;z-index: 10}
+	.bnt_1{position: absolute; width: 0; top: 158px;z-index: 10}
+
+  </style>
+</head>
+<body>
+<div id="vid">
+    <video class="an" id="an_1" onended="nextVideo(2)"  src="video/1/1.mp4" autoplay><source  src="video/1/1.mp4" type="video/mp4"></video>
+</div>
+<div class="touch_area" id="touch_area_1" onClick="nextVideo(3);ZoomOut(this.id)"></div>
+<div class="touch_area" id="touch_area_2" onclick="ZoomOut(this.id);ZoomOut('touch_area_3');playVideoAgain()"></div>
+<div class="touch_area" id="touch_area_3" onclick="ZoomOut(this.id);ZoomOut('touch_area_2');closeVideo(this.id)"></div>
+<div class="touch_area" id="touch_area_4" onclick="ZoomOut(this.id);closeVideo(this.id)"></div>
+<div class="touch_area" id="touch_area_5" onclick="ZoomOut(this.id);nextVideo(7)"></div>
+<div class="touch_area" id="touch_area_6" onclick="ZoomOut(this.id);nextVideo(10)"></div>
+<div class="touch_area" id="touch_area_7" onclick="ZoomOut(this.id);nextVideo(13)"></div>
+<img id="ar" src=""/>
+<input class="bnt" id="yes" type="image" src="images/1/yes.png" onClick="playPng(2);hideButton(this.id)"/>
+<input class="bnt" id="no" type="image" src="images/1/no.png" onClick="playPng(3);hideButton(this.id)" />
+<input class="bnt" id="yes_again" type="image" src="images/1/ok.png" onClick="playPng(2);hideButton(this.id)" />
+
+<input class="bnt" id="again" type="image" src="images/1/again.png" onClick="bubbleBack();hideButton(this.id);hideButton('learned');counterBack()" />
+<input class="bnt" id="learned" type="image" src="images/1/learned.png" onClick="hideButton(this.id);hideButton('again');playPng(6)" />
+
+<input class="bnt" id="pic" type="image" src="images/1/pic.png" onclick="captureImage();"/>
+
+<div id="bubble">
+    <input class="bnt_1" id="bubble_1" type="image" src="" onclick="nextVideo(5)" />
+    <input class="bnt_1" id="bubble_2" type="image" src="" onclick="nextVideo(8)" />
+    <input class="bnt_1" id="bubble_3" type="image" src="" onclick="nextVideo(4)" />
+    <input class="bnt_1" id="bubble_4" type="image" src="" onclick="nextVideo(11)" />
+</div>
+<div id="delete"><img id="ar_1" src=""/></div>
+<img id="ar_2" src=""/>
+
+
+<script>
+//toast提示
+    function showToast(message) {
+JSBridge.showToast(message);
+}
+
+
+//获取视频时长
+    var time=1;
+    function getTime(anumber){
+    var id="an_"+anumber;
+    var an=document.getElementById(id);
+    time=an.duration;
+    }
+
+// 拍照 
+function captureImage() { JSBridge.captureImage(); 
+      window.cameraResult = function (data){ 
+      showToast(data); 
+      nextVideo(14);
+      } }
+
+
+//播放下一个视频
+	var video_number=1;
+function nextVideo(number){
+document.getElementById("vid").innerHTML=null;
+    video_number=number;
+
+    var id="an_"+video_number;
+	var src="video/1/"+video_number+".mp4";
+    var node=document.createElement("video");
+    node.setAttribute("id",id);
+	node.setAttribute("class","an");
+	node.setAttribute("src",src);
+	node.setAttribute("autoplay","autoplay");
+    document.getElementById("vid").appendChild(node);
+
+    //结尾自动播放下一个视频
+    if(number==5){node.setAttribute("onended","nextVideo(6)")}
+    if(number==8){node.setAttribute("onended","nextVideo(9)")}
+    if(number==11){node.setAttribute("onended","nextVideo(12)")}
+	//循环视频，设置点击区大小、边距
+	if(video_number==2){node.setAttribute("loop","loop");
+		setArea(1);}
+	if(video_number==6){node.setAttribute("loop","loop");
+		setArea(5);}
+	if(video_number==9){node.setAttribute("loop","loop");
+		setArea(6);}
+	if(video_number==12){node.setAttribute("loop","loop");
+		setArea(7);}
+	//词汇视频结尾
+	if(video_number==4||video_number==7||video_number==10||video_number==13){
+	node.setAttribute("onended","setArea(2);setArea(3);ZoomOut('touch_area_4')");
+	}
+	//
+	if(video_number==14){node.setAttribute("onended","window.location.href='index.html'")}
+
+	//需要自动关闭的视频关闭后播放png
+	if(video_number==3){
+		node.setAttribute("onended","closeVideo();playPng(1)");
+	}
+	//降低除bnt外的对象的,开始视频
+	if(video_number==4||video_number==5||video_number==8||video_number==11){
+	document.getElementById("bubble_1").style.zIndex=-1;
+	document.getElementById("bubble_2").style.zIndex=-1;
+	document.getElementById("bubble_3").style.zIndex=-1;
+	document.getElementById("bubble_4").style.zIndex=-1;
+	document.getElementById("ar_1").style="z-index: -1";
+	document.getElementById("again").style="z-index: -1";
+	document.getElementById("learned").style="z-index: -1";
+	setArea(4);
+	}
+}
+
+
+//重复播放的情况
+function playVideoAgain(){
+if(video_number==4){nextVideo(4)}
+if(video_number==7){nextVideo(5)}
+if(video_number==10){nextVideo(8)}
+if(video_number==13){nextVideo(11)}
+}
+
+
+//touch_area的大小位置
+var areaTop=new Array("","180px","233px","302px","57px","190px","80px","140px");
+var areaWidth=new Array("","200px","100px","100px","100px","100px","100px","100px");
+var areaHeight=new Array("","200px","60px","60px","60px","100px","100px","100px");
+var areaLeft=new Array("","360px","530px","530px","530px","310px","210px","220px");
+//设置点击区域大小边距
+function setArea(number){
+var id="touch_area_"+number;
+var area=document.getElementById(id);
+area.style.top=areaTop[number];
+area.style.width=areaWidth[number];
+area.style.height=areaHeight[number];
+area.style.left=areaLeft[number];
+}
+
+
+//关闭视频
+	var counter=new Array(0,0,0,0,0);
+	function closeVideo(id){
+	document.getElementById("vid").innerHTML=null;
+	//恢复各对象的z-index
+	document.getElementById("bubble_1").style.zIndex=10;
+	document.getElementById("bubble_2").style.zIndex=10;
+	document.getElementById("bubble_3").style.zIndex=10;
+	document.getElementById("bubble_4").style.zIndex=10;
+	document.getElementById("ar_1").style.zIndex=0;
+	if(id=="touch_area_3"){
+	if(video_number==4){document.getElementById("bubble_3").style.width=0;counter[1]=1;}
+	if(video_number==7){document.getElementById("bubble_1").style.width=0;counter[2]=1;}
+	if(video_number==10){document.getElementById("bubble_2").style.width=0;counter[3]=1;}
+	if(video_number==13){document.getElementById("bubble_4").style.width=0;counter[4]=1;}
+	if(counter[1]+counter[2]+counter[3]+counter[4]==4){playPng(5)}
+	}}
+
+//恢复counter初始值
+    function counterBack(){counter[1]=0;counter[2]=0;counter[3]=0;counter[4]=0}
+
+//loop视频播放完后将div恢复到很小
+	function ZoomOut(id){
+		var area=document.getElementById(id);
+		area.style.width=0;
+		area.style.width=0;
+	}
+
+//以下是各组png启示、结束的数字序号
+	var start = new Array();
+	var end=new Array();
+	start[1]=1;
+	end[1]=1594;
+	start[2]=1;
+	end[2]=476;
+	start[3]=1;
+	end[3]=150;
+	start[4]=1;
+	end[4]=428;
+	start[5]=1;
+	end[5]=103;
+	start[6]=1;
+	end[6]=387;
+	start[7]=1;
+	end[7]=846;
+//ar荷塘
+	start[8]=100;
+	end[8]=194;
+	start[9]=1000;
+	end[9]=1622;
+	start[10]=1000;
+	end[10]=1479;
+	start[11]=100;
+	end[11]=147;
+	start[12]=100;
+	end[12]=147;
+	start[13]=100;
+	end[13]=147;
+	start[14]=100;
+	end[14]=147;
+	start[15]=100;
+	end[15]=147;
+	start[16]=100;
+	end[16]=147;
+	start[17]=100;
+	end[17]=147;
+	start[18]=100;
+	end[18]=147;
+	start[19]=100;
+	end[19]=147;
+	start[20]=100;
+	end[20]=147;
+	start[21]=100;
+	end[21]=147;
+	start[22]=100;
+	end[22]=147;
+
+//bubble的位置大小
+var bubbleStyle=new Array("","width:200px; top:150px; left:140px;","width:200px; top:70px; left:260px;","width:200px; top:90px; left:-2px;","width:200px; top:30px; left:420px;");
+
+
+    var for_cycle=null;
+    var i;
+    var j;
+    //interval
+    function noCycle(number){return function(){
+    var src="images/1/"+number+"/"+i+".png";
+    var src_1="images/1/8/"+j+".png";
+    if(number==5||number==6){document.getElementById("ar").src=src}
+    if(number==1||number==2||number==3||number==4){
+    document.getElementById("ar").src=src;
+    document.getElementById("ar_1").src=src_1;
+    }
+
+    if(number==7){document.getElementById("ar").src=src;
+    document.getElementById("ar_2").src=src_1;}
+
+    if(number==8||number==9){
+    document.getElementById("ar_1").src=src;}
+
+    if(number==10){document.getElementById("ar_2").src=src;}
+
+    if(number==11||number==13){
+    var bubble=document.getElementById("bubble_1");
+    bubble.src=src;
+    bubble.style=bubbleStyle[1];}
+
+    if(number==14||number==16){
+    var bubble=document.getElementById("bubble_2");
+    bubble.src=src;
+    bubble.style=bubbleStyle[2];}
+
+    if(number==17||number==19){
+    var bubble=document.getElementById("bubble_3");
+    bubble.src=src;
+    bubble.style=bubbleStyle[3];}
+
+    if(number==20||number==22){
+    var bubble=document.getElementById("bubble_4");
+    bubble.src=src;
+    bubble.style=bubbleStyle[4];}
+
+    i=i+1;
+    j=j+1;
+    if(j==end[8]){j=start[8]}
+    if(i==end[number]){
+                      for_cycle=window.clearInterval(for_cycle);
+					   //出现按钮的情况
+					  if(number==1){showButton(1);}
+					  if(number==3){showButton(2);}
+					  //继续播放的png序列
+					  if(number==2){playPng(9);}
+					  if(number==9){playPng(4);Png(8)}
+					  if(number==4){playPng(11);}
+					  if(number==11){playPng(14);}
+					  if(number==14){playPng(17);}
+					  if(number==17){playPng(20);}
+					  if(number==20){window.clearInterval(cycle_8);blink();}
+
+					  if(number==5){showButton(3);showButton(4)}
+					  if(number==6){document.getElementById("delete").innerHTML="";playPng(10)}
+					  if(number==10){playPng(7)}
+					  if(number==7){Png(8);showButton(5)}
+
+					  }}}
+//播放png
+	function playPng(number){
+        i=start[number];
+        j=start[8];
+        var short;
+        if(number==11||number==14||number==17||number==20){short=4}
+        else{short=42}
+        for_cycle=window.setInterval(noCycle(number),short);
+
+	}
+//停止png的播放
+	function dl(){
+	cycle_8=window.clearInterval(cycle_8);
+	for_cycle=window.clearInterval(for_cycle);}
+
+
+	var k;
+	var cycle_8=null;
+	function cycle(){return function(){
+	var src_3="images/1/"+number+"/"+k+".png";
+	document.getElementById("ar_2").src=src_3;
+	k=k+1;
+	if(k==end[number]){
+	if(number==10){window.clearInterval(cycle_8);}
+	else{k=start[number];}
+	}
+	}}
+//循环8、9、10
+	function Png(number){
+	k=start[number];
+	cycle_8=window.setInterval(cycle(),42);
+	}
+
+
+	var l;
+	var m;
+	var forBlink=null;
+	function cycleBlink(){return function(){
+	srcBubble_1="images/1/12/"+l+".png";
+	srcBubble_2="images/1/15/"+l+".png";
+	srcBubble_3="images/1/18/"+l+".png";
+	srcBubble_4="images/1/21/"+l+".png";
+	srcAr="images/1/8/"+m+".png";
+	document.getElementById("bubble_1").src=srcBubble_1;
+	document.getElementById("bubble_2").src=srcBubble_2;
+	document.getElementById("bubble_3").src=srcBubble_3;
+	document.getElementById("bubble_4").src=srcBubble_4;
+	document.getElementById("ar_1").src=srcAr;
+	l=l+1;
+	m=m+1;
+	if(l==end[12]){l=start[12]}
+	if(m==end[8]){m=start[8]}
+	}}
+//循环闪烁
+	function blink(){
+	l=start[12];
+	m=start[8];
+	forBlink=window.setInterval(cycleBlink(),44);}
+
+
+//显示按钮
+	function showButton(number){
+		//是否帮助选择
+		if(number==1){
+			var bnt_1=document.getElementById("yes");
+			var bnt_2=document.getElementById("no");
+			bnt_1.style.width="220px";
+			bnt_1.style.left="60px";
+			bnt_2.style.width="220px";
+			bnt_2.style.right="60px";
+		}
+		//再次帮助
+		if(number==2){
+			var bnt=document.getElementById("yes_again");
+			bnt.style.left="200px";
+			bnt.style.width="220px";
+		}
+		//重学
+		if(number==3){
+		var bnt_3=document.getElementById("again");
+		bnt_3.style.width="160px";
+		bnt_3.style.top="180px";
+		bnt_3.style.right="120px";
+		bnt_3.style.zIndex=10;
+		}
+		//全部学完了
+		if(number==4){
+		var bnt_4=document.getElementById("learned");
+		bnt_4.style.width="160px";
+		bnt_4.style.top="180px";
+		bnt_4.style.left="120px";
+		bnt_4.style.zIndex=10;
+		}
+		//拍照
+		if(number==5){
+		var bnt_5=document.getElementById("pic");
+		bnt_4.style.width="90px";
+		bnt_4.style.top="120px";
+		bnt_4.style.left="275px";
+		bnt_4.style.zIndex=10;
+		}
+
+	}
+
+//隐藏按钮
+	function hideButton(id){
+		var obj=document.getElementById(id);
+		obj.style.width=0;
+		if(id=="yes"){
+			document.getElementById("no").style.width=0;
+		}
+		if(id=="no"){
+			document.getElementById("yes").style.width=0;
+		}
+
+	}
+
+
+//重新设定
+	function bubbleBack(){
+	document.getElementById("bubble_1").style=bubbleStyle[1];
+	document.getElementById("bubble_2").style=bubbleStyle[2];
+	document.getElementById("bubble_3").style=bubbleStyle[3];
+	document.getElementById("bubble_4").style=bubbleStyle[4];}
+  </script>
+</body>
