@@ -7,6 +7,7 @@ public class City {
 	private double latitude;
 	private int isCenter;
 	private int distinctId;
+	private int isSelected;
 
 	public City(int id, String name, double longitude, double latitude, int isCenter, int distinctId) {
 		super();
@@ -16,6 +17,10 @@ public class City {
 		this.latitude = latitude;
 		this.isCenter = isCenter;
 		this.distinctId = distinctId;
+	}
+	
+	public City() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {
@@ -66,8 +71,15 @@ public class City {
 		this.distinctId = distinctId;
 	}
 
-	public City() {
-		// TODO Auto-generated constructor stub
+	public int getIsSelected() {
+		return isSelected;
 	}
 
+	public void setIsSelected(int isSelected) {
+		this.isSelected = isSelected;
+	}
+
+	public String toString(){
+		return longitude+","+latitude+","+name;
+	}
 }
