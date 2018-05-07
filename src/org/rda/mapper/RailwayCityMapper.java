@@ -14,12 +14,17 @@ public interface RailwayCityMapper {
 	 * @param to
 	 * @return
 	 */
-	List<RailwayCityMapper> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
+	List<RailwayCity> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
 
 	/**
 	 * 添加
 	 * @param railwayCity
 	 * @return
 	 */
-	boolean addRailwayCity(RailwayCity railwayCity);
+	boolean addRailwayCity();
+	
+	/**
+	 * 删除所有的railwayCity
+	 */
+	boolean delRailwayCity();
 }

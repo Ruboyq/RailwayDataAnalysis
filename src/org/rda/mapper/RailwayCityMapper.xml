@@ -12,23 +12,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<result property="carNum" column="carNum" />
 		<result property="tonnage" column="tonnage" />
-		
+		<result property="fromLongitude" column="fromLongitude" />
+		<result property="fromLatitude" column="fromLatitude" />
+		<result property="toLongitude" column="toLongitude" />
+		<result property="toLatitude" column="toLatitude" />
 		<result property="benefit" column="benefit" />
 	</resultMap>
 	
-	<select id="getFilterResult" resultMap="BaseResult" resultType="org.rda.pojo.RailwayData">
-	select * from railway_city
+	<select id="getFilterResult" resultType="org.rda.pojo.RailwayData">
+	select fromCity,toCity,railway_city.tonnage,railway_city.carNum,c1.longitude,c1.latitude,c2.longitude,c2.latitude,benefit
+	FROM railway_city 
+    left join city as c1 on railway_city.fromCity=c1.name
+    left join city as c2 on railway_city.toCity=c2.name
 	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
 	
 	</select>
 	
+	<delete id="delRailwayCity">
+		delete from railway_city
+	</delete>
 	
 	<insert id="addRailwayCity" parameterType="org.rda.pojo.RailwayCity">
 		insert into railway_city(fromCity,toCity,tonnage,carNum,benefit)
-		   values(#{fromCity},
-		   #{toCity},
-		   #{tonnage},
-		   #{carNum},
-		   #{benefit})
+		   (select fromCity,toCity,sum(tonnage),sum(carNum),sum(carNum)/sum(tonnage) from 
+		   railwaydata group by fromCity,toCity)
 	</insert>
 </mapper>
