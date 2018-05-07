@@ -73,6 +73,4 @@ public class City {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 }

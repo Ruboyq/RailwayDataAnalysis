@@ -1,5 +1,6 @@
 package org.rda.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.rda.mapper.CityMapper;
@@ -28,12 +29,21 @@ public class RailwayDataController {
 		return "WelcomeMap";
 	}
 	
+	/**
+	 * 展示原始站点信息
+	 * @return
+	 */
 	@RequestMapping("/map")
-	public String returnMap(Model model) {
+	public String getOriCityString(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
-		model.addAttribute("cityList",list);
+		List<String> strings=new ArrayList<String>();
+		for(City c:list){
+			strings.add(c.toString());
+		}
+		model.addAttribute("stringList",strings);
 		return "map";
 	}
+	
 	/**
 	 * 获取模糊查询结果
 	 * @param from
