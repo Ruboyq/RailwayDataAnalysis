@@ -25,5 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
 	
 	</select>
+	
+	<select id="getRailway" resultMap="BaseResult" resultType="org.rda.pojo.Railway">
+	select fromCity,toCity,sum(carNum),sum(tonnage) from railwaydata
+	group by fromCity,toCity
+	
+	</select>
+	
 </mapper>
 	
