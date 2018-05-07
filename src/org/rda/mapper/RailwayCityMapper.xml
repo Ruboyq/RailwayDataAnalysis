@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.rda.mapper.RailwayCityMapper">
+ <resultMap id="BaseResult" type="org.rda.pojo.RailwayData">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="fromCity" column="fromCity" />
+		<result property="toCity" column="toCity" />
+		
+		<result property="carNum" column="carNum" />
+		<result property="tonnage" column="tonnage" />
+		
+		<result property="benefit" column="benefit" />
+	</resultMap>
+	
+	<select id="getFilterResult" resultMap="BaseResult" resultType="org.rda.pojo.RailwayData">
+	select * from railway_city
+	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
+	
+	</select>
+	
+	
+	<insert id="addRailwayCity" parameterType="org.rda.pojo.RailwayCity">
+		insert into railway_city(fromCity,toCity,tonnage,carNum,benefit)
+		   values(#{fromCity},
+		   #{toCity},
+		   #{tonnage},
+		   #{carNum},
+		   #{benefit})
+	</insert>
+</mapper>
