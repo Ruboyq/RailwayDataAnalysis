@@ -48,11 +48,11 @@
 
 <body>
 
-	<div id="wrapper">
+	<div id="wrapper" >
 
 
 
-		<div id="page-wrapper">
+		<div id="page-wrapper" style="padding-top:30px;">
 			<!-- <div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">用户管理</h1>
@@ -436,19 +436,19 @@
 			alert("请为用户分配至少一项权限!");
 			return false;
 		}
-		<%--function updateUser() {
-			$.post("<%=basePath%>user/update.action",$("#edit_user_form").serialize(),function(data){
-				alert("用户信息更新成功！");
-				window.location.reload();
-			});
-		}--%>
+		// function updateUser() {
+		// 	$.post("<%=basePath%>user/update.action",$("#edit_user_form").serialize(),function(data){
+		// 		alert("用户信息更新成功！");
+		// 		window.location.reload();
+		// 	});
+		// }
 		
-	<%-- 	function addUser() {
-			$.post("<%=basePath%>user/add.action",$("#add_user_form").serialize(),function(data){
-				alert("添加用户成功！已发送激活邮件到用户邮箱!");
-				window.location.reload();
-			});
-		} --%>
+	 	// function addUser() {
+		// 	$.post("<%=basePath%>user/add.action",$("#add_user_form").serialize(),function(data){
+		// 		alert("添加用户成功！已发送激活邮件到用户邮箱!");
+		// 		window.location.reload();
+		// 	});
+		// } 
 		
 		function deleteUser(id) {
 			if(confirm('确实要删除该客户吗?')) {

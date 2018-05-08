@@ -32,6 +32,7 @@ public class RailwayDataController {
 	public String returnMap(Model model) {
 		List<City> list=railwayDataService.getOriginalCitys();
 		model.addAttribute("cityList",list);
+		
 		return "map";
 	}
 	/**

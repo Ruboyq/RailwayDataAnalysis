@@ -47,6 +47,10 @@
 			<mvc:exclude-mapping path="/**/*.gif" />
 			<mvc:exclude-mapping path="/**/*.jpg" />
 			<mvc:exclude-mapping path="/**/*.jpeg" />
+			<mvc:exclude-mapping path="/**/*.eot" />
+			<mvc:exclude-mapping path="/**/*.woff" />
+			<mvc:exclude-mapping path="/**/*.ttf" />
+			<mvc:exclude-mapping path="/**/*.svg" />
 			<mvc:exclude-mapping path="/picturecheckcode" />
 			<mvc:exclude-mapping path="/checkcode" />
 			<mvc:exclude-mapping path="/login" />

@@ -229,19 +229,43 @@
 
 					<ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="design">数据查询</span> <i
-								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
+							class="title-menu-left"> <span class="design">数据查询</span> 
 
 						</a></li>
 						
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originalCity"
-							onclick="changeTitle('Map')" target="main" title="Mail"> <i class="icon-location"></i> <span>地图展示</span>
-						</a></li>
-						<li><a class="tooltip-tip ajax-load" href="index.html"
-							title="Dashboard"> <i class="icon-window"></i> <span>icons</span>
-
-						</a></li>
+						<li>
+							 <a class="tooltip-tip ajax-load" href="#" title="Blog App">
+                                <i class="icon-menu"></i>
+                                <span>原始数据</span>
+							</a>
+							<ul>
+                                <li>
+                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/map"
+							onclick="changeTitle('Retrieve City Station')" target="main" title="Mail"> <i class="icon-location"></i> <span>站点查看</span></a>
+                                </li>
+                                <li>
+                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originalLineMap"
+							onclick="changeTitle('Retrieve Railway Line')" target="main" title="Mail"> <i class="icon-preview"></i> <span>线路查看<span></a>
+                                </li>
+                            </ul>
+					</li>
 					
+						<li>
+							 <a class="tooltip-tip ajax-load" href="#" title="Blog App">
+                                <i class="icon-menu"></i>
+                                <span>优化数据</span>
+							</a>
+							<ul>
+                                <li>
+                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/map"
+							onclick="changeTitle('Retrieve City Station')" target="main" title="Mail"> <i class="icon-location"></i> <span>站点查看</span></a>
+                                </li>
+                                <li>
+                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originalLineMap"
+							onclick="changeTitle('Retrieve Railway Line')" target="main" title="Mail"> <i class="icon-preview"></i> <span>线路查看<span></a>
+                                </li>
+                            </ul>
+					</li>
 						<!--<li><a class="tooltip-tip" href="#" title="Extra Pages">
 								<i class="icon-document-new"></i> <span>Extra Page</span>
 						</a>
@@ -437,10 +461,10 @@
 
 
 			<!--CONTENT-->
-			<div class="row" style="margin-top: 30px; padding: 0 15px;">
-				<iframe src="<%=basePath%>railwayData/originalCity" name="main" scrolling="auto" height="100%" width="100%"
+			<div class="row">
+				<iframe src="<%=basePath%>railwayData/originalCity" name="main" scrolling="no" height="600px" width="100%"
 					frameborder="0"
-					onload="this.height=main.document.body.scrollHeight"></iframe>
+					></iframe>
 			</div>
 
 
