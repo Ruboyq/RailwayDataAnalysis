@@ -193,14 +193,14 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		for(int i = 0;i<capacity;i++){
 			JSONObject js=new JSONObject();
 			js.put("x", list_product_frequency.get(i).getKey());
-			js.put("y", df.format((float)list_product_frequency.get(i).getValue()/total_frequency*100)+"%");
+			js.put("y", df.format((float)list_product_frequency.get(i).getValue()/total_frequency));
 			remaining_frequency-=list_product_frequency.get(i).getValue().intValue();
 			productArray.add(js);
 			//System.out.println(list_product_frequency.get(i).getKey()+" "+df.format((float)list_product_frequency.get(i).getValue()/total_frequency*100)+"%");
 		}
 		JSONObject js=new JSONObject();
 		js.put("x", "其他");
-		js.put("y", df.format((float)remaining_frequency/total_frequency*100)+"%");
+		js.put("y", df.format((float)remaining_frequency/total_frequency));
 		//System.out.println("其他 "+df.format((float)remaining_frequency/total_frequency*100)+"%");
 		productArray.add(js);
 		
