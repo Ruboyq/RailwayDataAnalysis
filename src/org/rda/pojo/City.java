@@ -69,6 +69,9 @@ public class City {
 	public void setTonnage(float tonnage) {
 		this.tonnage = tonnage;
 	}
+	public String toString() {
+		return longitude+","+latitude+","+name+","+carNum+","+tonnage;
+	}
 	public City() {
 		super();
 		// TODO Auto-generated constructor stub
