@@ -50,6 +50,7 @@ public class RailwayDataController {
 			strings[i]=list.get(i).toString();
 		}
 		model.addAttribute("stringList",strings);
+
 		return "map";
 	}
 	

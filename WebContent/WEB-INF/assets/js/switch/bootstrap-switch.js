@@ -132,9 +132,8 @@
                 , $element = $this.parent()
                 , thisState = $this.is(':checked')
                 , state = $element.is('.switch-off');
-
+                
               e.preventDefault();
-
               $element.css('left', '');
 
               if (state === thisState) {
@@ -145,7 +144,7 @@
 
                 if ($element.data('animated') !== false)
                   $element.addClass("switch-animate");
-
+                
                 if (typeof skipOnChange === 'boolean' && skipOnChange)
                   return;
 
@@ -185,6 +184,7 @@
                 });
 
                 $this.on('click touchend', function (e) {
+                  changeProvinceLine();
                   var $this = $(this)
                     , $myInputBox = $this.siblings('input');
 

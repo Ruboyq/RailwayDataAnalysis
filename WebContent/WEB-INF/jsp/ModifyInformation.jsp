@@ -46,7 +46,7 @@
 <title>个人信息修改</title>
 </head>
 <body style="width: 1239px; height: 620px; background: #f5f5f5">
-	<div class="col-sm-12">
+	<div class="col-sm-12" style="margin-top:30px;">
 		<!-- BLANK PAGE-->
 
 		<div style="margin: -20px 15px;" class="nest" id="Blank_PageClose">
