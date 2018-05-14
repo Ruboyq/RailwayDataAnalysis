@@ -18,6 +18,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="fromLatitude" column="fromLatitude" />
 		<result property="toLongitude" column="toLongitude" />
 		<result property="toLatitude" column="toLatitude" />
+		<result property="date" column="date" />
+	</resultMap>
+	
+	<resultMap id="BaseResult1" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="fromCity" column="fromCity" />
+		<result property="tonnage" column="ton" />
+		<result property="fromLongitude" column="fromLongitude" />
+		<result property="fromLatitude" column="fromLatitude" />
+	</resultMap>
+	
+	 <resultMap id="BaseResult2" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="toCity" column="toCity" />
+		<result property="tonnage" column="ton" />
+		<result property="toLongitude" column="toLongitude" />
+		<result property="toLatitude" column="toLatitude" />
 	</resultMap>
 	
 	<select id="getFilterResult" resultMap="BaseResult" resultType="org.rda.pojo.RailwayData">
@@ -26,6 +47,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	
+	<select id="getProductTonnage"  resultType="Float">
+	select sum(tonnage) from railwaydata
+	where productId like CONCAT(#{productId},'%') and subString(date,1,6) = #{date}
+	
+	</select>
+	
+	<select id="getProductTonnagebyTime" resultMap="BaseResult1">
+    select fromCity,fromLongitude,fromLatitude,sum(tonnage) as ton from railwaydata 
+	 where substring(date,1,6) between #{startmonth} and #{endmonth}
+	 and productId like CONCAT(#{productId},'%') 
+	 group by fromCity,fromLongitude,fromLatitude
+	</select>
+
+<select id="getProductTonnagebyTime2" resultMap="BaseResult2">
+    select toCity,toLongitude,toLatitude,sum(tonnage) as ton from railwaydata 
+	 where substring(date,1,6) between #{startmonth} and #{endmonth}
+	 and productId like CONCAT(#{productId},'%') 
+	 group by toCity,toLongitude,toLatitude
+	</select>
 
 	
 </mapper>

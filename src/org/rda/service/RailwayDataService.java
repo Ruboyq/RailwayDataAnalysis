@@ -12,12 +12,4 @@ public interface RailwayDataService {
 	 * @return
 	 */
 	List<City> getOriginalCitys();
-	
-	/**
-	 * 获取模糊查询结果
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	List<RailwayData> getFilterResult(String from,String to);
 }

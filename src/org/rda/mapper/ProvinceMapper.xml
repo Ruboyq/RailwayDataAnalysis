@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.rda.mapper.ProvinceMapper">
+
+<insert id="addProvince" parameterType="org.rda.pojo.Province">
+		insert into province(province,city)
+		   values(#{province},
+		   #{city})
+	</insert>
+	
+	<select id="getAllProvince" resultType="org.rda.pojo.Province">
+	select * from province
+	
+	</select>
+	
+	<select id="getProvinces" resultType="String">
+	select province from province group by province
+	
+	</select>
+
+</mapper>
