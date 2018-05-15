@@ -21,18 +21,9 @@ public class RailwayDataServiceImpl implements RailwayDataService{
 	private CityMapper cityMapper;
 
 	@Override
-	@SystemServiceLog(description = "显示原始站点数据")
+	//@SystemServiceLog(description = "显示原始站点数据")
 	public List<City> getOriginalCitys() {
 		// TODO 自动生成的方法存根
 		return cityMapper.getOriginalCitys();
-	}
-
-	@Override
-	@SystemServiceLog(description = "模糊查询货运路线数据")
-	public List<RailwayData> getFilterResult(String from, String to) {
-		// TODO 自动生成的方法存根
-		return railwayDataMapper.getFilterResult(from, to);
-	}
-	
-	
+	}	
 }

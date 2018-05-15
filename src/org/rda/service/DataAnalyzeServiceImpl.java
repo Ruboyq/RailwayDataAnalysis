@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.ibatis.annotations.Param;
 import org.rda.mapper.CityMapper;
 import org.rda.mapper.RailwayCityMapper;
 import org.rda.mapper.RailwayDataMapper;
@@ -22,11 +23,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.mail.handlers.message_rfc822;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Service
-//@Transactional
+@Transactional
 public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	@Autowired
 	private RailwayCityMapper railwayCityMapper;
@@ -35,7 +38,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	
 	@Override
 	//先将RailwayCity表里的数据删除，再向RailwayCity表里添加数据
-	@SystemServiceLog(description = "更新RailwayCity表数据")
+	//@SystemServiceLog(description = "更新RailwayCity表数据")
 	public void addRailwayCity(){
 		railwayCityMapper.delRailwayCity();
 		railwayCityMapper.addRailwayCity();
@@ -43,11 +46,26 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	
 	@Override
 	//根据controller传来的from与to，返回路线数据和数据分析结果
-	@SystemServiceLog(description = "模糊查询")
+	//@SystemServiceLog(description = "模糊查询")
 	public JSONObject getFilterResult(String from,String to){
 		JSONObject data = new JSONObject(); 
-		List<RailwayCity> list_railwayCity = railwayCityMapper.getFilterResult(from, to);
+		List<Map> list_map = railwayCityMapper.getFilterResult(from, to);
+		List<RailwayCity> list_railwayCity=new ArrayList<RailwayCity>();
 		List<RailwayData> list_railwayData = railwayDataMapper.getFilterResult(from, to);
+		System.out.println(1111);
+		for(Map map:list_map){
+			RailwayCity railwayCity=new RailwayCity((String)map.get("fromCity"), 
+													(String)map.get("toCity"), 
+													Integer.valueOf(map.get("carNum").toString()).intValue(),
+													Float.parseFloat(map.get("tonnage").toString()),
+													(double)map.get("fromLongitude"), 
+													(double)map.get("fromLatitude"), 
+													(double)map.get("toLongitude"), 
+													(double)map.get("toLatitude"), 
+													Float.parseFloat(map.get("benefit").toString()), 
+													null);
+			list_railwayCity.add(railwayCity);
+		}
 		//计算总车数、总吨数
 		int carnum = 0;
 		float tonnage = 0;
@@ -212,5 +230,52 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		data.put("product", productArray);
 		data.put("benifit", benifitArray);
 		return data;
+	}
+
+	@Override
+	public JSONArray getFromCityShipNum(String startmonth,String endmonth,int productId){
+		List<Map> list=railwayDataMapper.getProductTonnagebyTime(startmonth, endmonth, productId);
+		JSONArray jsonArray=new JSONArray();
+		for(Map map:list){
+			JSONObject jsonObject=new JSONObject();
+			jsonObject.put("lat", (double)map.get("fromLatitude"));
+			jsonObject.put("lng", (double)map.get("fromLongitude"));
+			jsonObject.put("count", (double)map.get("tonnage"));
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray;
+	}
+	
+	@Override
+	public JSONArray getToCityReceiptNum(String startmonth,String endmonth,int productId){
+		List<Map> list=railwayDataMapper.getProductTonnagebyTime2(startmonth, endmonth, productId);
+		JSONArray jsonArray=new JSONArray();
+		for(Map map:list){
+			JSONObject jsonObject=new JSONObject();
+			jsonObject.put("lat", (double)map.get("toLatitude"));
+			jsonObject.put("lng", (double)map.get("toLongitude"));
+			jsonObject.put("count", (double)map.get("tonnage"));
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray;
+	}
+	
+	@Override
+	public JSONObject getMonthProductNum(int productId,String year){
+		String date=new String();
+		JSONObject jsonObject=new JSONObject();
+		Float ton=new Float(0);
+		for(int i=1;i<=12;i++){
+			if(i<10)
+				date=year+"0"+i;
+			else
+				date=year+i;
+			ton=railwayDataMapper.getProductTonnage(productId, date);
+			if(ton==null)
+				jsonObject.put(i, 0);
+			else
+				jsonObject.put(i, ton.floatValue());
+		}
+		return jsonObject;
 	}
 }

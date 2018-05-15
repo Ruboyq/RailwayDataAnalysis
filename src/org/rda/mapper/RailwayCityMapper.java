@@ -1,6 +1,7 @@
 package org.rda.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.pojo.RailwayCity;
@@ -14,11 +15,10 @@ public interface RailwayCityMapper {
 	 * @param to
 	 * @return
 	 */
-	List<RailwayCity> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
+	List<Map> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
 
 	/**
 	 * 添加
-	 * @param railwayCity
 	 * @return
 	 */
 	boolean addRailwayCity();

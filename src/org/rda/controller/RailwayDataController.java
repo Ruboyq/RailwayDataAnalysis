@@ -9,12 +9,14 @@ import org.rda.mapper.RailwayCityMapper;
 import org.rda.pojo.City;
 import org.rda.pojo.RailwayCity;
 import org.rda.pojo.RailwayData;
+import org.rda.service.BaseDictService;
 import org.rda.service.DataAnalyzeService;
 import org.rda.service.RailwayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,6 +28,8 @@ public class RailwayDataController {
 	private RailwayDataService railwayDataService;
 	@Autowired
 	private DataAnalyzeService dataAnalyzeService;
+	@Autowired
+	private BaseDictService baseDictService;
 	
 	/**
 	 * 展示原始站点信息
@@ -36,6 +40,58 @@ public class RailwayDataController {
 		List<City> list=railwayDataService.getOriginalCitys();
 		model.addAttribute("cityList",list);
 		return "WelcomeMap";
+	}
+	
+	/**
+	 * 获取省份-城市对应表
+	 * @return “省份”:省内城市JSONArray
+	 */
+	@RequestMapping("/provinceCity")
+	@ResponseBody
+	public String getProvinceCityTable(){
+		JSONObject jsonObject=baseDictService.getProvincePage();
+		return jsonObject.toString();
+	}
+	
+	/**
+	 * 获取特定时间段，特定品类代码的城市-发货量热力图数据
+	 * @param startmonth 结构为“年份+月份”6位字符串，比如“201607”
+	 * @param endmonth 结构为“年份+月份”6位字符串，比如“201607”
+	 * @param productId
+	 * @return {"lat":26.470940857142857,"lng":117.49123128571429,"count":49.22800016403198} 的jsonarray
+	 */
+	@RequestMapping("/ShipNum")
+	@ResponseBody
+	public String getFromCityShipNum(String startmonth,String endmonth,int productId){
+		JSONArray jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
+		return jsonArray.toString();
+	}
+	
+	/**
+	 * 获取特定时间段，特定品类代码的城市-收货量热力图数据
+	 * @param startmonth 结构为“年份+月份”6位字符串，比如“201607”
+	 * @param endmonth 结构为“年份+月份”6位字符串，比如“201607”
+	 * @param productId
+	 * @return {"lat":26.470940857142857,"lng":117.49123128571429,"count":49.22800016403198} 的jsonarray
+	 */
+	@RequestMapping("/ReceiptNum")
+	@ResponseBody
+	public String getToCityReceiptNum(String startmonth,String endmonth,int productId){
+		JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
+		return jsonArray.toString();
+	}
+	
+	/**
+	 * 获取月度发货量直方图
+	 * @param productId
+	 * @param year 年份字符串
+	 * @return
+	 */
+	@RequestMapping("/MonthProduct")
+	@ResponseBody
+	public String getMonthProductNum(int productId,String year){
+		JSONObject jsonObject=dataAnalyzeService.getMonthProductNum(productId, year);
+		return jsonObject.toString();
 	}
 	
 	/**
@@ -50,7 +106,6 @@ public class RailwayDataController {
 			strings[i]=list.get(i).toString();
 		}
 		model.addAttribute("stringList",strings);
-
 		return "map";
 	}
 	
@@ -61,17 +116,19 @@ public class RailwayDataController {
 	 * @return
 	 */
 	@RequestMapping("/fuzzyQuery")
-	public void getFilterResult(String from,String to,Model model){
+	@ResponseBody
+	public String getFilterResult(String from,String to){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, to);
 		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		
-		model.addAttribute("railways", getRailwayJSONArray(railways));
-		model.addAttribute("carnum", (int)analysisRes.get("carnum"));
-		model.addAttribute("tonnage", (float)analysisRes.get("tonnage"));
-		model.addAttribute("benifit", analysisRes.get("benifit"));
-		model.addAttribute("car", analysisRes.get("car"));
-		model.addAttribute("ton", analysisRes.get("ton"));
-		model.addAttribute("product",analysisRes.get("product"));
+		JSONObject returnValue=new JSONObject();
+		returnValue.put("railways", getRailwayJSONArray(railways));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));
+		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("benifit", analysisRes.get("benifit"));
+		returnValue.put("car", analysisRes.get("car"));
+		returnValue.put("ton", analysisRes.get("ton"));
+		returnValue.put("product",analysisRes.get("product"));
+		return returnValue.toString();
 	}
 	
 	/**
@@ -81,17 +138,19 @@ public class RailwayDataController {
 	 * @return
 	 */
 	@RequestMapping("/queryByStartStation")
-	public void queryByStartStation(String from,Model model){
+	@ResponseBody
+	public String queryByStartStation(String from){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, "");
 		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		
-		model.addAttribute("railways", getRailwayJSONArray(railways));
-		model.addAttribute("carnum", (int)analysisRes.get("carnum"));
-		model.addAttribute("tonnage", (float)analysisRes.get("tonnage"));
-		model.addAttribute("benifit", analysisRes.get("benifit"));
-		model.addAttribute("car", analysisRes.get("car"));
-		model.addAttribute("ton", analysisRes.get("ton"));
-		model.addAttribute("product",analysisRes.get("product"));
+		JSONObject returnValue=new JSONObject();
+		returnValue.put("railways", getRailwayJSONArray(railways));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));
+		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("benifit", analysisRes.get("benifit"));
+		returnValue.put("car", analysisRes.get("car"));
+		returnValue.put("ton", analysisRes.get("ton"));
+		returnValue.put("product",analysisRes.get("product"));
+		return returnValue.toString();
 	}
 	
 	/**
@@ -100,17 +159,19 @@ public class RailwayDataController {
 	 * @param model
 	 */
 	@RequestMapping("/queryByEndStation")
-	public void queryByEndStation(String to,Model model){
+	@ResponseBody
+	public String queryByEndStation(String to){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult("", to);
 		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		
-		model.addAttribute("railways", getRailwayJSONArray(railways));
-		model.addAttribute("carnum", (int)analysisRes.get("carnum"));
-		model.addAttribute("tonnage", (float)analysisRes.get("tonnage"));
-		model.addAttribute("benifit", analysisRes.get("benifit"));
-		model.addAttribute("car", analysisRes.get("car"));
-		model.addAttribute("ton", analysisRes.get("ton"));
-		model.addAttribute("product",analysisRes.get("product"));
+		JSONObject returnValue=new JSONObject();
+		returnValue.put("railways", getRailwayJSONArray(railways));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));
+		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("benifit", analysisRes.get("benifit"));
+		returnValue.put("car", analysisRes.get("car"));
+		returnValue.put("ton", analysisRes.get("ton"));
+		returnValue.put("product",analysisRes.get("product"));
+		return returnValue.toString();
 	}
 	
 	/**
@@ -118,14 +179,16 @@ public class RailwayDataController {
 	 * @param model
 	 */
 	@RequestMapping("/queryAllPath")
-	public void queryAllPath(Model model){
+	@ResponseBody
+	public String queryAllPath(){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult("", "");
 		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		
-		model.addAttribute("railways", getRailwayJSONArray(railways));
-		model.addAttribute("carnum", (int)analysisRes.get("carnum"));
-		model.addAttribute("tonnage", (float)analysisRes.get("tonnage"));
-		model.addAttribute("product",analysisRes.get("product"));
+		JSONObject returnValue=new JSONObject();
+		returnValue.put("railways", getRailwayJSONArray(railways));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));
+		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("product",analysisRes.get("product"));
+		return returnValue.toString();
 	}
 	
 	/**
@@ -135,14 +198,16 @@ public class RailwayDataController {
 	 * @param model
 	 */
 	@RequestMapping("/queryOnePath")
-	public void queryOnePath(String from,String to,Model model){
+	@ResponseBody
+	public String queryOnePath(String from,String to){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, to);
 		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		
-		model.addAttribute("railways", getRailwayJSONArray(railways));
-		model.addAttribute("carnum", (int)analysisRes.get("carnum"));
-		model.addAttribute("tonnage", (float)analysisRes.get("tonnage"));
-		model.addAttribute("product",analysisRes.get("product"));
+		JSONObject returnValue=new JSONObject();
+		returnValue.put("railways", getRailwayJSONArray(railways));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));
+		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("product",analysisRes.get("product"));
+		return returnValue.toString();
 	}
 	
 	/**

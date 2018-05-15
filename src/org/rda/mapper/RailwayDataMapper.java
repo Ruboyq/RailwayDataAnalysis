@@ -1,6 +1,7 @@
 package org.rda.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.pojo.City;
@@ -17,4 +18,23 @@ public interface RailwayDataMapper {
 	List<RailwayData> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
 	
 	
+	/**
+	 * 给定月份和品类id的前两位获得当月的总发货量
+	 * @return
+	 */
+	Float getProductTonnage(@Param("productId") int productId,@Param("date") String date);
+	
+	/**
+	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个发货城市的该商品发货量
+	 * @return
+	 */
+	List<Map> getProductTonnagebyTime(@Param("startmonth") String startmonth,
+			@Param("endmonth") String endmonth,@Param("productId") int productId);
+	
+	/**
+	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个到货城市的该商品发货量
+	 * @return
+	 */
+	List<Map> getProductTonnagebyTime2(@Param("startmonth") String startmonth,
+			@Param("endmonth") String endmonth,@Param("productId") int productId);
 }

@@ -1,5 +1,7 @@
 package org.rda.pojo;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 public class RailwayData {
 	private int id;
 	private String productName;
@@ -13,11 +15,88 @@ public class RailwayData {
 	private double fromLatitude;
 	private double toLongitude;
 	private double toLatitude;
-	
-
+	private String date;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	public String getFromCity() {
+		return fromCity;
+	}
+	public void setFromCity(String fromCity) {
+		this.fromCity = fromCity;
+	}
+	public String getToCity() {
+		return toCity;
+	}
+	public void setToCity(String toCity) {
+		this.toCity = toCity;
+	}
+	public String getIsTotal() {
+		return isTotal;
+	}
+	public void setIsTotal(String isTotal) {
+		this.isTotal = isTotal;
+	}
+	public int getCarNum() {
+		return carNum;
+	}
+	public void setCarNum(int carNum) {
+		this.carNum = carNum;
+	}
+	public float getTonnage() {
+		return tonnage;
+	}
+	public void setTonnage(float tonnage) {
+		this.tonnage = tonnage;
+	}
+	public double getFromLongitude() {
+		return fromLongitude;
+	}
+	public void setFromLongitude(double fromLongitude) {
+		this.fromLongitude = fromLongitude;
+	}
+	public double getFromLatitude() {
+		return fromLatitude;
+	}
+	public void setFromLatitude(double fromLatitude) {
+		this.fromLatitude = fromLatitude;
+	}
+	public double getToLongitude() {
+		return toLongitude;
+	}
+	public void setToLongitude(double toLongitude) {
+		this.toLongitude = toLongitude;
+	}
+	public double getToLatitude() {
+		return toLatitude;
+	}
+	public void setToLatitude(double toLatitude) {
+		this.toLatitude = toLatitude;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public RailwayData(int id, String productName, int productId, String fromCity, String toCity, String isTotal,
-			int carNum, float tonnage, double fromLongitude, double fromLatitude, double toLongitude,
-			double toLatitude) {
+			int carNum, float tonnage, double fromLongitude, double fromLatitude, double toLongitude, double toLatitude,
+			String date) {
 		super();
 		this.id = id;
 		this.productName = productName;
@@ -31,131 +110,9 @@ public class RailwayData {
 		this.fromLatitude = fromLatitude;
 		this.toLongitude = toLongitude;
 		this.toLatitude = toLatitude;
+		this.date = date;
 	}
-
-
-	public int getId() {
-		return id;
+	public RailwayData(){
+	
 	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-	public String getProductName() {
-		return productName;
-	}
-
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-
-	public int getProductId() {
-		return productId;
-	}
-
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-
-	public String getFromCity() {
-		return fromCity;
-	}
-
-
-	public void setFromCity(String fromCity) {
-		this.fromCity = fromCity;
-	}
-
-
-	public String getToCity() {
-		return toCity;
-	}
-
-
-	public void setToCity(String toCity) {
-		this.toCity = toCity;
-	}
-
-
-	public String getIsTotal() {
-		return isTotal;
-	}
-
-
-	public void setIsTotal(String isTotal) {
-		this.isTotal = isTotal;
-	}
-
-
-	public int getCarNum() {
-		return carNum;
-	}
-
-
-	public void setCarNum(int carNum) {
-		this.carNum = carNum;
-	}
-
-
-	public float getTonnage() {
-		return tonnage;
-	}
-
-
-	public void setTonnage(float tonnage) {
-		this.tonnage = tonnage;
-	}
-
-
-	public double getFromLongitude() {
-		return fromLongitude;
-	}
-
-
-	public void setFromLongitude(double fromLongitude) {
-		this.fromLongitude = fromLongitude;
-	}
-
-
-	public double getFromLatitude() {
-		return fromLatitude;
-	}
-
-
-	public void setFromLatitude(double fromLatitude) {
-		this.fromLatitude = fromLatitude;
-	}
-
-
-	public double getToLongitude() {
-		return toLongitude;
-	}
-
-
-	public void setToLongitude(double toLongitude) {
-		this.toLongitude = toLongitude;
-	}
-
-
-	public double getToLatitude() {
-		return toLatitude;
-	}
-
-
-	public void setToLatitude(double toLatitude) {
-		this.toLatitude = toLatitude;
-	}
-
-
-	public RailwayData() {
-		// TODO Auto-generated constructor stub
-	}
-
 }

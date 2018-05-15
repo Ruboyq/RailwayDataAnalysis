@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.rda.pojo.City;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public interface DataAnalyzeService {
@@ -22,4 +23,30 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	public JSONObject getFilterResult(String from,String to);
+
+	/**
+	 * 获取特定时间段，特定品类代码的城市-发货量热力图数据
+	 * @param startmonth
+	 * @param endmonth
+	 * @param productId
+	 * @return
+	 */
+	JSONArray getFromCityShipNum(String startmonth, String endmonth, int productId);
+
+	/**
+	 * 获取特定时间段，特定品类代码的城市-收货量热力图数据
+	 * @param startmonth
+	 * @param endmonth
+	 * @param productId
+	 * @return
+	 */
+	JSONArray getToCityReceiptNum(String startmonth, String endmonth, int productId);
+
+	/**
+	 * 获取月度发货量直方图
+	 * @param productId
+	 * @param year
+	 * @return
+	 */
+	JSONObject getMonthProductNum(int productId, String year);
 }
