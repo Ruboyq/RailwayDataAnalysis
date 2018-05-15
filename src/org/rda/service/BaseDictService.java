@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.rda.pojo.BaseDict;
 
+import net.sf.json.JSONObject;
+
 public interface BaseDictService {
 
 	/**
@@ -13,4 +15,11 @@ public interface BaseDictService {
 	 * @return
 	 */
 	List<BaseDict> queryBaseDictByDictTypeCode(String dictTypeCode);
+
+	/**
+	 * 创建省份-城市对应表
+	 */
+	void createProvinceTable();
+
+	JSONObject getProvincePage();
 }
