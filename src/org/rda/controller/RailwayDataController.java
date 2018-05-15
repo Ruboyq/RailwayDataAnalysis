@@ -1,6 +1,7 @@
 package org.rda.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,21 +38,24 @@ public class RailwayDataController {
 		model.addAttribute("cityList",list);
 		return "WelcomeMap";
 	}
-	
+	@RequestMapping("/testmap")
+	public String showMap(Model model){
+		return "originDrawLine";
+	}
 	/**
 	 * 展示原始站点信息
 	 * @return
 	 */
-	@RequestMapping("/map")
+	@RequestMapping("/originStation")
 	public String getOriCityString(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
 			strings[i]=list.get(i).toString();
 		}
-		model.addAttribute("stringList",strings);
+		model.addAttribute("stringList",Arrays.toString(strings));
 
-		return "map";
+		return "originStationMap";
 	}
 	
 	/**
