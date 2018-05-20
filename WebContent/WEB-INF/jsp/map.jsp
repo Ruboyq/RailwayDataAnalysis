@@ -21,9 +21,10 @@
 
     <link rel="stylesheet" href="<%=basePath%>assets/css/icons-style.css" >
     <link rel="stylesheet" href="<%=basePath%>assets/css/media.css" >
+    <link rel="stylesheet" href="<%=basePath%>assets/js/datepicker/datepicker.css">
     <link rel="stylesheet" href="<%=basePath%>assets/js/switch/bootstrap-switch.css">
      <script type="text/javascript" src="<%=basePath%>assets/js/jquery.js"></script>
-     <script type="text/javascript" src="<%=basePath%>assets/js/switch/bootstrap-switch.js"></script>
+    <script type="text/javascript" src="<%=basePath%>assets/js/datepicker/bootstrap-datepicker.js"></script>
     <style>
     html,
     body{
@@ -86,23 +87,39 @@
     .s2{
         padding-left: 15px;
     }
+     .sl{
+	position: absolute;
+	width: 150px;
+	margin-top: 5px;
+	margin-right: 700px;
+    right:0px;
+    }
      .st{
 	position: absolute;
-	width: 85px;
+	width: 150px;
 	margin-top: 5px;
-	margin-right: 310px;
+	margin-right: 400px;
     right:0px;
     }
      .ed{
 	position: absolute;
-	width: 85px;
+	width: 150px;
 	margin-top: 5px;
-	margin-right: 110px;
+	margin-right: 130px;
+    right:0px;
+    }
+     .ty-label{
+	position: absolute;
+	margin-right: 800px;
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: 'Open Sans', serif;
     right:0px;
     }
     .st-label{
 	position: absolute;
-	margin-right: 400px;
+	margin-right: 570px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -111,7 +128,7 @@
     }
     .ed-label{
 	position: absolute;
-	margin-right: 200px;
+	margin-right: 300px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -142,21 +159,28 @@
                     <div class="col-sm-12"> -->
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
+                                <span class="ty-label">
+                                   Type:</span>
+                                 <select class="filter-status form-control sl">
+                                        <option value="18">18-电器
+                                        <option value="disabled">Disabled
+                                        <option value="suspended">Suspended
+                                </select>
                                 <span class="st-label">
-                                   Start station:</span>
-                                <select class="filter-status form-control st">
-                                        <option value="active">Active
-                                        <option value="disabled">Disabled
-                                        <option value="suspended">Suspended
-                                </select>
+                                   Start time:</span>
+                                        <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="15-05-2018" id="dpYears1" class="input-group date st">
+
+                                            <input type="text" value="15-05-2018" class="form-control" id="time1">
+                                            <span class="input-group-addon add-on entypo-calendar "></span>
+                                        </div>
                                 <span class="ed-label">
-                                   End station:</span>
-                                <select class="filter-status form-control ed">
-                                        <option value="active">Active
-                                        <option value="disabled">Disabled
-                                        <option value="suspended">Suspended
-                                </select>
-                                <a onclick="" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">Retrieve</a>
+                                   End time:</span>
+                                 <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="15-05-2018" id="dpYears2" class="input-group date ed">
+
+                                            <input type="text" value="15-05-2018" class="form-control" id="time2">
+                                            <span class="input-group-addon add-on entypo-calendar "></span>
+                                        </div>
+                                <a onclick="showHeat();" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">Retrieve</a>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container" class="gmap" style="width:100%;height:100%;position:relative;"></div>
@@ -168,10 +192,7 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Detail Infomation of the Chosen Railway Line</p>
-                                <p id ="cityTitle">
-                                    <small>Chengdu</small>
-                                </p>
+                                <p>Detail Infomation about the chosen type</p>
                             </blockquote>
                         </div>
                         </div>
@@ -179,19 +200,19 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2">Chengdu</span> </span>
+                                <span class="label1"><span class="label s1">Type Name:</span><span id="cityName" class="s2">电器</span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2">9999</span> </span>
+                                <span class="label1"><span class="label s1">Total tonnage:</span><span id="carNums" class="s2">9999</span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2">9999</span> </span>
+                                <span class="label1"><span class="label s1">Top 5 Sub-type:</span><span id="totalFreight" class="s2">冰箱blabla</span> </span>
                                 </div>     
                                 </div>
                             </div>
@@ -201,127 +222,88 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Detail Infomation of the Station</p>
+                                <p>Analysis about the send station</p>
                                 <p id ="cityTitle">
-                                    <small>Chengdu</small>
+                                    <small>电器类</small>
                                 </p>
                             </blockquote>
                         </div>
                         </div>
-                        <div class="oneline">
-                                <div class="entypo-tooltip" style="color:#3498DB">
-                                <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
-                                </div>
-                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2">Chengdu</span> </span>
-                                </div>
-                        <div class="oneline">
-                                <div class="entypo-tooltip" style="color:#3498DB">
-                                <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
-                                </div>
-                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2">9999</span> </span>
-                                </div>
-                        <div class="oneline">
-                                <div class="entypo-tooltip" style="color:#3498DB">
-                                <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
-                                </div>
-                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2">9999</span> </span>
-                                </div>     
                                 </div>
                             </div>
                     <!-- </div>
 
                 </div>
             </div> -->
-     <script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.6&key=您申请的key值'></script>
-    <!-- UI组件库 1.0 -->
-    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
-    <script type="text/javascript">
+    <script src="http://webapi.amap.com/maps?v=1.4.6&key=您申请的key值"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script type="text/javascript" src="http://a.amap.com/jsapi_demos/static/resource/heatmapData.js"></script>
+    
     //创建地图
-    var map = new AMap.Map('container', {
+<script>
+    $('#dpYears1').datepicker();
+    $('#dpYears2').datepicker();
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        center: [116.418261, 39.921984],
         zoom: 4
     });
-
-    AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
-
-        if (!PathSimplifier.supportCanvas) {
-            alert('当前环境不支持 Canvas！');
-            return;
-        }
-
-        var pathSimplifierIns = new PathSimplifier({
-            zIndex: 100,
-            //autoSetFitView:false,
-            map: map, //所属的地图实例
-
-            getPath: function(pathData, pathIndex) {
-
-                return pathData.path;
-            },
-            getHoverTitle: function(pathData, pathIndex, pointIndex) {
-
-                if (pointIndex >= 0) {
-                    //point 
-                    return pathData.name + '，站点：' + pathData.point[pointIndex] ;
-                }
-                return pathData.name + '，'+ pathData.data;
-            },
-            renderOptions: {
-
-                renderAllPointsIfNumberBelow: 100 //绘制路线节点，如不需要可设置为-1
-            }
+    if (!isSupportCanvas()) {
+        alert('热力图仅对支持canvas的浏览器适用,您所使用的浏览器不能使用热力图功能,请换个浏览器试试~')
+    }
+    //详细的参数,可以查看heatmap.js的文档 http://www.patrick-wied.at/static/heatmapjs/docs.html
+    //参数说明如下:
+    /* visible 热力图是否显示,默认为true
+     * opacity 热力图的透明度,分别对应heatmap.js的minOpacity和maxOpacity
+     * radius 势力图的每个点的半径大小   
+     * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+     *	{
+     .2:'rgb(0, 255, 255)',
+     .5:'rgb(0, 110, 255)',
+     .8:'rgb(100, 0, 255)'
+     }
+     其中 key 表示插值的位置, 0-1 
+     value 为颜色值 
+     */
+    var heatmap;
+    map.plugin(["AMap.Heatmap"], function() {
+        //初始化heatmap对象
+        heatmap = new AMap.Heatmap(map, {
+            radius: 25, //给定半径
+            opacity: [0, 0.8]
+            /*,gradient:{
+             0.5: 'blue',
+             0.65: 'rgb(117,211,248)',
+             0.7: 'rgb(0, 255, 0)',
+             0.9: '#ffea00',
+             1.0: 'red'
+             }*/
         });
-
-        window.pathSimplifierIns = pathSimplifierIns;
-
-        //设置数据
-        pathSimplifierIns.setData([{
-            name: '路线0',
-            path: [
-                [116.405289, 39.904987],
-                [113.964458, 40.54664],
-                // [111.47836, 41.135964],
-                // [108.949297, 41.670904],
-                // [106.380111, 42.149509],
-                // [103.774185, 42.56996],
-                // [101.135432, 42.930601],
-                // [98.46826, 43.229964],
-                // [95.777529, 43.466798],
-                // [93.068486, 43.64009],
-                // [90.34669, 43.749086],
-                // [87.61792, 43.793308]
-            ],
-            data:'航线:c1->c2，货运总量:10t',
-            point:[
-                'c1',
-                'c2'
-            ]
-        },
-        {
-            name: '路线1',
-            path: [
-                [90.34669, 43.749086],
-                [87.61792, 43.793308]
-            ],
-            data:'航线:c3->c4，货运总量:1t',
-            point:[
-                'c3',
-                'c4'
-            ]
-        }]);
-
-        //对第一条线路（即索引 0）创建一个巡航器
-        var navg1 = pathSimplifierIns.createPathNavigator(0, {
-            loop: true, //循环播放
-            speed: 1000000 //巡航速度，单位千米/小时
-        });
-        var navg2 = pathSimplifierIns.createPathNavigator(1, {
-            loop: true, //循环播放
-            speed: 1000000 //巡航速度，单位千米/小时
-        });
-        navg1.start();
-        navg2.start();
     });
-    </script>
+    //判断浏览区是否支持canvas
+    function isSupportCanvas() {
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+
+    function showHeat(){
+        $.ajax({
+				type:'get',
+				url:"<%=basePath%>railwayData/ShipNum",
+				data:{"startmonth":$("#time1").val(),"endmonth":$("#time2").val(),"productId":18},
+				dataType:'json',
+				success:function(data1){
+                     heatmap.setDataSet({
+                                     data: data1,
+                                     max: 100
+                                            });
+				},
+				error: function(json){  
+					alert("用户数据加载异常，请刷新后重试...");  
+				}  
+			});
+    }
+</script>
 </body>
 
 </html>

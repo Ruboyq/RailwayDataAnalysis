@@ -56,7 +56,8 @@
 			<mvc:exclude-mapping path="/login" />
 			<mvc:exclude-mapping path="/error/*" />
 			<mvc:exclude-mapping path="/user/toActivate" />
-			<mvc:exclude-mapping path="/railwayData/map" />
+			<mvc:exclude-mapping path="/railwayData/testmap" />
+			<mvc:exclude-mapping path="/railwayData/ShipNum" />
 			<bean class="org.rda.interceptor.AuthorityInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

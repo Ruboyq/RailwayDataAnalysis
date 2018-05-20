@@ -85,5 +85,7 @@ public class RailwayCity {
 		this.benefit = benefit;
 		this.date = date;
 	}
+	public RailwayCity() {
+	}
 	
 }

@@ -27,7 +27,7 @@ public class DaoTest extends BaseTest{
 		//boolean b = rail.addRailwayCity(new RailwayCity("yl","sd",12,12f,12f));
 		rail.addRailwayCity();
 		//rail.delRailwayCity();
-		List<RailwayCity> a=rail.getFilterResult("","");
+		//List<RailwayCity> a=rail.getFilterResult("","");
 		//List<City> city = cityMapper.getOriginalCitys();
 		//userMapper.updateUserPwd(12, "22222");
 	//	userMapper.updateUserById(new User(12, "dddd","ddd","aa",22L, "s", 0, "d", "er", "ww", "1,2,3"));
@@ -40,7 +40,7 @@ public class DaoTest extends BaseTest{
 //		System.out.println("ddddddd");
 		//User a = userMapper.getUserByEmail("777@163.com");
 		//System.out.println(b);
-		System.out.println(a.size());
+		//System.out.println(a.size());
 		//System.out.println(c);
 		
 	}

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 @Controller
 @RequestMapping("/railwayData")
@@ -44,7 +45,15 @@ public class RailwayDataController {
 	}
 	@RequestMapping("/testmap")
 	public String showMap(Model model){
+		return "heatmap";
+	}
+	@RequestMapping("/originDrawLine")
+	public String showLineMap(Model model){
 		return "originDrawLine";
+	}
+	@RequestMapping("/heatmap")
+	public String showHeatMap(Model model){
+		return "heatmap";
 	}
 	/**
 	 * 获取省份-城市对应表
@@ -67,6 +76,10 @@ public class RailwayDataController {
 	@RequestMapping("/ShipNum")
 	@ResponseBody
 	public String getFromCityShipNum(String startmonth,String endmonth,int productId){
+		String[] time1 = startmonth.split("-");
+		String[] time2 = endmonth.split("-");
+		startmonth = time1[2]+time1[1];
+		endmonth = time2[2]+time2[1];
 		JSONArray jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -81,6 +94,10 @@ public class RailwayDataController {
 	@RequestMapping("/ReceiptNum")
 	@ResponseBody
 	public String getToCityReceiptNum(String startmonth,String endmonth,int productId){
+		String[] time1 = startmonth.split("-");
+		String[] time2 = endmonth.split("-");
+		startmonth = time1[2]+time1[1];
+		endmonth = time2[2]+time2[1];
 		JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -124,11 +141,13 @@ public class RailwayDataController {
 	@ResponseBody
 	public String getFilterResult(String from,String to){
 		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, to);
-		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
+		List<?> railways=JSONArray.toList((JSONArray) analysisRes.get("railway"),new RailwayCity(),new JsonConfig());
 		JSONObject returnValue=new JSONObject();
-		returnValue.put("railways", getRailwayJSONArray(railways));
+		JSONArray railwayArray=getRailwayJSONArray(railways);
+		returnValue.put("railways",railwayArray);
+		returnValue.put("railwaynum", railwayArray.size());
 		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
+		returnValue.put("tonnage", (double)analysisRes.get("tonnage"));
 		returnValue.put("benifit", analysisRes.get("benifit"));
 		returnValue.put("car", analysisRes.get("car"));
 		returnValue.put("ton", analysisRes.get("ton"));
@@ -220,10 +239,10 @@ public class RailwayDataController {
 	 * @param railways
 	 * @return
 	 */
-	public JSONArray getRailwayJSONArray(List<RailwayCity> railways){
+	public JSONArray getRailwayJSONArray(List<?> railways){
 		JSONArray railwayJSONArray=new JSONArray();
 		for(int i=0;i<railways.size();i++){
-			RailwayCity railwayCity=railways.get(i);
+			RailwayCity railwayCity=(RailwayCity) railways.get(i);
 			JSONObject jsObject=new JSONObject();
 			jsObject.put("name", "线路"+i);
 			double[][] position={{railwayCity.getFromLongitude(),railwayCity.getFromLatitude()},

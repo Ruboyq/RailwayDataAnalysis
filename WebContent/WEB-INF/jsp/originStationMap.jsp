@@ -153,7 +153,7 @@
                             <blockquote>
                                 <p>Detail Infomation of the Station</p>
                                 <p id ="cityTitle">
-                                    <small>Chengdu</small>
+                                    <small></small>
                                 </p>
                             </blockquote>
                         </div>
@@ -162,19 +162,19 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2">Chengdu</span> </span>
+                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2">9999</span> </span>
+                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2">9999</span> </span>
+                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2"></span> </span>
                                 </div>     
                                 </div>
                             </div>
@@ -268,6 +268,7 @@
         var pointSimplifierIns = new PointSimplifier({
             map: map, //所属的地图实例
             zIndex: 100,
+            maxChildrenOfQuadNode:10,
             getPosition: function(item) {
 
                 if (!item) {
@@ -280,7 +281,8 @@
                 return [parseFloat(parts[0]), parseFloat(parts[1])];
             },
             getHoverTitle: function(dataItem, idx) {
-                return idx + ': ' + dataItem;
+                var parts = dataItem.split(',');
+                return parts[2];
             },
             renderOptions: {
                 //点的样式
@@ -297,14 +299,13 @@
         });
 
         window.pointSimplifierIns = pointSimplifierIns;
-        $.get('http://a.amap.com/amap-ui/static/data/10w.txt', function(csv) {
 
-            var data = csv.split('\n');
             //data = ['103.813963,30.817154,dataanalysis'];
-            pointSimplifierIns.setData(data);
+        var data = '${stringList}';
+        data=data.substring(1,data.length-1).split(", ");
+        pointSimplifierIns.setData(data);
            /* pointSimplifierIns.renderEngine.setOption('pointStyle',  utils.extend({}, defaultRenderOptions['pointStyle']));
             pointSimplifierIns.renderLater(200);*/
-        });
 
         pointSimplifierIns.on('pointClick pointMouseover pointMouseout', function(e, record) {
             //console.log(e.type, record);
@@ -322,10 +323,10 @@
              markers.push(marker);
              map2.setCenter(marker.getPosition());
              marker.setAnimation('AMAP_ANIMATION_BOUNCE');
-             document.getElementById('cityTitle').innerHTML="<small>"+"CDC"+"</small>";
-             $("#cityName").text("CDC");
-             $("#carNums").text(parts[0]);
-             $("#totalFreight").text(parts[1]);
+             document.getElementById('cityTitle').innerHTML="<small>"+parts[2]+"</small>";
+             $("#cityName").text(parts[2]);
+             $("#carNums").text(parts[3]);
+             $("#totalFreight").text(parts[4]);
          }); 
     });
 
@@ -434,7 +435,6 @@
         }
     }
     $('.make-switch').bootstrapSwitch('setSizeClass', 'switch-small');
-    
     </script>
 </body>
 
