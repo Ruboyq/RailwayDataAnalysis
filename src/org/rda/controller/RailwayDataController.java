@@ -1,7 +1,6 @@
 package org.rda.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,18 +42,7 @@ public class RailwayDataController {
 		model.addAttribute("cityList",list);
 		return "WelcomeMap";
 	}
-	@RequestMapping("/testmap")
-	public String showMap(Model model){
-		return "heatmap";
-	}
-	@RequestMapping("/originDrawLine")
-	public String showLineMap(Model model){
-		return "originDrawLine";
-	}
-	@RequestMapping("/heatmap")
-	public String showHeatMap(Model model){
-		return "heatmap";
-	}
+	
 	/**
 	 * 获取省份-城市对应表
 	 * @return “省份”:省内城市JSONArray
@@ -76,10 +64,6 @@ public class RailwayDataController {
 	@RequestMapping("/ShipNum")
 	@ResponseBody
 	public String getFromCityShipNum(String startmonth,String endmonth,int productId){
-		String[] time1 = startmonth.split("-");
-		String[] time2 = endmonth.split("-");
-		startmonth = time1[2]+time1[1];
-		endmonth = time2[2]+time2[1];
 		JSONArray jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -94,10 +78,6 @@ public class RailwayDataController {
 	@RequestMapping("/ReceiptNum")
 	@ResponseBody
 	public String getToCityReceiptNum(String startmonth,String endmonth,int productId){
-		String[] time1 = startmonth.split("-");
-		String[] time2 = endmonth.split("-");
-		startmonth = time1[2]+time1[1];
-		endmonth = time2[2]+time2[1];
 		JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -119,16 +99,15 @@ public class RailwayDataController {
 	 * 展示原始站点信息
 	 * @return
 	 */
-	@RequestMapping("/originStation")
+	@RequestMapping("/map")
 	public String getOriCityString(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
 			strings[i]=list.get(i).toString();
 		}
-		model.addAttribute("stringList",Arrays.toString(strings));
-		return "originStationMap";
-
+		model.addAttribute("stringList",strings);
+		return "map";
 	}
 	
 	/**
@@ -146,91 +125,14 @@ public class RailwayDataController {
 		JSONArray railwayArray=getRailwayJSONArray(railways);
 		returnValue.put("railways",railwayArray);
 		returnValue.put("railwaynum", railwayArray.size());
-		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (double)analysisRes.get("tonnage"));
-		returnValue.put("benifit", analysisRes.get("benifit"));
-		returnValue.put("car", analysisRes.get("car"));
-		returnValue.put("ton", analysisRes.get("ton"));
-		returnValue.put("product",analysisRes.get("product"));
-		return returnValue.toString();
-	}
-	
-	/**
-	 * 根据起始站点模糊查询
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	@RequestMapping("/queryByStartStation")
-	@ResponseBody
-	public String queryByStartStation(String from){
-		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, "");
-		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		JSONObject returnValue=new JSONObject();
-		returnValue.put("railways", getRailwayJSONArray(railways));
-		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
-		returnValue.put("benifit", analysisRes.get("benifit"));
-		returnValue.put("car", analysisRes.get("car"));
-		returnValue.put("ton", analysisRes.get("ton"));
-		returnValue.put("product",analysisRes.get("product"));
-		return returnValue.toString();
-	}
-	
-	/**
-	 * 根据终点站点模糊查询
-	 * @param to
-	 * @param model
-	 */
-	@RequestMapping("/queryByEndStation")
-	@ResponseBody
-	public String queryByEndStation(String to){
-		JSONObject analysisRes = dataAnalyzeService.getFilterResult("", to);
-		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		JSONObject returnValue=new JSONObject();
-		returnValue.put("railways", getRailwayJSONArray(railways));
-		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
-		returnValue.put("benifit", analysisRes.get("benifit"));
-		returnValue.put("car", analysisRes.get("car"));
-		returnValue.put("ton", analysisRes.get("ton"));
-		returnValue.put("product",analysisRes.get("product"));
-		return returnValue.toString();
-	}
-	
-	/**
-	 * 查询所有航线
-	 * @param model
-	 */
-	@RequestMapping("/queryAllPath")
-	@ResponseBody
-	public String queryAllPath(){
-		JSONObject analysisRes = dataAnalyzeService.getFilterResult("", "");
-		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		JSONObject returnValue=new JSONObject();
-		returnValue.put("railways", getRailwayJSONArray(railways));
-		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
-		returnValue.put("product",analysisRes.get("product"));
-		return returnValue.toString();
-	}
-	
-	/**
-	 * 查询单条航线
-	 * @param from
-	 * @param to
-	 * @param model
-	 */
-	@RequestMapping("/queryOnePath")
-	@ResponseBody
-	public String queryOnePath(String from,String to){
-		JSONObject analysisRes = dataAnalyzeService.getFilterResult(from, to);
-		List<RailwayCity> railways=(List<RailwayCity>) analysisRes.get("railway");
-		JSONObject returnValue=new JSONObject();
-		returnValue.put("railways", getRailwayJSONArray(railways));
-		returnValue.put("carnum", (int)analysisRes.get("carnum"));
-		returnValue.put("tonnage", (float)analysisRes.get("tonnage"));
-		returnValue.put("product",analysisRes.get("product"));
+		returnValue.put("carnum", (int)analysisRes.get("carnum"));      //所有航线的总车数
+		returnValue.put("tonnage", (double)analysisRes.get("tonnage")); //所有航线的总吨数
+		returnValue.put("benifit", analysisRes.get("benifit"));         //排名前五的城市-收益系数直方图
+		//returnValue.put("car", analysisRes.get("car"));                 //排名前五的城市-车数直方图
+		//returnValue.put("ton", analysisRes.get("ton")); 				//排名前五的城市-吨数直方图
+		returnValue.put("product",analysisRes.getJSONObject("product"));			//排名前五的商品品类饼状图
+		
+		
 		return returnValue.toString();
 	}
 	
@@ -258,4 +160,6 @@ public class RailwayDataController {
 		}
 		return railwayJSONArray;
 	}
+	
+
 }
