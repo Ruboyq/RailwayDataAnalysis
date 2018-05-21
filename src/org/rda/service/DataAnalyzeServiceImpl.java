@@ -69,86 +69,91 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		//计算总车数、总吨数
 		int carnum = 0;
 		float tonnage = 0;
-		//得出车数、吨数的前五位，存入HashMap
-		JSONArray carArray=new JSONArray();
-		JSONArray tonArray=new JSONArray();
-		//HashMap<String, Integer> car = new HashMap<String, Integer>();
-		//HashMap<String, Float> ton = new HashMap<String, Float>();
-		
-		//产品频数
-		JSONArray productArray=new JSONArray();
-		//HashMap<String, Integer> product = new HashMap<String, Integer>();
-		
-		//得出效益的前五位，存入HashMap
-		JSONArray benifitArray=new JSONArray();
-		//HashMap<String, Float> benifit = new HashMap<String, Float>();
-		
 		for(RailwayCity railwayCity:list_railwayCity){
 			carnum += railwayCity.getCarNum();
 			tonnage += railwayCity.getTonnage();
 		}
+		
+//		//得出车数、吨数的前五位，存入HashMap
+//		JSONObject carArray=new JSONObject();
+//			carArray.put("x", new JSONArray());
+//			carArray.put("y", new JSONArray());
+//		JSONObject tonArray=new JSONObject();
+//			tonArray.put("x", new JSONArray());
+//			tonArray.put("y", new JSONArray());
+		
+		//产品频数 
+		JSONObject productArray=new JSONObject();
+			productArray.put("x", new JSONArray());
+			productArray.put("y", new JSONArray());
+		
+		//得出效益的前五位，存入HashMap
+		JSONObject benifitArray=new JSONObject();
+			benifitArray.put("x", new JSONArray());
+			benifitArray.put("y_carnum", new JSONArray());
+			benifitArray.put("y_ton", new JSONArray());
+			benifitArray.put("y_benifit", new JSONArray());
 			
 		int capacity=list_railwayCity.size()>=5?5:list_railwayCity.size();
-		//city-carNum直方图
-		//排序
-		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
-
-			@Override
-			public int compare(RailwayCity rc1, RailwayCity rc2) {
-				// TODO Auto-generated method stub
-				int i = rc2.getCarNum() - rc1.getCarNum();
-				if(i == 0){  
-                    return (int) (rc2.getTonnage() - rc1.getTonnage());  
-                }  
-				return i;
-			}
-		});
-		//赋值
-		for(int i = 0;i<capacity;i++){
-			JSONObject js=new JSONObject();
-			if(from==""&to!=""){
-				js.put("x", list_railwayCity.get(i).getFromCity());
-				js.put("y", list_railwayCity.get(i).getCarNum());
-				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getCarNum());
-			}
-			else if(from!=""&to==""){
-				js.put("x", list_railwayCity.get(i).getToCity());
-				js.put("y", list_railwayCity.get(i).getCarNum());
-				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getCarNum());
-			}
-			else {
-				break;
-			}
-			carArray.add(js);
-		}
-		
-		//city-tonnage直方图
-		//排序
-		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
-
-			@Override
-			public int compare(RailwayCity rc1, RailwayCity rc2) {
-				// TODO Auto-generated method stub 
-                return (int) (rc2.getTonnage() - rc1.getTonnage());  
-			}
-		});
-		//赋值
-		for(int i = 0;i<capacity;i++){
-			JSONObject js=new JSONObject();
-			if(from==""&to!=""){
-				js.put("x", list_railwayCity.get(i).getFromCity());
-				js.put("y", list_railwayCity.get(i).getTonnage());
-				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getTonnage());
-			}
-			else if(from!=""&to==""){
-				js.put("x", list_railwayCity.get(i).getToCity());
-				js.put("y", list_railwayCity.get(i).getTonnage());
-				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getTonnage());
-			}else {
-				break;
-			}
-			tonArray.add(js);
-		}
+//		//city-carNum直方图
+//		//排序
+//		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
+//
+//			@Override
+//			public int compare(RailwayCity rc1, RailwayCity rc2) {
+//				// TODO Auto-generated method stub
+//				int i = rc2.getCarNum() - rc1.getCarNum();
+//				if(i == 0){  
+//                    return (int) (rc2.getTonnage() - rc1.getTonnage());  
+//                }  
+//				return i;
+//			}
+//		});
+//		//赋值
+//		for(int i = 0;i<capacity;i++){
+//			if(from==""&to!=""){
+//				
+//				carArray.getJSONArray("x").add(list_railwayCity.get(i).getFromCity());
+//				carArray.getJSONArray("y").add(list_railwayCity.get(i).getCarNum());
+//				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getCarNum());
+//			}
+//			else if(from!=""&to==""){
+//				carArray.getJSONArray("x").add(list_railwayCity.get(i).getToCity());
+//				carArray.getJSONArray("y").add(list_railwayCity.get(i).getCarNum());
+//				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getCarNum());
+//			}
+//			else {
+//				break;
+//			}
+//		}
+//		
+//		//city-tonnage直方图
+//		//排序
+//		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
+//
+//			@Override
+//			public int compare(RailwayCity rc1, RailwayCity rc2) {
+//				// TODO Auto-generated method stub 
+//                return (int) (rc2.getTonnage() - rc1.getTonnage());  
+//			}
+//		});
+//		//赋值
+//		for(int i = 0;i<capacity;i++){
+//			JSONObject js=new JSONObject();
+//			if(from==""&to!=""){
+//				js.put("x", list_railwayCity.get(i).getFromCity());
+//				js.put("y", list_railwayCity.get(i).getTonnage());
+//				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getTonnage());
+//			}
+//			else if(from!=""&to==""){
+//				js.put("x", list_railwayCity.get(i).getToCity());
+//				js.put("y", list_railwayCity.get(i).getTonnage());
+//				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getTonnage());
+//			}else {
+//				break;
+//			}
+//			tonArray.add(js);
+//		}
 		
 		//city-benifit直方图
 		//排序
@@ -157,25 +162,28 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			@Override
 			public int compare(RailwayCity rc1, RailwayCity rc2) {
 				// TODO Auto-generated method stub 
-		        return (int) (rc2.getBenefit() - rc1.getBenefit());
+				float value=rc2.getBenefit() - rc1.getBenefit();
+				if(value>0)
+					return 1;
+				else if(value==0)
+					return 0;
+				else
+					return -1;
 			}
 		});
 		//赋值
 		for(int i = 0;i<capacity;i++){
-			JSONObject js=new JSONObject();
 			if(from==""&to!=""){
-				js.put("x", list_railwayCity.get(i).getFromCity());
-				js.put("y", list_railwayCity.get(i).getBenefit());
-				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getBenefit());
+				benifitArray.getJSONArray("x").add(list_railwayCity.get(i).getFromCity());
 			}
 			else if(from!=""&to==""){
-				js.put("x", list_railwayCity.get(i).getToCity());
-				js.put("y", list_railwayCity.get(i).getBenefit());
-				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getBenefit());
-			}else {
-				break;
+				benifitArray.getJSONArray("x").add(list_railwayCity.get(i).getToCity());
+
 			}
-			benifitArray.add(js);
+			
+			benifitArray.getJSONArray("y_carnum").add(list_railwayCity.get(i).getCarNum());
+			benifitArray.getJSONArray("y_ton").add(list_railwayCity.get(i).getTonnage());
+			benifitArray.getJSONArray("y_benifit").add(list_railwayCity.get(i).getBenefit());
 		}
 		
 		//productId-productNum饼图
@@ -209,24 +217,16 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		DecimalFormat df=new DecimalFormat("0.0000");
 		capacity=list_product_frequency.size()>=5?5:list_product_frequency.size();
 		for(int i = 0;i<capacity;i++){
-			JSONObject js=new JSONObject();
-			js.put("x", list_product_frequency.get(i).getKey());
-			js.put("y", df.format((float)list_product_frequency.get(i).getValue()/total_frequency));
+			productArray.getJSONArray("x").add(list_product_frequency.get(i).getKey());
+			productArray.getJSONArray("y").add(df.format((float)list_product_frequency.get(i).getValue()/total_frequency));
 			remaining_frequency-=list_product_frequency.get(i).getValue().intValue();
-			productArray.add(js);
-			//System.out.println(list_product_frequency.get(i).getKey()+" "+df.format((float)list_product_frequency.get(i).getValue()/total_frequency*100)+"%");
 		}
-		JSONObject js=new JSONObject();
-		js.put("x", "其他");
-		js.put("y", df.format((float)remaining_frequency/total_frequency));
-		//System.out.println("其他 "+df.format((float)remaining_frequency/total_frequency*100)+"%");
-		productArray.add(js);
+		productArray.getJSONArray("x").add("其他");
+		productArray.getJSONArray("y").add(df.format((float)remaining_frequency/total_frequency));
 		
 		data.put("railway", list_railwayCity);
 		data.put("carnum", carnum);
 		data.put("tonnage", tonnage);
-		data.put("car", carArray);
-		data.put("ton", tonArray);
 		data.put("product", productArray);
 		data.put("benifit", benifitArray);
 		return data;
@@ -235,6 +235,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	@Override
 	public JSONArray getFromCityShipNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime(startmonth, endmonth, productId);
+		standardNormalization(list);
 		JSONArray jsonArray=new JSONArray();
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
@@ -249,6 +250,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	@Override
 	public JSONArray getToCityReceiptNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime2(startmonth, endmonth, productId);
+		standardNormalization(list);
 		JSONArray jsonArray=new JSONArray();
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
@@ -277,5 +279,41 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 				jsonObject.put(i, ton.floatValue());
 		}
 		return jsonObject;
+	}
+	
+	/**
+	 * 对数据进行标准归一化处理
+	 */
+	public void standardNormalization(List<Map> list){
+		double average=0;
+		double standardDeviation=0;
+		List<Double> data=new ArrayList<Double>();
+		for(Map map:list){
+			data.add((double)map.get("tonnage"));
+		}
+		
+		for(double value:data){
+			average+=value;
+		}
+		average=average/data.size();
+		
+		for(double value:data){
+			standardDeviation+=(value-average)*(value-average);
+		}
+		standardDeviation=Math.sqrt(standardDeviation/data.size());
+		
+		double min=100;
+		for(int i=0;i<data.size();i++){
+			double xx=(data.get(i)-average)/standardDeviation;
+			data.set(i, xx);
+			if(xx<min)
+				min=xx;
+		}
+		
+		for(int i=0;i<list.size();i++){
+			Map map=list.get(i);
+			double newValue=data.get(i)-min;
+			map.put("tonnage", newValue);
+		}
 	}
 }
