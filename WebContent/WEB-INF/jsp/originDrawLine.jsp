@@ -254,6 +254,12 @@
                                 </li>
                                 </ul>
                                 </div>
+                        <div id="tryc" class="oneline" style="margin-top:10px;margin-left:220px;display:none">
+                                <div class="entypo-tooltip" style="color:#3498DB">
+                                <li style="padding:0px;"class="icon icon-arrow-up data-placement="right" title="arrow-up"></li>
+                                </div>
+                                <span id= "tryClick"class="label1" style="margin-left:15px">Try Click</span>
+                                </div>    
                                 </div>
                             </div>
      <div id="gray3"></div>
@@ -425,26 +431,33 @@
           });
 
     });
+    var flashWord=null;
     function retrieveLine(){
     	var toC = $('#toCity option:selected').val();
     	var fromC = $('#fromCity option:selected').val();
-    	document.getElementById('ssjk').style.color="#9ea7b3";
-		document.getElementById('ssjk-1').style.color="#9ea7b3";
     	if(toC==""&&fromC==""){
     		alert("Pls choose at least one station!");
     		return;
     	}
-    	if(toC!=""&&fromC==""){
+    	document.getElementById('ssjk').style.color="#9ea7b3";
+		document.getElementById('ssjk-1').style.color="#9ea7b3";
+		document.getElementById('tryc').style.display="none";
+		flashWord=window.clearInterval(flashWord);
+		if(toC!=""&&fromC==""){
     		 document.getElementById('analysisTitle').innerHTML="<small>"+"To "+toC+"</small>";
     		 isAble=true;
     		 document.getElementById('ssjk').style.color="#0DB8DF";
     		 document.getElementById('ssjk-1').style.color="#0DB8DF";
+    		 document.getElementById('tryc').style.display="block";
+    		 flashWord=window.setInterval('set_word_shanshuo ()', 300);
     	}
     	if(toC==""&&fromC!=""){
    		 document.getElementById('analysisTitle').innerHTML="<small>"+"From "+fromC+"</small>";
    		 isAble=true;
    		 document.getElementById('ssjk').style.color="#0DB8DF";
-   		document.getElementById('ssjk-1').style.color="#0DB8DF";
+   		 document.getElementById('ssjk-1').style.color="#0DB8DF";
+   	     document.getElementById('tryc').style.display="block";
+   	     flashWord=window.setInterval('set_word_shanshuo ()', 300);
    		 }
          $.ajax({
 				type:'get',
@@ -532,6 +545,11 @@
     		window.myPie.update();
     	}
     }
+    function set_word_shanshuo() {
+    	var color = ['red','green','yellow','black','purple'];
+    	$('#tryClick').css('color',color[parseInt(Math.random()*color.length)]);
+    }
+
     </script>
       <script src="<%=basePath%>js/popup.js"></script>
 </body>

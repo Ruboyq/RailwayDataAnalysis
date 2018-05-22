@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.mapper.CityMapper;
@@ -171,6 +173,17 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 					return -1;
 			}
 		});
+		float firstbenifit=list_railwayCity.get(0).getBenefit();
+		int multiple=1;
+		while(firstbenifit<10){
+			firstbenifit=firstbenifit*10;
+			multiple=multiple*10;
+		}
+		
+		for(int i=0;i<list_railwayCity.size();i++){
+			list_railwayCity.get(i).setBenefit(list_railwayCity.get(i).getBenefit()*multiple);
+		}
+		
 		//赋值
 		for(int i = 0;i<capacity;i++){
 			if(from==""&to!=""){
@@ -188,13 +201,15 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		
 		//productId-productNum饼图
 		//统计运输货物的频数
-		List<String> list = new ArrayList<String>();
+		Set<String> set =new HashSet<String>();
+		List<String> list=new ArrayList<String>();
 		for(RailwayData railwayData:list_railwayData){
 			list.add(railwayData.getProductName());
+			set.add(railwayData.getProductName());
 		}
 		
 		HashMap<String, Integer> product_frequency = new HashMap<String, Integer>();
-		for(String s:list){
+		for(String s:set){
 			product_frequency.put(s, Collections.frequency(list, s));
 		}
 		List<Map.Entry<String, Integer>> list_product_frequency = 
@@ -233,9 +248,11 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	}
 
 	@Override
-	public JSONArray getFromCityShipNum(String startmonth,String endmonth,int productId){
+	public JSONObject getFromCityShipNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime(startmonth, endmonth, productId);
+		List<Map> ton_car_list = railwayDataMapper.getProductbyTime(startmonth, endmonth, productId);
 		standardNormalization(list);
+		JSONObject data = new JSONObject();
 		JSONArray jsonArray=new JSONArray();
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
@@ -244,13 +261,60 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			jsonObject.put("count", (double)map.get("tonnage"));
 			jsonArray.add(jsonObject);
 		}
-		return jsonArray;
+		data.put("city_ton_array", jsonArray);
+		System.out.println(jsonArray.toString());
+		
+		JSONObject per_month=new JSONObject();
+		JSONArray x_month = new JSONArray();
+		JSONArray y_carnum=new JSONArray();
+		JSONArray y_ton=new JSONArray();
+		int total_carnum = 0;
+		float total_tonnage = 0f;
+		for(int i=Integer.parseInt(startmonth);i<Integer.parseInt(endmonth)+1;i++){
+			int carnum = 0;
+			float tonnage = 0f;
+			for(Map map:ton_car_list){
+				if(Integer.parseInt((String) map.get("date"))==i){
+					carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
+					tonnage+=Float.parseFloat(map.get("tonnage").toString());
+				}
+			}
+			total_carnum+=carnum;
+			total_tonnage+=tonnage;
+			x_month.add(i);
+			y_carnum.add(carnum);
+			y_ton.add(tonnage);
+		}
+		per_month.put("x_month", x_month);
+		per_month.put("y_carnum", y_carnum);
+		per_month.put("y_ton", y_ton);
+		data.put("total_carnum", total_carnum);
+		data.put("total_tonnage", total_tonnage);
+		data.put("per_month", per_month);
+		
+		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
+		JSONObject benifit_5=new JSONObject();
+		JSONArray x_name = new JSONArray();
+		JSONArray y_benifit=new JSONArray();
+		for(Map map:product_benifit_5){
+			x_name.add((String)map.get("productName"));
+			y_benifit.add((double)map.get("benifit"));
+		}
+		benifit_5.put("productName", x_name);
+		benifit_5.put("benifit", y_benifit);
+		data.put("benifit_5", benifit_5);
+		System.out.println(per_month.toString());
+		System.out.println(benifit_5.toString());
+		
+		return data;
 	}
 	
 	@Override
-	public JSONArray getToCityReceiptNum(String startmonth,String endmonth,int productId){
+	public JSONObject getToCityReceiptNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime2(startmonth, endmonth, productId);
+		List<Map> ton_car_list = railwayDataMapper.getProductbyTime2(startmonth, endmonth, productId);
 		standardNormalization(list);
+		JSONObject data = new JSONObject();
 		JSONArray jsonArray=new JSONArray();
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
@@ -259,7 +323,49 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			jsonObject.put("count", (double)map.get("tonnage"));
 			jsonArray.add(jsonObject);
 		}
-		return jsonArray;
+		data.put("city_ton_array", jsonArray);
+		
+		JSONObject per_month=new JSONObject();
+		JSONArray x_month = new JSONArray();
+		JSONArray y_carnum=new JSONArray();
+		JSONArray y_ton=new JSONArray();
+		int total_carnum = 0;
+		float total_tonnage = 0f;
+		for(int i=Integer.parseInt(startmonth);i<Integer.parseInt(endmonth);i++){
+			int carnum = 0;
+			float tonnage = 0f;
+			for(Map map:ton_car_list){
+				if(Integer.parseInt((String) map.get("date"))==i){
+					carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
+					tonnage+=Float.parseFloat(map.get("tonnage").toString());
+				}
+			}
+			total_carnum+=carnum;
+			total_tonnage+=tonnage;
+			x_month.add(i);
+			y_carnum.add(carnum);
+			y_ton.add(tonnage);
+		}
+		per_month.put("x_month", x_month);
+		per_month.put("y_carnum", y_carnum);
+		per_month.put("y_ton", y_ton);
+		data.put("total_carnum", total_carnum);
+		data.put("total_tonnage", total_tonnage);
+		data.put("per_month", per_month);
+		
+		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
+		JSONObject benifit_5=new JSONObject();
+		JSONArray x_name = new JSONArray();
+		JSONArray y_benifit=new JSONArray();
+		for(Map map:product_benifit_5){
+			x_name.add((String)map.get("productName"));
+			y_benifit.add((double)map.get("benifit"));
+		}
+		benifit_5.put("productName", x_name);
+		benifit_5.put("benifit", y_benifit);
+		data.put("benifit_5", benifit_5);
+		
+		return data;
 	}
 	
 	@Override
@@ -312,7 +418,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		
 		for(int i=0;i<list.size();i++){
 			Map map=list.get(i);
-			double newValue=data.get(i)-min;
+			double newValue=(data.get(i)-min)/(2*Math.abs(min));
 			map.put("tonnage", newValue);
 		}
 	}

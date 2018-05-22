@@ -41,9 +41,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="toLatitude" column="toLatitude" />
 	</resultMap>
 	
-	<select id="getFilterResult" resultMap="BaseResult" resultType="org.rda.pojo.RailwayData">
+	<resultMap id="BaseResult3" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="fromCity" column="fromCity" />
+		<result property="tonnage" column="ton" />
+		<result property="carNum" column="car" />
+		<result property="date" column="date" />
+		<result property="fromLongitude" column="fromLongitude" />
+		<result property="fromLatitude" column="fromLatitude" />
+	</resultMap>
+	
+	 <resultMap id="BaseResult4" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="toCity" column="toCity" />
+		<result property="tonnage" column="ton" />
+		<result property="carNum" column="car" />
+		<result property="date" column="date" />
+		<result property="toLongitude" column="toLongitude" />
+		<result property="toLatitude" column="toLatitude" />
+	</resultMap>
+	<resultMap id="BaseResult5" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="productName" column="productName" />
+		
+		<result property="benifit" column="benifit" />
+	</resultMap>
+	<select id="getFilterResult"  resultType="org.rda.pojo.RailwayData">
 	select * from railwaydata
-	where fromCity like CONCAT('%',#{fromCity},'%') and toCity like CONCAT('%',#{toCity},'%')
+	
 	
 	</select>
 	
@@ -66,6 +97,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 and productId like CONCAT(#{productId},'%') 
 	 group by toCity,toLongitude,toLatitude
 	</select>
+<select id="getProductbyTime" resultMap="BaseResult3">
+    select toCity,toLongitude,toLatitude,substring(date,1,6) as date,sum(tonnage) as ton,sum(carNum) as car from railwaydata 
+	 where substring(date,1,6) between #{startmonth} and #{endmonth}
+	 and productId like CONCAT(#{productId},'%') 
+	 group by toCity,toLongitude,toLatitude,substring(date,1,6)
+	</select>
+
+
+<select id="getProductbyTime2" resultMap="BaseResult4">
+    select toCity,toLongitude,toLatitude,substring(date,1,6) as date,sum(tonnage) as ton, sum(carNum) as car from railwaydata 
+	 where substring(date,1,6) between #{startmonth} and #{endmonth}
+	 and productId like CONCAT(#{productId},'%') 
+	 group by toCity,toLongitude,toLatitude,substring(date,1,6)
+	</select>
+<select id="getBenifitbyTime" resultMap="BaseResult5">
+    select productName,sum(tonnage)/sum(carNum) as benifit from railwaydata 
+	 where substring(date,1,6) between #{startmonth} and #{endmonth}
+	 and productId like CONCAT(#{productId},'%') 
+	 group by productName
+	 order by sum(tonnage)/sum(carNum) desc
+     limit 5
+	</select>
+
 
 	
 </mapper>

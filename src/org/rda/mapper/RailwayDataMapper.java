@@ -15,7 +15,7 @@ public interface RailwayDataMapper {
 	 * @param to
 	 * @return
 	 */
-	List<RailwayData> getFilterResult(@Param("fromCity") String from,@Param("toCity") String to);
+	List<RailwayData> getFilterResult(@Param("fromCity") String fromCity,@Param("toCity") String toCity);
 	
 	
 	/**
@@ -36,5 +36,27 @@ public interface RailwayDataMapper {
 	 * @return
 	 */
 	List<Map> getProductTonnagebyTime2(@Param("startmonth") String startmonth,
+			@Param("endmonth") String endmonth,@Param("productId") int productId);
+	
+	
+	/**
+	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个发货城市的该商品发货量,车数
+	 * @return
+	 */
+	List<Map> getProductbyTime(@Param("startmonth") String startmonth,
+			@Param("endmonth") String endmonth,@Param("productId") int productId);
+	
+	/**
+	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个到货城市的该商品发货量，车数
+	 * @return
+	 */
+	List<Map> getProductbyTime2(@Param("startmonth") String startmonth,
+			@Param("endmonth") String endmonth,@Param("productId") int productId);
+	
+	/**
+	 * 给定起止月份 和 品类代码的前两位 获得该时间段内前五效益
+	 * @return
+	 */
+	List<Map> getBenifitbyTime(@Param("startmonth") String startmonth,
 			@Param("endmonth") String endmonth,@Param("productId") int productId);
 }

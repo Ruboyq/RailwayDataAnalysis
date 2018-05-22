@@ -31,7 +31,7 @@ public interface DataAnalyzeService {
 	 * @param productId
 	 * @return
 	 */
-	JSONArray getFromCityShipNum(String startmonth, String endmonth, int productId);
+	JSONObject getFromCityShipNum(String startmonth, String endmonth, int productId);
 
 	/**
 	 * 获取特定时间段，特定品类代码的城市-收货量热力图数据
@@ -40,7 +40,7 @@ public interface DataAnalyzeService {
 	 * @param productId
 	 * @return
 	 */
-	JSONArray getToCityReceiptNum(String startmonth, String endmonth, int productId);
+	JSONObject getToCityReceiptNum(String startmonth, String endmonth, int productId);
 
 	/**
 	 * 获取月度发货量直方图

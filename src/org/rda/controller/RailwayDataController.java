@@ -39,9 +39,7 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/originalCity")
 	public String showAllOriCity(Model model){
-		List<City> list=railwayDataService.getOriginalCitys();
-		model.addAttribute("cityList",list);
-		return "WelcomeMap";
+		return "NewNewWelcome";
 	}
 	@RequestMapping("/heatmap")
 	public String showHeatMap(Model model){
@@ -88,7 +86,7 @@ public class RailwayDataController {
 		String[] t2=endmonth.split("-");
 		startmonth=t1[2]+t1[1];
 		endmonth=t2[2]+t2[1];
-		JSONArray jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
+		JSONObject jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
 	
@@ -106,7 +104,7 @@ public class RailwayDataController {
 		String[] t2=endmonth.split("-");
 		startmonth=t1[2]+t1[1];
 		endmonth=t2[2]+t2[1];
-		JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
+		JSONObject jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
 	
