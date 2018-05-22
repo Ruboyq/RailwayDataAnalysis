@@ -1,6 +1,7 @@
 package org.rda.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,26 @@ public class RailwayDataController {
 		model.addAttribute("cityList",list);
 		return "WelcomeMap";
 	}
+	@RequestMapping("/heatmap")
+	public String showHeatMap(Model model){
+		return "heatmap";
+	}
 	
+	@RequestMapping("/originStation")
+	public String showOriginStation(Model model){
+		List<City> list=railwayDataService.getOriginalCitys();
+		String[] strings=new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			strings[i]=list.get(i).toString();
+		}
+		model.addAttribute("stringList",Arrays.toString(strings));
+
+		return "originStationMap";
+	}
+	@RequestMapping("/originDrawLine")
+	public String showOriginDrawLine(Model model){
+		return "originDrawLine";
+	}
 	/**
 	 * 获取省份-城市对应表
 	 * @return “省份”:省内城市JSONArray
@@ -64,6 +84,10 @@ public class RailwayDataController {
 	@RequestMapping("/ShipNum")
 	@ResponseBody
 	public String getFromCityShipNum(String startmonth,String endmonth,int productId){
+		String[] t1=startmonth.split("-");
+		String[] t2=endmonth.split("-");
+		startmonth=t1[2]+t1[1];
+		endmonth=t2[2]+t2[1];
 		JSONArray jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -78,6 +102,10 @@ public class RailwayDataController {
 	@RequestMapping("/ReceiptNum")
 	@ResponseBody
 	public String getToCityReceiptNum(String startmonth,String endmonth,int productId){
+		String[] t1=startmonth.split("-");
+		String[] t2=endmonth.split("-");
+		startmonth=t1[2]+t1[1];
+		endmonth=t2[2]+t2[1];
 		JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}

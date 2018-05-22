@@ -235,12 +235,23 @@ $("j.guanbi").click(function(){
 	$("#popup_gcxxcx").hide();//查找ID为popup的DIV hide()隐藏
 })
 $("#ssjk").click(function(){
+	if(!isAble){
+		return;
+	}
 	$("#gray3").show();
 	$("#popup_ssjk").show();//查找ID为popup的DIV show()显示#gray
 	tc_centeri();
 	document.getElementById("popup_ssjk").style.top='15px';
 });
-
+$("#ssjk-1").click(function(){
+	if(!isAble){
+		return;
+	}
+	$("#gray3").show();
+	$("#popup_ssjk").show();//查找ID为popup的DIV show()显示#gray
+	tc_centeri();
+	document.getElementById("popup_ssjk").style.top='15px';
+});
 $("k.guanbi").click(function(){
 	$("#gray3").hide();
 	$("#popup_ssjk").hide();//查找ID为popup的DIV hide()隐藏

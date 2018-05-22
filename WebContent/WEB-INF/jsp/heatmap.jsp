@@ -327,7 +327,7 @@
 				success:function(data1){
                      heatmap.setDataSet({
                                      data: data1,
-                                     max: 15000
+                                     max: 3
                                             });
 				},
 				error: function(json){  

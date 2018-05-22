@@ -266,37 +266,6 @@
                                 </li>
                             </ul>
 					</li>
-						<!--<li><a class="tooltip-tip" href="#" title="Extra Pages">
-								<i class="icon-document-new"></i> <span>Extra Page</span>
-						</a>
-							<ul>
-								<li><a class="tooltip-tip2 ajax-load"
-									href="blank_page.html" title="Blank Page"><i
-										class="icon-media-record"></i><span>Blank Page</span></a></li>
-								<li><a class="tooltip-tip2 ajax-load" href="profile.html"
-									title="Profile Page"><i class="icon-user"></i><span>Profile
-											Page</span></a></li>
-								<li><a class="tooltip-tip2 ajax-load" href="invoice.html"
-									title="Invoice"><i class="entypo-newspaper"></i><span>Invoice</span></a>
-								</li>
-								<li><a class="tooltip-tip2 ajax-load"
-									href="pricing_table.html" title="Pricing Table"><i
-										class="fontawesome-money"></i><span>Pricing Table</span></a></li>
-								<li><a class="tooltip-tip2 ajax-load" href="time-line.html"
-									title="Time Line"><i class="entypo-clock"></i><span>Time
-											Line</span></a></li>
-								<li><a class="tooltip-tip2" href="404.html"
-									title="404 Error Page"><i class="icon-thumbs-down"></i><span>404
-											Error Page</span></a></li>
-								<li><a class="tooltip-tip2" href="500.html"
-									title="500 Error Page"><i class="icon-thumbs-down"></i><span>500
-											Error Page</span></a></li>
-								<li><a class="tooltip-tip2" href="lock-screen.html"
-									title="Lock Screen"><i class="icon-lock"></i><span>Lock
-											Screen</span></a></li>
-							</ul></li>-->
-
-					
 
 					</ul>
 
@@ -338,45 +307,6 @@
 
 						</a></li>
 					</ul>
-
-
-					<div class="side-dash">
-						<h3>
-							<span>Device</span>
-						</h3>
-						<ul class="side-dashh-list">
-							<li>Avg. Traffic <span>25k<i style="color: #44BBC1;"
-									class="fa fa-arrow-circle-up"></i>
-							</span>
-							</li>
-							<li>Visitors <span>80%<i style="color: #AB6DB0;"
-									class="fa fa-arrow-circle-down"></i>
-							</span>
-							</li>
-							<li>Convertion Rate <span>13m<i
-									style="color: #19A1F9;" class="fa fa-arrow-circle-up"></i>
-							</span>
-							</li>
-						</ul>
-						<h3>
-							<span>Traffic</span>
-						</h3>
-						<ul class="side-bar-list">
-							<li>Avg. Traffic
-								<div class="linebar">5,7,8,9,3,5,3,8,5</div>
-							</li>
-							<li>Visitors
-								<div class="linebar2">9,7,8,9,5,9,6,8,7</div>
-							</li>
-							<li>Convertion Rate
-								<div class="linebar3">5,7,8,9,3,5,3,8,5</div>
-							</li>
-						</ul>
-						<h3>
-							<span>Visitors</span>
-						</h3>
-						<div id="g1" style="height: 180px" class="gauge"></div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -387,7 +317,7 @@
 
 	<!--  PAPER WRAP -->
 	<div class="wrap-fluid">
-		<div class="container-fluid paper-wrap bevel tlbr">
+		<div class="container-fluid paper-wrap bevel tlbr" style="height:710px;min-height:0px;">
 
 			<!-- CONTENT -->
 			<!--TITLE -->
@@ -406,8 +336,7 @@
 
 							<div class="alert">
 								<span class="tittle-alert entypo-info-circled"></span> Welcome
-								back,&nbsp; <strong>${user.user_name}!</strong>&nbsp;&nbsp;Your last
-								sig in at Yesterday, 16:54 PM
+								back,&nbsp; <strong>${user.user_name}!</strong>
 								<button type="button" class="close" data-dismiss="alert">×</button>
 							</div>
 
@@ -445,7 +374,7 @@
 						href="#" title="BeautyAndTheBeast" target="_blank">Beauty and the Beast</a>
 					All Rights Reserved
 				</div>
-				<div class="devider-footer"></div>
+				<!-- <div class="devider-footer"></div> -->
 
 			</div>
 			<!-- / END OF FOOTER -->

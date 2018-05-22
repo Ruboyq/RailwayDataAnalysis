@@ -59,6 +59,14 @@
         border-style:solid solid none none;
         box-shadow: 0px 1px 3px #777;
     }
+    .chart {
+        width: 70%;
+        height: 100%;
+        margin: 0px;
+        border: 1px solid #f5f5f5;
+        border-style:solid none solid solid;
+        box-shadow: 0px 1px 3px #777;
+    }
     .map1 {
         width: 70%;
         margin: 0px;
@@ -224,17 +232,27 @@
                         <div class="vendor"  style="margin:0;">
                             <blockquote  style="margin:0;">
                                 <p>Analysis Infomation about the RailwayLine</p>
+                                <p id ="analysisTitle">
+                                    <small></small>
+                                </p>
                             </blockquote>
                         </div>
                         </div>
                      <div class="oneline">
-                     <ul class="list-inline">
+                     <ul class="list-inline" style="position:absolute;left:10px">
                                 <li>
-                                    <a id="ssjk">
-                                        <span class="entypo-network"></span>&nbsp;2 Days Ago</a>
+                                    <a id="ssjk" style="font-size:20px;color:#9ea7b3" onclick="showChart(1);">
+                                        <span class="entypo-network" style="padding-right:15px"></span>&nbsp;&nbsp;Top 5 Hottest Interflow Cities</a>
                                 </li>
                                 </ul>
-                        <a id="ssjk" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">One</a>
+                                </div>
+                        <div class="oneline">
+                     <ul class="list-inline" style="position:absolute;left:10px">
+                                <li>
+                                    <a id="ssjk-1" style="font-size:20px;color:#9ea7b3" onclick="showChart(2);">
+                                        <span class="entypo-network" style="padding-right:15px"></span>&nbsp;&nbsp;Top 5 Hottest Freight Products</a>
+                                </li>
+                                </ul>
                                 </div>
                                 </div>
                             </div>
@@ -242,18 +260,58 @@
 	<div class="popup" id="popup_ssjk" style = "width:1000px;height:550px;top:15px;">
 	<div class="top_nav" id='top_nav'style = "width:1000px">
 		<div align="center">
-			<span>Top 5 hot cities</span>
+			<span id="chartTitle"></span>
 			<k class="guanbi"></k>
 		</div>
 		</div>
- <div id="container" style="width: 100%; height:504px"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+ <div id="chart1" class="chart" style="width: 100%; height:504px;display:none"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
 		<canvas id="canvas" width="905" height="452" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
+	</div>
+<div id="chart2" class="chart" style="width: 100%; height:504px;display:none"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+		<canvas id="chart-area" width="482" height="241" class="chartjs-render-monitor" style="display: block; height: 193px; width: 386px;"></canvas>
 	</div>
 	</div>
      <script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.6&key=您申请的key值'></script>
     <!-- UI组件库 1.0 -->
     <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
     <script type="text/javascript">
+    var isAble=false;
+    var randomScalingFactor = function() {
+		return Math.round(Math.random() * 100);
+	};
+
+	var config = {
+		type: 'pie',
+		data: {
+			datasets: [{
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+				],
+				backgroundColor: [
+					window.chartColors.red,
+					window.chartColors.orange,
+					window.chartColors.yellow,
+					window.chartColors.green,
+					window.chartColors.blue,
+				],
+				label: 'Dataset 1'
+			}],
+			labels: [
+				'Red',
+				'Orange',
+				'Yellow',
+				'Green',
+				'Blue'
+			]
+		},
+		options: {
+			responsive: true
+		}
+	};
 	var color = Chart.helpers.color;
 	var barChartData = {
 		labels: ['January', 'February', 'March', 'April', 'May'],
@@ -281,7 +339,21 @@
 				randomScalingFactor(),
 				randomScalingFactor(),
 			]
-		}]
+		},
+		{
+			label: 'Dataset 3',
+			backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+			borderColor: window.chartColors.blue,
+			borderWidth: 1,
+			data: [
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+			]
+		}
+		]
 
 	};
 
@@ -301,7 +373,8 @@
 				}
 			}
 		});
-
+		var ctx2 = document.getElementById('chart-area').getContext('2d');
+		window.myPie = new Chart(ctx2, config);
 	};
     </script>
     <script type="text/javascript">
@@ -353,6 +426,26 @@
 
     });
     function retrieveLine(){
+    	var toC = $('#toCity option:selected').val();
+    	var fromC = $('#fromCity option:selected').val();
+    	document.getElementById('ssjk').style.color="#9ea7b3";
+		document.getElementById('ssjk-1').style.color="#9ea7b3";
+    	if(toC==""&&fromC==""){
+    		alert("Pls choose at least one station!");
+    		return;
+    	}
+    	if(toC!=""&&fromC==""){
+    		 document.getElementById('analysisTitle').innerHTML="<small>"+"To "+toC+"</small>";
+    		 isAble=true;
+    		 document.getElementById('ssjk').style.color="#0DB8DF";
+    		 document.getElementById('ssjk-1').style.color="#0DB8DF";
+    	}
+    	if(toC==""&&fromC!=""){
+   		 document.getElementById('analysisTitle').innerHTML="<small>"+"From "+fromC+"</small>";
+   		 isAble=true;
+   		 document.getElementById('ssjk').style.color="#0DB8DF";
+   		document.getElementById('ssjk-1').style.color="#0DB8DF";
+   		 }
          $.ajax({
 				type:'get',
 				url:"<%=basePath%>railwayData/fuzzyQuery",
@@ -367,11 +460,77 @@
                         });
                         navg.start();
                 }
+                    barChartData.datasets.splice(0, 3);
+                    var colorNames = Object.keys(window.chartColors);
+                	var colorName = colorNames[barChartData.datasets.length % colorNames.length];
+        			var dsColor = window.chartColors[colorName];
+        			var newDataset1 = {
+        				label: 'Benefit',
+        				backgroundColor: color(dsColor).alpha(0.5).rgbString(),
+        				borderColor: dsColor,
+        				borderWidth: 1,
+        				data: data1.benifit.y_benifit
+        			};
+        			barChartData.datasets.push(newDataset1);
+        		    colorName = colorNames[barChartData.datasets.length % colorNames.length];
+        			dsColor = window.chartColors[colorName];
+        			var newDataset2 = {
+            				label: 'Tonnage',
+            				backgroundColor: color(dsColor).alpha(0.5).rgbString(),
+            				borderColor: dsColor,
+            				borderWidth: 1,
+            				data: data1.benifit.y_ton
+            			};
+        			barChartData.datasets.push(newDataset2);
+        			colorName = colorNames[barChartData.datasets.length % colorNames.length];
+        			dsColor = window.chartColors[colorName];
+        			var newDataset3 = {
+            				label: 'Car Nums',
+            				backgroundColor: color(dsColor).alpha(0.5).rgbString(),
+            				borderColor: dsColor,
+            				borderWidth: 1,
+            				data: data1.benifit.y_carnum
+            			};
+        			barChartData.datasets.push(newDataset3);
+        			barChartData.labels=data1.benifit.x;
+        			window.myBar.update();
+        			
+        			config.data.datasets.splice(0, 1);
+        			var newDataset = {
+        					backgroundColor: [],
+        					data: data1.product.y,
+        					label: 'Top 5 Hottest Sub-types' ,
+        				};
+        			config.data.labels=data1.product.x;
+        			for (var index = 0; index < config.data.labels.length; ++index) {
+        					var colorName = colorNames[index % colorNames.length];
+        					var newColor = window.chartColors[colorName];
+        					newDataset.backgroundColor.push(newColor);
+        				}
+
+        			config.data.datasets.push(newDataset);
+        			window.myPie.update();
 				},
 				error: function(json){  
 					alert("用户数据加载异常，请刷新后重试...");  
 				}  
 			});
+    }
+    function showChart(ctl){
+    	if(!isAble){
+    		return;
+    	}
+    	if(ctl==1){
+    		document.getElementById("chart1").style.display="block";
+    		document.getElementById("chart2").style.display="none";
+    		$("#chartTitle").text("Top 5 Hottest Interflow Cities");
+    	}
+    	if(ctl==2){
+    		document.getElementById("chart1").style.display="none";
+    		document.getElementById("chart2").style.display="block";
+    		$("#chartTitle").text("Top 5 Hottest Sub-types");
+    		window.myPie.update();
+    	}
     }
     </script>
       <script src="<%=basePath%>js/popup.js"></script>
