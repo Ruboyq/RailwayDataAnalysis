@@ -45,7 +45,17 @@ public class RailwayDataController {
 	public String showHeatMap(Model model){
 		return "heatmap";
 	}
-	
+	@RequestMapping("/testmap")
+	public String showOptimizedStation(Model model){
+		List<City> list=railwayDataService.getOriginalCitys();
+		String[] strings=new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			strings[i]=list.get(i).toString();
+		}
+		model.addAttribute("stringList",Arrays.toString(strings));
+
+		return "optimizedStation";
+	}
 	@RequestMapping("/originStation")
 	public String showOriginStation(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
