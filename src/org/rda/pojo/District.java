@@ -1,6 +1,6 @@
 package org.rda.pojo;
 
-public class Distinct {
+public class District {
 	private int id;
 	private double longitude;
 	private double latitude;
@@ -38,7 +38,7 @@ public class Distinct {
 		this.radius = radius;
 	}
 
-	public Distinct(int id, double longitude, double latitude, float radius) {
+	public District(int id, double longitude, double latitude, float radius) {
 		super();
 		this.id = id;
 		this.longitude = longitude;
@@ -46,8 +46,12 @@ public class Distinct {
 		this.radius = radius;
 	}
 
-	public Distinct() {
+	public District() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String toString() {
+		return id+","+longitude+","+latitude+","+radius;
 	}
 
 }
