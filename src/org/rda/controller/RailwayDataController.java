@@ -8,6 +8,7 @@ import java.util.Map;
 import org.rda.mapper.CityMapper;
 import org.rda.mapper.RailwayCityMapper;
 import org.rda.pojo.City;
+import org.rda.pojo.District;
 import org.rda.pojo.RailwayCity;
 import org.rda.pojo.RailwayData;
 import org.rda.service.BaseDictService;
@@ -144,6 +145,28 @@ public class RailwayDataController {
 		}
 		model.addAttribute("stringList",strings);
 		return "map";
+	}
+	
+	/**
+	 * 展示站点分区信息
+	 * @return
+	 */
+	@RequestMapping("/optimizedStation")
+	public String getDistrictString(Model model){
+		List<City> list=railwayDataService.getOriginalCitys();
+		String[] strings=new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			strings[i]=list.get(i).getStringIncludeGroupID();
+		}
+		model.addAttribute("stringList",strings);
+		
+		List<District> districts=dataAnalyzeService.getAllDistrict();
+		String[] circleList=new String[districts.size()];
+		for(int i=0;i<districts.size();i++){
+			circleList[i]=districts.get(i).toString();
+		}
+		model.addAttribute("circleList",circleList);
+		return "optimizedStation";
 	}
 	
 	/**

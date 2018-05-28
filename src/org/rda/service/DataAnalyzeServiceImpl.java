@@ -14,9 +14,11 @@ import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.mapper.CityMapper;
+import org.rda.mapper.DistrictMapper;
 import org.rda.mapper.RailwayCityMapper;
 import org.rda.mapper.RailwayDataMapper;
 import org.rda.pojo.City;
+import org.rda.pojo.District;
 import org.rda.pojo.RailwayCity;
 import org.rda.pojo.RailwayData;
 import org.rda.utils.SystemServiceLog;
@@ -37,6 +39,8 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	private RailwayCityMapper railwayCityMapper;
 	@Autowired
 	private RailwayDataMapper railwayDataMapper;
+	@Autowired
+	private DistrictMapper districtMapper;
 	
 	@Override
 	//先将RailwayCity表里的数据删除，再向RailwayCity表里添加数据
@@ -421,5 +425,10 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			double newValue=(data.get(i)-min)/(2*Math.abs(min));
 			map.put("tonnage", newValue);
 		}
+	}
+	
+	@Override
+	public List<District> getAllDistrict(){
+		return districtMapper.getAllDistrict();
 	}
 }

@@ -3,6 +3,7 @@ package org.rda.service;
 import java.util.List;
 
 import org.rda.pojo.City;
+import org.rda.pojo.District;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -49,4 +50,6 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	JSONObject getMonthProductNum(int productId, String year);
+
+	List<District> getAllDistrict();
 }

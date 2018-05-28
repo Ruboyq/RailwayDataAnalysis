@@ -72,6 +72,11 @@ public class City {
 	public String toString() {
 		return longitude+","+latitude+","+name+","+carNum+","+tonnage;
 	}
+	
+	public String getStringIncludeGroupID(){
+		return longitude+","+latitude+","+name+","+carNum+","+tonnage+","+distinctId;
+	}
+	
 	public City() {
 		super();
 		// TODO Auto-generated constructor stub
