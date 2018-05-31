@@ -220,5 +220,19 @@ public class RailwayDataController {
 		return railwayJSONArray;
 	}
 	
+	@RequestMapping("/enterpriseOne")
+	@ResponseBody
+	public String getCompanyNum(){
+		JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
+		return jsonObject.toString();
+		
+	}
+	
+	@RequestMapping("/enterpriseTotal")
+	@ResponseBody
+	public String getTotalCompanyCarNum(){
+		JSONObject jsonObject=dataAnalyzeService.getCarNumInTotal();
+		return jsonObject.toString();
+	}
 
 }
