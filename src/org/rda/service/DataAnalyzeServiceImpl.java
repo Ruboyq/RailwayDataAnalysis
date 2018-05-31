@@ -431,4 +431,10 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	public List<District> getAllDistrict(){
 		return districtMapper.getAllDistrict();
 	}
+
+	@Override
+	public List<RailwayCity> getAllCenterPairs() {
+		List<RailwayCity> list_map = districtMapper.getAllCenterPairs();
+		return list_map;
+	}
 }

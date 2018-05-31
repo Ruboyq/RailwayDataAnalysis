@@ -58,8 +58,6 @@
 			</button>
 
 
-
-
 			<div id="logo-mobile" class="visible-xs">
 				<h1>
 					RailwayData<span>v0.1</span>
@@ -249,24 +247,11 @@
                                 </li>
                             </ul>
 					</li>
-					
-						<li>
-							 <a class="tooltip-tip ajax-load" href="#" title="Blog App">
-                                <i class="icon-menu"></i>
-                                <span>优化数据</span>
-							</a>
-							<ul>
-                                <li>
-                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/map"
-							onclick="changeTitle('Retrieve City Station')" target="main" title="Mail"> <i class="icon-location"></i> <span>站点查看</span></a>
-                                </li>
-                                <li>
-                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originalLineMap"
-							onclick="changeTitle('Retrieve Railway Line')" target="main" title="Mail"> <i class="icon-preview"></i> <span>线路查看<span></a>
-                                </li>
-                            </ul>
-					</li>
+					<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="Blog List" target="main"
+									onclick="changeTitle('User Management')"
+							title="Social"> <i class="icon-menu"></i> <span>优化数据</span>
 
+						</a></li>
 					</ul>
 
 					<ul id="menu-showhide" class="topnav menu-left-nest">
@@ -277,14 +262,14 @@
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" title="Blog List" target="main"
 									onclick="changeTitle('Heat Map')"
-							title="Social"> <i class="icon-view-thumb"></i> <span>品类热力图 </span>
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" title="Blog List" target="main"
-									onclick="changeTitle('User Management')"
+							title="Social"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/test" title="Blog List" target="main"
+									onclick="changeTitle('Analysis of Enterprise')"
 							title="Social"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
 
 						</a></li>
 							</ul>
-							<ul class="topnav menu-left-nest">
+							<!-- <ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="design">数据预测</span> <i
 								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
@@ -306,7 +291,7 @@
 							title="Map"> <i class="icon-location"></i> <span>Map</span>
 
 						</a></li>
-					</ul>
+					</ul> -->
 				</div>
 			</div>
 		</div>

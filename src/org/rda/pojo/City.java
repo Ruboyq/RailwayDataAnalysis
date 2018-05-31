@@ -70,7 +70,7 @@ public class City {
 		this.tonnage = tonnage;
 	}
 	public String toString() {
-		return longitude+","+latitude+","+name+","+carNum+","+tonnage;
+		return longitude+","+latitude+","+name+","+carNum+","+tonnage+","+isCenter;
 	}
 	
 	public String getStringIncludeGroupID(){

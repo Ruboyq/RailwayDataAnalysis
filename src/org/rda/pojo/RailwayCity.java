@@ -85,6 +85,18 @@ public class RailwayCity {
 		this.benefit = benefit;
 		this.date = date;
 	}
+	
+	public RailwayCity(String fromCity, String toCity, float tonnage, double fromLongitude, double fromLatitude,
+			double toLongitude, double toLatitude) {
+		super();
+		this.fromCity = fromCity;
+		this.toCity = toCity;
+		this.tonnage = tonnage;
+		this.fromLongitude = fromLongitude;
+		this.fromLatitude = fromLatitude;
+		this.toLongitude = toLongitude;
+		this.toLatitude = toLatitude;
+	}
 	public RailwayCity() {
 	}
 	

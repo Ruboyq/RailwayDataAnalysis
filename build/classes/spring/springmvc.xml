@@ -58,6 +58,8 @@
 			<mvc:exclude-mapping path="/user/toActivate" />
 			<mvc:exclude-mapping path="/railwayData/testmap" />
 			<mvc:exclude-mapping path="/railwayData/ShipNum" />
+			<mvc:exclude-mapping path="/cluster/optimizedStation" />
+			<mvc:exclude-mapping path="/cluster/test" />
 			<bean class="org.rda.interceptor.AuthorityInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

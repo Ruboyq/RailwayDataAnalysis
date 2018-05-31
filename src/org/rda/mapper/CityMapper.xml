@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.rda.mapper.CityMapper">
     <select id="getOriginalCitys" resultType="org.rda.pojo.City">
-		SELECT * FROM city
+		SELECT id,name,longitude,latitude,color.color isCenter,distinctId,tonnage,carNum FROM city LEFT JOIN color ON city.name=color.city
 	</select>
 
 

@@ -326,47 +326,26 @@ var config = {
 		responsive: true
 	}
 };
-
-var chartData = {
-		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-		datasets: [{
-			type: 'line',
-			label: 'tonnage(Line)',
-			borderColor: window.chartColors.blue,
-			borderWidth: 2,
-			fill: false,
-			data: [
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor()
-			]
-		}, {
-			type: 'bar',
-			label: 'tonnage(Bar)',
-			backgroundColor: window.chartColors.red,
-			data: [
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor()
-			],
-			borderColor: 'white',
-			borderWidth: 2
-		}]
-	};
-	
-window.onload = function() {
-	var ctx1 = document.getElementById('canvas').getContext('2d');
-	window.myLine = new Chart(ctx1, {
-		type: 'bar',
-		data: chartData,
+var config1 = {
+		type: 'line',
+		data: {
+			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+			datasets: [{
+				label: 'Tonnages',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				],
+				fill: false,
+			}]
+		},
 		options: {
 			responsive: true,
 			title: {
@@ -375,10 +354,33 @@ window.onload = function() {
 			},
 			tooltips: {
 				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
 				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Month'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Value'
+					}
+				}]
 			}
 		}
-	});
+	};
+window.onload = function() {
+	var ctx1 = document.getElementById('canvas').getContext('2d');
+	window.myLine = new Chart(ctx1, config1);
 	var ctx2 = document.getElementById('chart-area').getContext('2d');
 	window.myPie = new Chart(ctx2, config);
 };
@@ -423,6 +425,34 @@ window.onload = function() {
              0.9: '#ffea00',
              1.0: 'red'
              }
+             /*,gradient:{
+             0.001: 'blue',
+             0.01: 'rgb(117,211,248)',
+             0.05: 'rgb(0, 255, 0)',
+             0.1: 'rgb(117,211,248)',
+             0.2: 'rgb(0, 255, 0)',
+             0.3: '#ffea00',
+             0.4: 'red',
+             0.5: 'blue',
+             0.65: 'rgb(117,211,248)',
+             0.7: 'rgb(0, 255, 0)',
+             0.9: '#ffea00',
+             1.0: 'red'
+             }*/
+            /*,gradient:{
+             0.001: 'blue',
+             0.01: 'rgb(117,211,248)',
+             0.05: 'rgb(0, 255, 0)',
+             0.1: '#ffea00',
+             0.25: '#9400D3',
+             0.3: '#FF8C00',
+             0.4: '#006400',
+             0.5: 'blue',
+             0.65: 'rgb(117,211,248)',
+             0.7: 'rgb(0, 255, 0)',
+             0.9: '#ffea00',
+             1.0: 'red'
+             }*/
         });
     });
     //判断浏览区是否支持canvas
@@ -452,12 +482,19 @@ window.onload = function() {
                                      data: data1.city_ton_array,
                                      max: 3
                                             });
-                    chartData.datasets[0].data.splice(0, 1);
-                    chartData.datasets[1].data.splice(0, 1);
+                    config1.data.datasets.splice(0, 1);
                     var colorNames = Object.keys(window.chartColors);
-        			chartData.datasets[0].data=data1.per_month.y_ton;
-        			chartData.datasets[1].data=data1.per_month.y_ton;
-        			chartData.labels=data1.per_month.x_month;
+                    var colorName = colorNames[config.data.datasets.length % colorNames.length];
+        			var newColor = window.chartColors[colorName];
+        			var newDataset = {
+        				label: 'tonnages',
+        				backgroundColor: newColor,
+        				borderColor: newColor,
+        				data: data1.per_month.y_ton,
+        				fill: false
+        			};
+        			config1.data.labels=data1.per_month.x_month;
+        			config1.data.datasets.push(newDataset);
         			window.myLine.update();
                     config.data.datasets.splice(0, 1);
          			var newDataset = {

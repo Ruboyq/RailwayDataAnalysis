@@ -199,17 +199,6 @@
     var map = new AMap.Map('container', {
         zoom: 6
     });
-    var circle = new AMap.Circle({
-    	bubble:true,
-        center: new AMap.LngLat("116.403322", "39.920255"),// 圆心位置
-        radius: 1000000, //半径
-        strokeColor: "#00FFFF", //线颜色
-        strokeOpacity: 1, //线透明度
-        strokeWeight: 3, //线粗细度
-        fillColor: "#7FFFD4", //填充颜色
-        fillOpacity:0.2 //填充透明度
-    });
-    circle.setMap(map);
     var colors = [
         '#0cc2f2',
         '#4fd2b1',
@@ -322,16 +311,22 @@
                     var parts = item.split(',');
 
                     //按纬度区间分组
-                    return Math.abs(Math.round(parseFloat(parts[1]) / 5));
+                    return parts[5];
                 },
                 groupStyleOptions: function(gid) {
 
-                    var size = 4;
-
+                    var size = 10;
+                    var color;
+                    if(gid ==1){
+                    	color="#ffe700";
+                    }else{
+                    	color="#4fd2b1";
+                    }
                     return {
                         pointStyle: {
                             //content: gid % 2 ? 'circle' : 'rect',
-                            fillStyle: colors[gid % colors.length],
+                            //fillStyle: colors[gid % colors.length],
+                            fillStyle:color,
                             width: size,
                             height: size
                         },
@@ -375,111 +370,131 @@
              $("#totalFreight").text(parts[4]);
          }); 
     });
+   var circles = '${circleList}';
+   circles=circles.substring(1,circles.length-1).split(", ");
+   var circleInfo;
+   for(var j = 0,len = circles.length; j < len; j++){
+	   circleInfo=circles[j].split(',');
+	   var circle = new AMap.Circle({
+		   	bubble:true,
+		       center: new AMap.LngLat(circleInfo[1],circleInfo[2]),// 圆心位置
+		       radius: 100000, //半径
+		       strokeColor: "#00FFFF", //线颜色
+		       strokeOpacity: 1, //线透明度
+		       strokeWeight: 3, //线粗细度
+		       fillColor: "#7FFFD4", //填充颜色
+		       fillOpacity:0 //填充透明度
+		   });
+	  circle.setMap(map);
+	}
+   AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
 
-     AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
+       if (!PathSimplifier.supportCanvas) {
+           alert('当前环境不支持 Canvas！');
+           return;
+       }
+       var defaultRenderOptions = {
+               renderAllPointsIfNumberBelow: -1,
+               pathTolerance: 2,
+               keyPointTolerance: 0,
+               pathLineStyle: {
+                   lineWidth: 3,
+                   strokeStyle: '#F7B538',
+                   borderWidth: 1,
+                   borderStyle: '#eeeeee',
+                   dirArrowStyle: false
+               },
+               pathLineHoverStyle: {
+                   lineWidth: 3,
+                   strokeStyle: 'rgba(204, 63, 88,1)',
+                   borderWidth: 1,
+                   borderStyle: '#cccccc',
+                   dirArrowStyle: false
+               },
+               pathLineSelectedStyle: {
+                   lineWidth: 6,
+                   strokeStyle: '#C11534',
+                   borderWidth: 1,
+                   borderStyle: '#cccccc',
+                   dirArrowStyle: true
+               },
+               dirArrowStyle: {
+                   stepSpace: 35,
+                   strokeStyle: '#ffffff',
+                   lineWidth: 2
+               },
+               startPointStyle: {
+                   radius: 4,
+                   fillStyle: '#dc3912',
+                   lineWidth: 1,
+                   strokeStyle: '#eeeeee'
+               },
+               endPointStyle: {
+                   radius: 4,
+                   fillStyle: '#dc3912',
+                   lineWidth: 1,
+                   strokeStyle: '#eeeeee'
+               },
+               keyPointStyle: {
+                   radius: 3,
+                   fillStyle: 'rgba(8, 126, 196, 1)',
+                   lineWidth: 1,
+                   strokeStyle: '#eeeeee'
+               },
+               keyPointHoverStyle: {
+                   radius: 4,
+                   fillStyle: 'rgba(0, 0, 0, 0)',
+                   lineWidth: 2,
+                   strokeStyle: '#ffa500'
+               },
+               keyPointOnSelectedPathLineStyle: {
+                   radius: 4,
+                   fillStyle: 'rgba(8, 126, 196, 1)',
+                   lineWidth: 2,
+                   strokeStyle: '#eeeeee'
+               }
+           };
+       var pathSimplifierIns = new PathSimplifier({
+           zIndex: 100,
+           //autoSetFitView:false,
+           map: map, //所属的地图实例
 
-        if (!PathSimplifier.supportCanvas) {
-            alert('当前环境不支持 Canvas！');
-            return;
-        }
+           getPath: function(pathData, pathIndex) {
 
-        //just some colors
-        var colors = [
-            "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
-            "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
-            "#651067", "#329262", "#5574a6", "#3b3eac"
-        ];
+               return pathData.path;
+           },
+           getHoverTitle: function(pathData, pathIndex, pointIndex) {
 
-        var pathSimplifierIns = new PathSimplifier({
-            //autoSetFitView:false,
-            map: map, //所属的地图实例
-            zIndex: 100,
-            getPath: function(pathData, pathIndex) {
+               if (pointIndex >= 0) {
+                   //point 
+                   return  ;
+               }
+               return pathData.data+',总吨数:'+pathData.tonnage;
+           },
+           renderOptions: defaultRenderOptions
+       });
 
-                return pathData.path;
-            },
-            getHoverTitle: function(pathData, pathIndex, pointIndex) {
+       window.pathSimplifierIns = pathSimplifierIns;
+       var jdata='${lines}';
+       var lines=eval("("+jdata+")");
+       pathSimplifierIns.setData(lines.railways);
+       for(var i =0;i<lines.railwaynum;i++){
+         var navg = pathSimplifierIns.createPathNavigator(i, {
+             loop: true, //循环播放
+             speed: 500000 //巡航速度，单位千米/小时
+           });
+           navg.start();
+   }
+       pathSimplifierIns.on('pathClick pointClick', function(e, info){
+//info.pathData 即是相关的轨迹数据，如果info.pointIndex >= 0，则表示由轨迹上的节
+          /*$("#fromCityName").text(info.pathData.point[0]);
+          $("#toCityName").text(info.pathData.point[1]);
+          $("#carNums").text(info.pathData.carNum);
+          $("#totalFreight").text(info.pathData.tonnage);
+          document.getElementById('cityTitle').innerHTML="<small>"+info.pathData.data+"</small>";*/
+         });
 
-                if (pointIndex >= 0) {
-                    //point 
-                    return pathData.name;
-                }
-
-                return pathData.name;
-            },
-            renderOptions: {
-                renderAllPointsIfNumberBelow: 200,
-                pathTolerance: 1,
-                keyPointTolerance: 10,
-                keyPointStyle: {
-                    fillStyle: '#ccc',
-                    radius: 1,
-                    lineWidth: 1
-                },
-                startPointStyle: null,
-                endPointStyle: null,
-                pathLineHoverStyle: {
-                    strokeStyle: '#000000'
-                },
-                pathLineSelectedStyle: {
-                    dirArrowStyle: null,
-                    strokeStyle: '#000000',
-                    borderStyle: 'orange',
-                    borderWidth: 2
-                },
-                getPathStyle: function(pathItem, zoom) {
-
-                    var color = colors[pathItem.pathIndex % colors.length],
-                        lineWidth = Math.round(4 * Math.pow(1.1, zoom - 3));
-
-                    return {
-
-                        pathLineStyle: {
-                            strokeStyle: color,
-                            lineWidth: lineWidth
-                        },
-                        pathLineSelectedStyle: {
-                            lineWidth: lineWidth + 2
-                        },
-                        pathNavigatorStyle: {
-                            fillStyle: color
-                        }
-                    }
-                }
-            }
-        });
-
-
-        window.pathSimplifierIns = pathSimplifierIns;
-
-        $.getJSON('http://a.amap.com/amap-ui/static/data/prov-borders.json', function(d) {
-
-            pathSimplifierIns.setData(d);
-
-        });
-
-        pathSimplifierIns.on('selectedPathIndexChanged', function(e, info) {});
-
-        pathSimplifierIns.on('pointClick pointMouseover pointMouseout', function(e, record) {
-            //console.log(e.type, record);
-        });
-
-        pathSimplifierIns.on('pathClick pathMouseover pathMouseout', function(e, record) {
-            //console.log(e.type, record);
-        });
-    });
-    </script>
-    <script>
-    function changeProvinceLine(){
-        if(provinceLine){
-            pathSimplifierIns.hide()
-            provinceLine=false;
-        }else{
-            pathSimplifierIns.show()
-            provinceLine=true;
-        }
-    }
-    $('.make-switch').bootstrapSwitch('setSizeClass', 'switch-small');
+   });
     </script>
 </body>
 

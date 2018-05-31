@@ -3,11 +3,27 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.rda.mapper.DistrictMapper">
-
+ <resultMap id="BaseResult" type="org.rda.pojo.RailwayCity">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="fromCity" column="fromCenter" />
+		<result property="toCity" column="toCenter" />
+		<result property="tonnage" column="sumTons" />
+		<result property="fromLongitude" column="longitude1" />
+		<result property="fromLatitude" column="latitude1" />
+		<result property="toLongitude" column="longitude2" />
+		<result property="toLatitude" column="latitude2" />
+	</resultMap>
+	
 <select id="getAllDistrict" resultType="org.rda.pojo.District">
 		SELECT * FROM district
 	</select>
 
-
+<select id="getAllCenterPairs" resultMap="BaseResult">
+		SELECT fromCenter,toCenter,sumTons,c1.longitude longitude1,c1.latitude latitude1,c2.longitude longitude2,c2.latitude latitude2 FROM centerpair 
+		left join city as c1 on centerpair.fromCenter=c1.name 
+		left join city as c2 on centerpair.toCenter=c2.name
+	</select>
 
 </mapper>

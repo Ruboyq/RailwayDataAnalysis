@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.rda.mapper.CityMapper;
+import org.rda.mapper.DistrictMapper;
 import org.rda.mapper.RailwayCityMapper;
 import org.rda.mapper.RailwayDataMapper;
 import org.rda.mapper.UserMapper;
@@ -18,14 +19,13 @@ public class DaoTest extends BaseTest{
 	@Resource
 	//private UserMapper userMapper;
 	//private UserMapper userMapper;
-	private RailwayCityMapper rail;
+	private DistrictMapper rail;
 	//private CityMapper cityMapper;
 	
 	@Test
 	public void getUser(){
-		System.out.println("ddddddd");
 		//boolean b = rail.addRailwayCity(new RailwayCity("yl","sd",12,12f,12f));
-		rail.addRailwayCity();
+		rail.getAllCenterPairs();
 		//rail.delRailwayCity();
 		//List<RailwayCity> a=rail.getFilterResult("","");
 		//List<City> city = cityMapper.getOriginalCitys();
