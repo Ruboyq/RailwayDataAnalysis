@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
 import org.rda.mapper.CityMapper;
+import org.rda.mapper.DataCompanyMapper;
 import org.rda.mapper.DistrictMapper;
 import org.rda.mapper.RailwayCityMapper;
 import org.rda.mapper.RailwayDataMapper;
@@ -41,6 +42,8 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	private RailwayDataMapper railwayDataMapper;
 	@Autowired
 	private DistrictMapper districtMapper;
+	@Autowired
+	private DataCompanyMapper dataCompanyMapper;
 	
 	@Override
 	//先将RailwayCity表里的数据删除，再向RailwayCity表里添加数据
@@ -266,28 +269,34 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			jsonArray.add(jsonObject);
 		}
 		data.put("city_ton_array", jsonArray);
-		System.out.println(jsonArray.toString());
 		
-		JSONObject per_month=new JSONObject();
+		
+		JSONObject per_month = new JSONObject();
 		JSONArray x_month = new JSONArray();
 		JSONArray y_carnum=new JSONArray();
 		JSONArray y_ton=new JSONArray();
 		int total_carnum = 0;
 		float total_tonnage = 0f;
-		for(int i=Integer.parseInt(startmonth);i<Integer.parseInt(endmonth)+1;i++){
+		int month = Integer.parseInt(startmonth);
+		while(month<=Integer.parseInt(endmonth)){
 			int carnum = 0;
 			float tonnage = 0f;
 			for(Map map:ton_car_list){
-				if(Integer.parseInt((String) map.get("date"))==i){
+				if(Integer.parseInt((String) map.get("date"))==month){
 					carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
 					tonnage+=Float.parseFloat(map.get("tonnage").toString());
 				}
 			}
 			total_carnum+=carnum;
 			total_tonnage+=tonnage;
-			x_month.add(i);
+			x_month.add(month);
 			y_carnum.add(carnum);
 			y_ton.add(tonnage);
+			
+			if(month%100==12)
+				month = month + 100 - 11;
+			else
+				month++;
 		}
 		per_month.put("x_month", x_month);
 		per_month.put("y_carnum", y_carnum);
@@ -295,6 +304,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		data.put("total_carnum", total_carnum);
 		data.put("total_tonnage", total_tonnage);
 		data.put("per_month", per_month);
+
 		
 		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
 		JSONObject benifit_5=new JSONObject();
@@ -307,8 +317,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		benifit_5.put("productName", x_name);
 		benifit_5.put("benifit", y_benifit);
 		data.put("benifit_5", benifit_5);
-		System.out.println(per_month.toString());
-		System.out.println(benifit_5.toString());
 		
 		return data;
 	}
@@ -329,26 +337,32 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		data.put("city_ton_array", jsonArray);
 		
-		JSONObject per_month=new JSONObject();
+		JSONObject per_month = new JSONObject();
 		JSONArray x_month = new JSONArray();
 		JSONArray y_carnum=new JSONArray();
 		JSONArray y_ton=new JSONArray();
 		int total_carnum = 0;
 		float total_tonnage = 0f;
-		for(int i=Integer.parseInt(startmonth);i<Integer.parseInt(endmonth);i++){
+		int month = Integer.parseInt(startmonth);
+		while(month<=Integer.parseInt(endmonth)){
 			int carnum = 0;
 			float tonnage = 0f;
 			for(Map map:ton_car_list){
-				if(Integer.parseInt((String) map.get("date"))==i){
+				if(Integer.parseInt((String) map.get("date"))==month){
 					carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
 					tonnage+=Float.parseFloat(map.get("tonnage").toString());
 				}
 			}
 			total_carnum+=carnum;
 			total_tonnage+=tonnage;
-			x_month.add(i);
+			x_month.add(month);
 			y_carnum.add(carnum);
 			y_ton.add(tonnage);
+			
+			if(month%100==12)
+				month = month + 100 - 11;
+			else
+				month++;
 		}
 		per_month.put("x_month", x_month);
 		per_month.put("y_carnum", y_carnum);
@@ -413,6 +427,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		standardDeviation=Math.sqrt(standardDeviation/data.size());
 		
 		double min=100;
+		//标准归一化
 		for(int i=0;i<data.size();i++){
 			double xx=(data.get(i)-average)/standardDeviation;
 			data.set(i, xx);
@@ -420,10 +435,21 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 				min=xx;
 		}
 		
-		for(int i=0;i<list.size();i++){
-			Map map=list.get(i);
+		//等比例缩放到[0,1]区间
+		for(int i=0;i<data.size();i++){
 			double newValue=(data.get(i)-min)/(2*Math.abs(min));
-			map.put("tonnage", newValue);
+			data.set(i, newValue);
+		}
+		
+		//将小于0.4的数据等比例缩放到[0.4,0.6]
+		//将[Omin，Omax]上每个数映射到区间[Nmin,Nmax]上:(Nmax-Nmin)/(Omax-Omin)*(O-Omin)+Nmin
+		for(int i=0;i<data.size();i++){
+			Map map=list.get(i);
+			if(data.get(i)<0.4){
+				double newValue=(0.6-0.4)/(1.0-0.0)*(data.get(i)-0.0)+0.4;
+				data.set(i, newValue);
+			}
+			map.put("tonnage", data.get(i));
 		}
 	}
 	
@@ -436,5 +462,98 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	public List<RailwayCity> getAllCenterPairs() {
 		List<RailwayCity> list_map = districtMapper.getAllCenterPairs();
 		return list_map;
+	}
+	@Override
+	public JSONObject getCarNumInCompany() {
+		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
+		JSONObject carNum_company = new JSONObject();
+		JSONArray x_axis = new JSONArray();
+		JSONArray y_axis = new JSONArray();
+		int[] carNum_list = new int[carNum_company_list.size()];
+		for(int i=0;i<carNum_list.length;i++){
+			carNum_list[i] = 1;
+		}
+		int[] position = findEqualPoints(carNum_list);
+		x_axis.add(0);
+		y_axis.add(0);
+		for(int p:position){
+			x_axis.add(carNum_company_list.get(p).get("carNum"));
+			y_axis.add(0);
+		}
+		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
+		for(Map map:carNum_company_list){
+			int carNum = Integer.parseInt(map.get("carNum").toString());
+			for(int i=0;i<x_axis.size()-1;i++){
+				if(carNum<x_axis.getInt(i + 1) && carNum>=x_axis.getInt(i)){
+					y_axis.set(i, (int)y_axis.get(i)+1);
+				}
+			}
+		}
+		
+		for(int i=0;i<x_axis.size()-1;i++){
+			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
+		}
+		x_axis.remove(x_axis.size()-1);
+		carNum_company.put("x_axis", x_axis);
+		carNum_company.put("y_axis", y_axis);
+		return carNum_company;
+	}
+
+	@Override
+	public JSONObject getCarNumInTotal() {
+		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
+		JSONObject carNum_total = new JSONObject();
+		JSONArray x_axis = new JSONArray();
+		JSONArray y_axis = new JSONArray();
+		int[] carNum_list = new int[carNum_company_list.size()];
+		for(int i=0;i<carNum_list.length;i++){
+			Map map = carNum_company_list.get(i);
+			carNum_list[i] = Integer.parseInt(map.get("carNum").toString());
+		}
+		int[] position = findEqualPoints(carNum_list);
+		x_axis.add(0);
+		y_axis.add(0);
+		for(int p:position){
+			x_axis.add(carNum_company_list.get(p).get("carNum"));
+			y_axis.add(0);
+		}
+		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
+		for(Map map:carNum_company_list){
+			int carNum = Integer.parseInt(map.get("carNum").toString());
+			for(int i=0;i<x_axis.size()-1;i++){
+				if(carNum<x_axis.getInt(i + 1) && carNum>=x_axis.getInt(i)){
+					y_axis.set(i, (int)y_axis.get(i)+carNum);
+				}
+			}
+		}
+		
+		for(int i=0;i<x_axis.size()-1;i++){
+			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
+		}
+		x_axis.remove(x_axis.size()-1);
+		carNum_total.put("x_axis", x_axis);
+		carNum_total.put("y_axis", y_axis);
+		return carNum_total;
+	}
+	
+	public int[] findEqualPoints(int[] carNumList) {
+		int total = 0;
+		int sum = 0;
+		int position = 0;
+		int[] list = new int[9];
+		for(int i:carNumList){
+			total+=i;
+		}
+	
+		int a=carNumList.length;
+		
+		for(int i=0;i<carNumList.length;i++){
+			sum+=carNumList[i];
+			if(sum>total/10.0f*(position+1)&&sum<=total/10.0f*(position+1)+carNumList[i]){
+				list[position] = i;
+				position++;
+			}
+		}
+		return list;
 	}
 }

@@ -61,4 +61,18 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	List<District> getAllDistrict();
+	
+	/**
+	 * 在不同的车数段内的企业数的条形图
+	 * 
+	 * @return
+	 */
+	JSONObject getCarNumInCompany();
+	
+	/**
+	 * 在不同的车数段内的企业数的条形图
+	 * 
+	 * @return
+	 */
+	JSONObject getCarNumInTotal();
 }
