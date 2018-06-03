@@ -7,13 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- column:数据库中表的字段 
 		property：数据库中表所有映射的实体类javaBean中的属性名 -->
 		
-		<result property="company" column="company" />
+		<result property="company" column="consignor" />
 		<result property="carNum" column="car" />
 		
 	</resultMap>
   
     <select id="getCarNum" resultMap="BaseResult11">
-		SELECT company,sum(carNum) car FROM data_company group by company order by car
+		SELECT consignor,sum(carNum) car FROM railwaydata group by consignor order by car
 	</select>
 
 

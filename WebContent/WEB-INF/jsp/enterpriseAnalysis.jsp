@@ -127,10 +127,14 @@
 /*<div id="container" class="gmap" style="width:100%;height:100%;position:relative;">
 <canvas id="chart1" width="905" height="452" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
 </div>*/
+var jdata1='${one}';
+var carNumOne=eval("("+jdata1+")");
+var jdata2='${total}';
+var carNumTotal=eval("("+jdata2+")");
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
 var barChartData = {
-	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'],
+	labels: carNumOne.x_axis,
 	datasets: [{
 		label: 'Nums of Enterprise',
 		backgroundColor: [
@@ -147,18 +151,7 @@ var barChartData = {
 		],
 		borderColor: window.chartColors.red,
 		borderWidth: 1,
-		data: [
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor()
-		]
+		data: carNumOne.y_axis,
 	}]
 
 };
@@ -176,23 +169,12 @@ $("#wizard-tab").steps({
 var config = {
 	type: 'line',
 	data: {
-		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'],
+		labels: carNumTotal.x_axis,
 		datasets: [{
 			label: 'Sum of Car Nums',
 			backgroundColor: Samples.utils.transparentize(window.chartColors.red),
 			borderColor: window.chartColors.red,
-			data: [
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor()
-			],
+			data: carNumTotal.y_axis,
 			fill: 'start',
 		}]
 	},

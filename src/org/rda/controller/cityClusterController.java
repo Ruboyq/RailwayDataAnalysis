@@ -23,11 +23,6 @@ public class cityClusterController {
 	private DataAnalyzeService dataAnalyzeService;
 	@Autowired
 	private RailwayDataService railwayDataService;
-	@RequestMapping("/test")
-	public String showOptimizedStation(Model model){
-
-		return "enterpriseAnalysis";
-	}
 	/**
 	 * 展示聚类站点信息
 	 * @return

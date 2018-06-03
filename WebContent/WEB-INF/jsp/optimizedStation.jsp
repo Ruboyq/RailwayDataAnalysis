@@ -126,11 +126,7 @@
                             <div class="title-alt">
                                 <h6>
                                     All Stations Retrieve</h6>
-                                <span class="sw-label">
-                                    Province Line:</span>
-                                <div class="make-switch sw" data-on="primary" data-off="info">
-                                    <input type="checkbox" checked="">
-                                </div>
+                                    
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container" class="gmap" style="width:100%;height:100%;position:relative;"></div>

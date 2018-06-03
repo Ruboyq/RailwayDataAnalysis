@@ -37,9 +37,12 @@ public class ServiceTest extends BaseTest{
 		for(RailwayCity r:rc){
 			System.out.println(r.getFromCity());
 		}*/
-		List<City> rc = rds.getOriginalCitys();
+		/*List<City> rc = rds.getOriginalCitys();
 		for(City c:rc){
 			System.out.println(c.getIsCenter());
-		}
+		}*/
+		
+		JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
+		System.out.println(jsonObject.toString());
 	}
 }

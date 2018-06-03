@@ -103,26 +103,33 @@
 	position: absolute;
 	width: 150px;
 	margin-top: 5px;
-	margin-right: 670px;
+	margin-right: 590px;
+    right:0px;
+    }
+     .sctl{
+	position: absolute;
+	width: 75px;
+	margin-top: 5px;
+	margin-right: 800px;
     right:0px;
     }
      .st{
 	position: absolute;
 	width: 150px;
 	margin-top: 5px;
-	margin-right: 400px;
+	margin-right: 340px;
     right:0px;
     }
      .ed{
 	position: absolute;
 	width: 150px;
 	margin-top: 5px;
-	margin-right: 130px;
+	margin-right: 110px;
     right:0px;
     }
      .ty-label{
 	position: absolute;
-	margin-right: 830px;
+	margin-right: 750px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -131,7 +138,7 @@
     }
     .st-label{
 	position: absolute;
-	margin-right: 570px;
+	margin-right: 500px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -140,7 +147,7 @@
     }
     .ed-label{
 	position: absolute;
-	margin-right: 300px;
+	margin-right: 260px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -171,12 +178,39 @@
                     <div class="col-sm-12"> -->
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
+                           <select id="ctl" class="filter-status form-control sctl">
+                                        <option value="from">发站
+                                        <option value="to">到站
+                            </select>
                                 <span class="ty-label">
                                    Type:</span>
-                                 <select class="filter-status form-control sl">
-                                        <option value="18">18-电器
-                                        <option value="disabled">Disabled
-                                        <option value="suspended">Suspended
+                                 <select id="type" class="filter-status form-control sl">
+                                 <option value="01">01-煤
+                                 <option value="02">02-石油
+                                 <option value="03">03-焦炭
+                                 <option value="04">04-金属矿石
+                                 <option value="05">05-钢铁及有色金属
+                                 <option value="06">06-非金属矿石
+                                 <option value="07">07-磷矿石
+                                 <option value="08">08-矿物性建筑材料
+                                 <option value="09">09-水泥
+                                 <option value="10">10-木材
+                                 <option value="11">11-粮食
+                                 <option value="12">12-棉花
+                                 <option value="13">13-化肥及农药
+                                 <option value="14">14-盐
+                                 <option value="15">15-化工品
+                                 <option value="16">16-金属制品
+                                 <option value="17">17-工业机械
+                                 <option value="18">18-电子电气机械
+                                 <option value="19">19-农业机具
+                                 <option value="20">20-鲜活货物
+                                 <option value="21">21-农副产品
+                                 <option value="22">22-饮食品及烟草制品
+                                 <option value="23">23-纺织品
+                                 <option value="24">24-纸及文教用品
+                                 <option value="25">25-医药品
+                                 <option value="99">99-其他货物
                                 </select>
                                 <span class="st-label">
                                    Start time:</span>
@@ -410,18 +444,23 @@ window.onload = function() {
     map.plugin(["AMap.Heatmap"], function() {
         //初始化heatmap对象
         heatmap = new AMap.Heatmap(map, {
-            radius: 35, //给定半径
-            opacity: [0, 0.8],
-             gradient:{
-             0.1: '#FF1493',
-             0.2: 'rgb(0, 255, 0)',
-             0.3: '#ffea00',
-             0.4: '#9400D3',
-             0.5: 'blue',
-             0.65: 'rgb(117,211,248)',
+            radius: 30, //给定半径
+            opacity: [0.1, 0.8],
+            /* gradient:{
+             0.3: '#00FFFF',
+             0.4: '#0000FF',
+             0.5: '#7FFFAA',
+             0.65: '#7FFFAA',
              0.7: 'rgb(0, 255, 0)',
              0.9: '#ffea00',
-             1.0: 'red'
+             1.0: 'red'*/
+             gradient:{
+                 0.4: '#FFB6C1',
+                 0.5: '#7FFFAA',
+                 0.65: '#7FFFAA',
+                 0.7: 'rgb(0, 255, 0)',
+                 0.9: '#ffea00',
+                 1.0: 'red'
              }
         });
     });
@@ -442,10 +481,13 @@ window.onload = function() {
 		 first=false;
 		 isAble=true;
     }
+    var urlCtl="ShipNum";
+    if($('#ctl option:selected').val() == 'to')
+    	urlCtl="ReceiptNum";
         $.ajax({
 				type:'get',
-				url:"<%=basePath%>railwayData/ReceiptNum",
-				data:{"startmonth":$("#time1").val(),"endmonth":$("#time2").val(),"productId":18},
+				url:"<%=basePath%>railwayData/"+urlCtl,
+				data:{"startmonth":$("#time1").val(),"endmonth":$("#time2").val(),"productId":$('#type option:selected').val()},
 				dataType:'json',
 				success:function(data1){
                      heatmap.setDataSet({

@@ -46,17 +46,6 @@ public class RailwayDataController {
 	public String showHeatMap(Model model){
 		return "heatmap";
 	}
-	@RequestMapping("/testmap")
-	public String showOptimizedStation(Model model){
-		List<City> list=railwayDataService.getOriginalCitys();
-		String[] strings=new String[list.size()];
-		for(int i=0;i<list.size();i++){
-			strings[i]=list.get(i).toString();
-		}
-		model.addAttribute("stringList",Arrays.toString(strings));
-
-		return "optimizedStation";
-	}
 	@RequestMapping("/originStation")
 	public String showOriginStation(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
@@ -219,20 +208,14 @@ public class RailwayDataController {
 		}
 		return railwayJSONArray;
 	}
-	
-	@RequestMapping("/enterpriseOne")
-	@ResponseBody
-	public String getCompanyNum(){
-		JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
-		return jsonObject.toString();
+	@RequestMapping("/enterpriseAnalysis")
+	public String showOptimizedStation(Model model){
+		JSONObject jsonObject1=dataAnalyzeService.getCarNumInCompany();
+		JSONObject jsonObject2=dataAnalyzeService.getCarNumInTotal();
 		
-	}
-	
-	@RequestMapping("/enterpriseTotal")
-	@ResponseBody
-	public String getTotalCompanyCarNum(){
-		JSONObject jsonObject=dataAnalyzeService.getCarNumInTotal();
-		return jsonObject.toString();
+		model.addAttribute("one",jsonObject1.toString());
+		model.addAttribute("total",jsonObject2.toString());
+		return "enterpriseAnalysis";
 	}
 
 }

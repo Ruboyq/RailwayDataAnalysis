@@ -263,7 +263,7 @@
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" title="Blog List" target="main"
 									onclick="changeTitle('Heat Map')"
 							title="Social"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/test" title="Blog List" target="main"
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/enterpriseAnalysis" title="Blog List" target="main"
 									onclick="changeTitle('Analysis of Enterprise')"
 							title="Social"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
 
