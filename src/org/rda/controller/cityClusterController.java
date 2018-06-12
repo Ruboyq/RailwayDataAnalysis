@@ -29,7 +29,7 @@ public class cityClusterController {
 	 */
 	@RequestMapping("/optimizedStation")
 	public String getDistrictString(Model model){
-		List<City> list=railwayDataService.getOriginalCitys();
+		List<City> list=railwayDataService.getOptimizedCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
 			strings[i]=list.get(i).toString();
@@ -65,9 +65,6 @@ public class cityClusterController {
 			double[][] position={{railwayCity.getFromLongitude(),railwayCity.getFromLatitude()},
 								 {railwayCity.getToLongitude(),railwayCity.getToLatitude()}};
 			jsObject.put("path", position);
-			jsObject.put("data", railwayCity.getFromCity()+"站->"+railwayCity.getToCity()+"站");
-			String[] station={railwayCity.getFromCity()+"站",railwayCity.getToCity()+"站"};
-			jsObject.put("point", station);
 			jsObject.put("tonnage", railwayCity.getTonnage());
 			railwayJSONArray.add(jsObject);
 		}

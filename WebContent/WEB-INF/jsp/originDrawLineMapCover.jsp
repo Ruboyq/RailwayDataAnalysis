@@ -115,36 +115,27 @@
     .s2{
         padding-left: 5px;
     }
-     .st{
+     .ty-label{
 	position: absolute;
-	width: 85px;
-	margin-top: 5px;
-	margin-right: 310px;
-    right:0px;
-    }
-     .ed{
-	position: absolute;
-	width: 85px;
-	margin-top: 5px;
-	margin-right: 110px;
-    right:0px;
-    }
-    .st-label{
-	position: absolute;
-	margin-right: 400px;
+	margin-right: 740px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
 	font-family: 'Open Sans', serif;
     right:0px;
     }
-    .ed-label{
+     .sl{
 	position: absolute;
-	margin-right: 200px;
-	margin-top: 10px;
-	font-size: 15px;
-	font-weight: bold;
-	font-family: 'Open Sans', serif;
+	width: 150px;
+	margin-top: 5px;
+	margin-right: 580px;
+    right:0px;
+    }
+    .sctl{
+	position: absolute;
+	width: 75px;
+	margin-top: 5px;
+	margin-right: 790px;
     right:0px;
     }
     #loadingTip {
@@ -171,20 +162,39 @@
                     <div class="col-sm-12"> -->
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
-                                <span class="st-label">
-                                   Start station:</span>
-                                <select id="fromCity" class="filter-status form-control st">
-                                        <option value="">--Station--
-                                        <option value="成都">Chengdu
-                                        <option value="北京">Beijing
+                                <select id="fromCity" class="filter-status form-control sctl">
+                                        <option value="from">发站
+                                        <option value="to">到站
                                 </select>
-                                <span class="ed-label">
-                                   End station:</span>
-                                <select id="toCity" class="filter-status form-control ed">
-                                       <option value="">--Station--
-                                        <option value="成都">Chengdu
-                                        <option value="北京">Beijing
-                                </select>
+                                <span class="ty-label">
+                                   Type:</span>
+                                <select id="type" class="filter-status form-control sl">
+                                 <option value="01">01-煤
+                                 <option value="02">02-石油
+                                 <option value="03">03-焦炭
+                                 <option value="04">04-金属矿石
+                                 <option value="05">05-钢铁及有色金属
+                                 <option value="06">06-非金属矿石
+                                 <option value="07">07-磷矿石
+                                 <option value="08">08-矿物性建筑材料
+                                 <option value="09">09-水泥
+                                 <option value="10">10-木材
+                                 <option value="11">11-粮食
+                                 <option value="12">12-棉花
+                                 <option value="13">13-化肥及农药
+                                 <option value="14">14-盐
+                                 <option value="15">15-化工品
+                                 <option value="16">16-金属制品
+                                 <option value="17">17-工业机械
+                                 <option value="18">18-电子电气机械
+                                 <option value="19">19-农业机具
+                                 <option value="20">20-鲜活货物
+                                 <option value="21">21-农副产品
+                                 <option value="22">22-饮食品及烟草制品
+                                 <option value="23">23-纺织品
+                                 <option value="24">24-纸及文教用品
+                                 <option value="25">25-医药品
+                                 <option value="99">99-其他货物                                </select>
                                 <a onclick="retrieveLine();" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">Retrieve</a>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">

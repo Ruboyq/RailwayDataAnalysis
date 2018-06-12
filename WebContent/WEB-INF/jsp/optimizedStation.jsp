@@ -293,7 +293,8 @@
                 //点的样式
                 pointStyle: {
                     width: 6,
-                    height: 6
+                    height: 6,
+                    color:"#00FFFF"
                 },
                 //鼠标hover时的title信息
                 hoverTitleStyle: {
@@ -305,7 +306,7 @@
                 getGroupId: function(item, idx) {
 
                     var parts = item.split(',');
-
+                    
                     //按纬度区间分组
                     return parts[5];
                 },
@@ -313,11 +314,8 @@
 
                     var size = 10;
                     var color;
-                    if(gid ==1){
-                    	color="#ffe700";
-                    }else{
-                    	color="#4fd2b1";
-                    }
+                    var n = 0.04*parseInt(gid)+0.5;
+                    color = '#'+('00000'+(n*0x1000000<<0).toString(16)).substr(-6);
                     return {
                         pointStyle: {
                             //content: gid % 2 ? 'circle' : 'rect',
@@ -366,7 +364,7 @@
              $("#totalFreight").text(parts[4]);
          }); 
     });
-   var circles = '${circleList}';
+  /*  var circles = '${circleList}';
    circles=circles.substring(1,circles.length-1).split(", ");
    var circleInfo;
    for(var j = 0,len = circles.length; j < len; j++){
@@ -382,7 +380,7 @@
 		       fillOpacity:0 //填充透明度
 		   });
 	  circle.setMap(map);
-	}
+	} */
    AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
 
        if (!PathSimplifier.supportCanvas) {
@@ -395,7 +393,7 @@
                keyPointTolerance: 0,
                pathLineStyle: {
                    lineWidth: 3,
-                   strokeStyle: '#F7B538',
+                   strokeStyle: '#087ec4',
                    borderWidth: 1,
                    borderStyle: '#eeeeee',
                    dirArrowStyle: false
@@ -465,7 +463,7 @@
                    //point 
                    return  ;
                }
-               return pathData.data+',总吨数:'+pathData.tonnage;
+               return '总吨数:'+pathData.tonnage;
            },
            renderOptions: defaultRenderOptions
        });
@@ -474,13 +472,16 @@
        var jdata='${lines}';
        var lines=eval("("+jdata+")");
        pathSimplifierIns.setData(lines.railways);
-       for(var i =0;i<lines.railwaynum;i++){
+        for(var i =0;i<lines.railwaynum;i++){
          var navg = pathSimplifierIns.createPathNavigator(i, {
              loop: true, //循环播放
              speed: 500000 //巡航速度，单位千米/小时
            });
            navg.start();
-   }
+   } 
+   /*for(var i =0;i<lines.railwaynum;i++){
+	   pathSimplifierIns.setSelectedPathIndex(i);
+   }*/
        pathSimplifierIns.on('pathClick pointClick', function(e, info){
 //info.pathData 即是相关的轨迹数据，如果info.pointIndex >= 0，则表示由轨迹上的节
           /*$("#fromCityName").text(info.pathData.point[0]);

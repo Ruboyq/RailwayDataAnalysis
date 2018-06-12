@@ -10,5 +10,9 @@ public interface CityMapper {
 	 * @return
 	 */
 	List<City> getOriginalCitys();
-
+	/**
+	 * 获取所有的优化站点信息
+	 * @return
+	 */
+	List<City> getOptimizedCitys();
 }

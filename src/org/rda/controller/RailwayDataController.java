@@ -38,9 +38,9 @@ public class RailwayDataController {
 	 * 展示原始站点信息
 	 * @return
 	 */
-	@RequestMapping("/originalCity")
+	@RequestMapping("/welcome")
 	public String showAllOriCity(Model model){
-		return "NewNewWelcome";
+		return "welcome";
 	}
 	@RequestMapping("/heatmap")
 	public String showHeatMap(Model model){
@@ -57,9 +57,9 @@ public class RailwayDataController {
 
 		return "originStationMap";
 	}
-	@RequestMapping("/originDrawLine")
+	@RequestMapping("/originTonnage")
 	public String showOriginDrawLine(Model model){
-		return "originDrawLine";
+		return "originTonnageMap-cover";
 	}
 	/**
 	 * 获取省份-城市对应表
@@ -122,43 +122,6 @@ public class RailwayDataController {
 	}
 	
 	/**
-	 * 展示原始站点信息
-	 * @return
-	 */
-	@RequestMapping("/map")
-	public String getOriCityString(Model model){
-		List<City> list=railwayDataService.getOriginalCitys();
-		String[] strings=new String[list.size()];
-		for(int i=0;i<list.size();i++){
-			strings[i]=list.get(i).toString();
-		}
-		model.addAttribute("stringList",strings);
-		return "map";
-	}
-	
-	/**
-	 * 展示站点分区信息
-	 * @return
-	 */
-	@RequestMapping("/optimizedStation")
-	public String getDistrictString(Model model){
-		List<City> list=railwayDataService.getOriginalCitys();
-		String[] strings=new String[list.size()];
-		for(int i=0;i<list.size();i++){
-			strings[i]=list.get(i).getStringIncludeGroupID();
-		}
-		model.addAttribute("stringList",strings);
-		
-		List<District> districts=dataAnalyzeService.getAllDistrict();
-		String[] circleList=new String[districts.size()];
-		for(int i=0;i<districts.size();i++){
-			circleList[i]=districts.get(i).toString();
-		}
-		model.addAttribute("circleList",circleList);
-		return "optimizedStation";
-	}
-	
-	/**
 	 * 获取模糊查询结果
 	 * @param from
 	 * @param to
@@ -208,6 +171,7 @@ public class RailwayDataController {
 		}
 		return railwayJSONArray;
 	}
+	
 	@RequestMapping("/enterpriseAnalysis")
 	public String showOptimizedStation(Model model){
 		JSONObject jsonObject1=dataAnalyzeService.getCarNumInCompany();

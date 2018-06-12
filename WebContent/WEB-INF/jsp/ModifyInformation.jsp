@@ -14,54 +14,61 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Le styles -->
-<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath%>>assets/js/jquery.js"></script>
 
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/loader-style.css">
-<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet" href="<%=basePath%>assets/css/style.css">
+<link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
+<link rel="stylesheet" href="<%=basePath%>assets/css/bootstrap.css">
 
-<link rel="stylesheet" href="assets/css/profile.css">
-<script type="text/javascript" src="assets/js/preloader.js"></script>
-<script type="text/javascript" src="assets/js/bootstrap.js"></script>
-<script type="text/javascript" src="assets/js/app.js"></script>
-<script type="text/javascript" src="assets/js/load.js"></script>
-<script type="text/javascript" src="assets/js/main.js"></script>
+<link rel="stylesheet" href="<%=basePath%>assets/css/profile.css">
+<link rel="stylesheet" href="<%=basePath%>yzm/style.css" type="text/css"
+	media="all">
+<link href="<%=basePath%>/yzm/demo.css" type="text/css" rel="stylesheet">
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 <!-- Fav and touch icons -->
-<link rel="shortcut icon" href="assets/ico/minus.png">
+<link rel="shortcut icon" href="<%=basePath%>assets/ico/minus.png">
 <script type="text/javascript"
 	src="<%=basePath%>myinfo/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>myinfo/js/jquery.SuperSlide.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>myinfo/js/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>yzm/passwordStrength-min.js.下载"></script>
 
 <script src="<%=basePath%>myinfo/js/cropbox.js"></script>
 
 
-
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+</style>
 <title>个人信息修改</title>
 </head>
-<body style="width: 1239px; height: 620px; background: #f5f5f5">
-	<div class="col-sm-12" style="margin-top:30px;">
+<body style="background: #f5f5f5">
+	<div class="col-sm-12">
 		<!-- BLANK PAGE-->
 
-		<div style="margin: -20px 15px;" class="nest" id="Blank_PageClose">
+		<div class="nest" id="Blank_PageClose">
 			<div class="title-alt">
 				<h6>Edit Profile</h6>
 			</div>
 
-			<div class="body-nest" id="Blank_Page_Content">
+			<div class="body-nest" id="Blank_Page_Content" style="height: 100%;">
 				<div class="row">
 					<!-- left column -->
 					<div class="col-md-3">
 						<div class="text-center">
 							<img
 								src="http://localhost:8080/RailwayDataAnalysis/images/users/${user.user_id }.jpg?date=<%=Math.random()%>"
-								class="avatar img-circle" alt="avatar" height="150px" width="150px">
+								class="avatar img-circle" alt="avatar" height="150px"
+								width="150px">
 							<h6>Upload a different photo...</h6>
 
 							<div class="input-group">
@@ -78,29 +85,46 @@
 					<!-- edit form column -->
 					<div class="col-md-9 personal-info">
 						<div class="alert alert-info alert-dismissable">
-							 <i
-								class="fa fa-coffee"></i> This is an <strong>.alert</strong>.
-							Use this to show important messages to the user.
-							<a class="panel-close close" data-dismiss="alert">x</a>
+							<i class="fa fa-coffee"></i> You can edit your <strong>personal
+								information and password</strong> below.
 						</div>
-						<h3>Personal info</h3>
-
 						<form class="form-horizontal changeMyInfo" role="form"
 							action="<%=basePath%>user/updateProfile" method="POST">
 							<div class="form-group">
 								<label class="col-lg-3 control-label">Name:</label>
 								<div class="col-lg-8">
 									<input id="user_name" name="user_name" class="form-control"
-										value="${user.user_name}" type="text"
-										 readonly="readonly">
+										value="${user.user_name}" type="text" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-lg-3 control-label">Work code:</label>
 								<div class="col-lg-8">
 									<input class="form-control" id="user_id" name="user_id"
-										value="${user.user_id}" type="text"
-										 readonly="readonly">
+										value="${user.user_id}" type="text" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Password:</label>
+								<div class="col-lg-8">
+									<input type="password" class="form-control" id="user_pwd"
+										name="user_pwd" value="${user.user_pwd}" class="inputxt"
+										plugin="passwordStrength" datatype="*6-18"
+										errormsg="密码至少6个字符,最多18个字符！" nullmsg="请填写信息！">
+									<div class="passwordStrength"
+										style="width: 290px; font-size: 15px; padding-top: 5px; height: 25px">
+										密码强度： <span class="bgStrength">弱</span><span>中</span><span
+											class="last">强</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Ensure password:</label>
+								<div class="col-lg-8">
+									<input type="password" class="form-control"
+										id="password_recheck" name="password_recheck"
+										value="${user.user_pwd}" recheck="user_pwd"
+										datatype="*6-18" errormsg="两次输入的密码不一致！" nullmsg="请填写信息！">
 								</div>
 							</div>
 							<div class="form-group">
@@ -109,8 +133,7 @@
 									<input onkeyup="this.value=this.value.replace(/\D/g,'')"
 										onafterpaste="this.value=this.value.replace(/\D/g,'')"
 										class="form-control" id="user_tel" name="user_tel"
-										value="${user.user_tel}" type="text"
-										 datatype="n11-11"
+										value="${user.user_tel}" type="text" datatype="n11-11"
 										nullmsg="必填项不能为空！" errormsg="手机号需为11位数字！" />
 								</div>
 							</div>
@@ -118,9 +141,8 @@
 								<label class="col-lg-3 control-label">Email:</label>
 								<div class="col-lg-8">
 									<input class="form-control" id="user_email" name="user_email"
-										value="${user.user_email}" type="text"
-										 datatype="e" nullmsg="必填项不能为空！"
-										errormsg="请正确填写邮箱！">
+										value="${user.user_email}" type="text" datatype="e"
+										nullmsg="必填项不能为空！" errormsg="请正确填写邮箱！">
 								</div>
 							</div>
 							<div class="form-group">
@@ -138,16 +160,17 @@
 								</div>
 							</div>
 							<div class="form-group">
-							<label class="col-lg-3 control-label">Tips:</label>
-								<div class="MyinfoError col-lg-8" style=" color: #F00">
-								</div>
+								<label class="col-lg-3 control-label">Tips:</label>
+								<div class="MyinfoError col-lg-8"
+									style="color: #F00; margin-top: 8px;"></div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-3 control-label"></label>
 								<div class="col-md-8">
 									<input class="btn btn-primary" value="Save Changes"
 										type="submit"> <span></span> <input
-										class="btn btn-default" value="Cancel" type="reset" onclick = "cancel()">
+										class="btn btn-default" value="Cancel" type="reset"
+										onclick="cancel()">
 								</div>
 							</div>
 						</form>
@@ -171,6 +194,12 @@ function cancel(){
 					cssctl(objtip, o.type);
 					objtip.text(msg);
 				},
+				usePlugin : {
+					passwordstrength : {
+						minLen : 6,
+						maxLen : 18
+					}
+				},
 				ajaxPost : true,
 				callback : function(data) {
 					var res = data.status;
@@ -186,7 +215,8 @@ function cancel(){
 					}
 				}
 			});
-
+			$("#user_pwd").focus();
+			$("#user_pwd").blur();
 		});
 	</script>
 </body>

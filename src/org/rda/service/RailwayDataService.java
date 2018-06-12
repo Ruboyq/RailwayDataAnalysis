@@ -12,4 +12,9 @@ public interface RailwayDataService {
 	 * @return
 	 */
 	List<City> getOriginalCitys();
+	/**
+	 * 获取所有优化站点信息
+	 * @return
+	 */
+	List<City> getOptimizedCitys();
 }

@@ -72,9 +72,9 @@
 			class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 
-				<li><a href="#"><i data-toggle="tooltip"
+				<li><a href="<%=basePath%>homepage"><i data-toggle="tooltip"
 						data-placement="bottom" title="Help" style="font-size: 20px;"
-						class="icon-help tooltitle"></i></a></li>
+						class="icon-home tooltitle"></i></a></li>
 			</ul>
 			<div id="nt-title-container"
 				class="navbar-left running-text visible-lg">
@@ -94,27 +94,6 @@
 					<li class="sec"></li>
 					<li class="meridiem"></li>
 				</ul>
-				<!--  <ul id="nt-title">
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Berlin&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Yogyakarta&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; Tonight- 72 °F (22.2 °C)
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Sttugart&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Muchen&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Frankurt&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li> 
-
-				</ul>-->
 				
 			</div>
 
@@ -129,10 +108,6 @@
 						<li><a href="<%=basePath%>toChangeProfile" target="main" onclick="changeTitle('My Profile')"> <span class="entypo-user"></span>&#160;&#160;My
 								Profile
 						</a></li>
-						<li><a href="<%=basePath%>toChangePassword" target="main" onclick="changeTitle('Security Service')"> <span class="entypo-vcard"></span>&#160;&#160;Change
-								Password
-						</a></li>
-						<li class="divider"></li>
 						<li><a
 							href="<%=basePath%>user/logoff">
 								<span class="entypo-lifebuoy"></span>&#160;&#160; Log off
@@ -158,9 +133,6 @@
 							<div id="button-bg13"></div>
 						</li>
 					</ul></li>
-				<li class="hidden-xs"><a class="toggle-left" href="#"> <span
-						style="font-size: 20px;" class="entypo-list-add"></span>
-				</a></li>
 			</ul>
 
 		</div>
@@ -214,13 +186,13 @@
 
 						</a></li>
 
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>user/list" title="Blog List" target="main"
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>user/list" title="用户管理" target="main"
 									onclick="changeTitle('User Management')"
 							title="Social"> <i class="icon-document-edit"></i> <span>用户管理</span>
 
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="media.html"
-							title="Media"> <i class="entypo-newspaper"></i> <span>日志管理</span>
+							title="日志管理"> <i class="entypo-newspaper"></i> <span>日志管理</span>
 
 						</a></li>
 					</ul>
@@ -232,24 +204,24 @@
 						</a></li>
 						
 						<li>
-							 <a class="tooltip-tip ajax-load" href="#" title="Blog App">
+							 <a class="tooltip-tip ajax-load" href="#" title="原始数据">
                                 <i class="icon-menu"></i>
                                 <span>原始数据</span>
 							</a>
 							<ul>
                                 <li>
                                     <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originStation"
-							onclick="changeTitle('Retrieve City Station')" target="main" title="Mail"> <i class="icon-location"></i> <span>站点查看</span></a>
+							onclick="changeTitle('Retrieve City Station')" target="main" title="站点查看"> <i class="icon-location"></i> <span>站点查看</span></a>
                                 </li>
                                 <li>
-                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originDrawLine"
-							onclick="changeTitle('Retrieve Railway Line')" target="main" title="Mail"> <i class="icon-preview"></i> <span>线路查看<span></a>
+                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originTonnage"
+							onclick="changeTitle('Retrieve Railway Line')" target="main" title="省市展示"> <i class="icon-preview"></i> <span>省市展示<span></a>
                                 </li>
                             </ul>
 					</li>
-					<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="Blog List" target="main"
+					<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="优化数据" target="main"
 									onclick="changeTitle('User Management')"
-							title="Social"> <i class="icon-menu"></i> <span>优化数据</span>
+							title="优化数据"> <i class="icon-menu"></i> <span>优化数据</span>
 
 						</a></li>
 					</ul>
@@ -260,12 +232,12 @@
 								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
 
 						</a></li>
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" title="Blog List" target="main"
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" target="main"
 									onclick="changeTitle('Heat Map')"
-							title="Social"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
-						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/enterpriseAnalysis" title="Blog List" target="main"
+							title="品类热力图"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/enterpriseAnalysis" target="main"
 									onclick="changeTitle('Analysis of Enterprise')"
-							title="Social"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
+							title="企业发车数分析"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
 
 						</a></li>
 							</ul>
@@ -336,7 +308,7 @@
 
 			<!--CONTENT-->
 			<div class="row">
-				<iframe src="<%=basePath%>railwayData/originalCity" name="main" scrolling="no" height="600px" width="100%"
+				<iframe src="<%=basePath%>railwayData/welcome" name="main" scrolling="no" height="600px" width="100%"
 					frameborder="0"
 					></iframe>
 			</div>
@@ -368,52 +340,6 @@
 		</div>
 	</div>
 	<!--  END OF PAPER WRAP -->
-
-	<!-- RIGHT SLIDER CONTENT -->
-	<div class="sb-slidebar sb-right">
-		<div class="right-wrapper">
-			<div class="row">
-				<h3>
-					<span><i class="entypo-gauge"></i>&nbsp;&nbsp;MAIN WIDGET</span>
-				</h3>
-				<div class="col-sm-12">
-
-					<div class="widget-knob">
-						<span class="chart" style="position: relative" data-percent="86">
-							<span class="percent"></span>
-						</span>
-					</div>
-					<div class="widget-def">
-						<b>Distance traveled</b> <br> <i>86% to the check point</i>
-					</div>
-
-					<div class="widget-knob">
-						<span class="speed-car" style="position: relative"
-							data-percent="60"> <span class="percent2"></span>
-						</span>
-					</div>
-					<div class="widget-def">
-						<b>The average speed</b> <br> <i>30KM/h avarage speed</i>
-					</div>
-
-
-					<div class="widget-knob">
-						<span class="overall" style="position: relative" data-percent="25">
-							<span class="percent3"></span>
-						</span>
-					</div>
-					<div class="widget-def">
-						<b>Overall result</b> <br> <i>30KM/h avarage Result</i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- END OF RIGHT SLIDER CONTENT-->
-
-
-
 
 	<!-- MAIN EFFECT -->
 	<script type="text/javascript" src="assets/js/preloader.js"></script>

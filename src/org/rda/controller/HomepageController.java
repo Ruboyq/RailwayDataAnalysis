@@ -34,19 +34,6 @@ public class HomepageController {
 		return "homepage";
 	}
 	/**
-	 * 返回修改密码界面
-	 * 
-	 * @param nothin
-	 * @return
-	 */
-	@RequestMapping("/toChangePassword")
-	public String returnChangePasswordPage(HttpSession session,Model model) {
-		int uid=(int) session.getAttribute("uid");
-		User user=userService.queryUserById(uid);
-		model.addAttribute("password", user.getUser_pwd());
-		return "ChangePassword";
-	}
-	/**
 	 * 返回修改个人资料界面
 	 * 
 	 * @param nothin

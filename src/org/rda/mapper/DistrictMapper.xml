@@ -21,9 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 <select id="getAllCenterPairs" resultMap="BaseResult">
-		SELECT fromCenter,toCenter,sumTons,c1.longitude longitude1,c1.latitude latitude1,c2.longitude longitude2,c2.latitude latitude2 FROM centerpair 
-		left join city as c1 on centerpair.fromCenter=c1.name 
-		left join city as c2 on centerpair.toCenter=c2.name
+		SELECT sumTons,d1.longitude longitude1,d1.latitude latitude1,d2.longitude longitude2,d2.latitude latitude2 FROM centerpair 
+		left join district as d1 on centerpair.fromCenter=d1.id
+		left join district as d2 on centerpair.toCenter=d2.id
 	</select>
 
 </mapper>

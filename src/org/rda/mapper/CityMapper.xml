@@ -6,6 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getOriginalCitys" resultType="org.rda.pojo.City">
 		SELECT id,name,longitude,latitude,color.color isCenter,distinctId,tonnage,carNum FROM city LEFT JOIN color ON city.name=color.city
 	</select>
-
+   <select id="getOptimizedCitys" resultType="org.rda.pojo.City">
+		SELECT city.id,city.name,city.longitude,city.latitude,color.color isCenter,city.distinctId,city.tonnage,city.carNum FROM color LEFT JOIN city ON color.city=city.name
+	</select>
 
 </mapper>

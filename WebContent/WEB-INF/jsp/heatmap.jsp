@@ -246,7 +246,7 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Type Name:</span><span id="cityName" class="s2">电器</span> </span>
+                                <span class="label1"><span class="label s1">Type Name:</span><span id="cityName" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
@@ -454,12 +454,20 @@ window.onload = function() {
              0.7: 'rgb(0, 255, 0)',
              0.9: '#ffea00',
              1.0: 'red'*/
-             gradient:{
+            /* gradient:{
                  0.4: '#FFB6C1',
                  0.5: '#7FFFAA',
                  0.65: '#7FFFAA',
                  0.7: 'rgb(0, 255, 0)',
                  0.9: '#ffea00',
+                 1.0: 'red'
+             }*/
+             gradient:{
+                 0.4: '#FFB6C1',
+                 0.5: '#FA8072',
+                 0.65: '#FF8C00',
+                 0.7: '#FF7F50',
+                 0.9: '#FF6347',
                  1.0: 'red'
              }
         });
@@ -473,23 +481,25 @@ window.onload = function() {
     var flashWord=null;
     var isAble=false;
     function showHeat(){
-    	if(first==true){
-    	 document.getElementById('ssjk').style.color="#0DB8DF";
-		 document.getElementById('ssjk-1').style.color="#0DB8DF";
-		 document.getElementById('tryc').style.display="block";
-		 flashWord=window.setInterval('set_word_shanshuo ()', 300);
-		 first=false;
-		 isAble=true;
-    }
     var urlCtl="ShipNum";
     if($('#ctl option:selected').val() == 'to')
     	urlCtl="ReceiptNum";
+    load.loading.add(0.4);
         $.ajax({
 				type:'get',
 				url:"<%=basePath%>railwayData/"+urlCtl,
 				data:{"startmonth":$("#time1").val(),"endmonth":$("#time2").val(),"productId":$('#type option:selected').val()},
 				dataType:'json',
 				success:function(data1){
+					load.loading.remove();
+					if(first==true){
+				    	 document.getElementById('ssjk').style.color="#0DB8DF";
+						 document.getElementById('ssjk-1').style.color="#0DB8DF";
+						 document.getElementById('tryc').style.display="block";
+						 flashWord=window.setInterval('set_word_shanshuo ()', 300);
+						 first=false;
+						 isAble=true;
+				    }
                      heatmap.setDataSet({
                                      data: data1.city_ton_array,
                                      max: 3
@@ -518,8 +528,10 @@ window.onload = function() {
          			window.myPie.update();
          			$("#total_tonnage").text(data1.total_tonnage);
          			$("#total_carnum").text(data1.total_carnum);
+         			$("#cityName").text($('#type option:selected').text());
 				},
-				error: function(json){  
+				error: function(json){
+					load.loading.remove();
 					alert("用户数据加载异常，请刷新后重试...");  
 				}  
 			});
@@ -543,6 +555,108 @@ window.onload = function() {
     	var color = ['red','green','yellow','black','purple'];
     	$('#tryClick').css('color',color[parseInt(Math.random()*color.length)]);
     }
+</script>
+<script>
+var load = window.whir || {};      
+load.loading =      
+{      
+    add: function (opacity) {      
+        opacity = opacity == undefined ? 0.4 : opacity;      
+        var arr = this.getPageSize();      
+        var width = parseInt(arr[2]);      
+        var height = parseInt(arr[3]);      
+      
+        //背景遮罩      
+        var mask = document.createElement("div");      
+        mask.id = 'mask';      
+        mask.style.position = 'fixed';      
+        mask.style.left = '0';      
+        mask.style.top = '0';      
+        mask.style.width = '100%';      
+        mask.style.height = parseInt(arr[1]) + "px";      
+        mask.style.background = "#fff";      
+        mask.style.filter = "alpha(opacity=" + opacity * 100 + ")";      
+        mask.style.opacity = opacity;  
+        mask.style.zIndex = "10000";      
+        mask.addEventListener('touchstart', function (e) { e.preventDefault(); }, false);   //触摸事件      
+        mask.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);    //滑动事件      
+        mask.addEventListener('touchend', function (e) { e.preventDefault(); }, false);         //离开元素事件      
+        document.body.appendChild(mask);      
+      
+        //提示文本      
+        var loading = document.createElement("div");      
+        loading.id = 'loading';      
+        loading.style.position = 'absolute';      
+        loading.style.left = ((width / 2) - 75) + "px";      
+        loading.style.top = (height / 2 - 70) + "px";      
+        loading.style.width = '50px';      
+        loading.style.height = "50px";      
+        loading.style.display = "inline-block";      
+        loading.style.padding = "0px 5px 0 50px";      
+        loading.style.zIndex = "100001";      
+        loading.style.background = "url(<%=basePath%>images/loading.gif) no-repeat 20px 20px";
+        document.body.appendChild(loading);      
+    },   
+    remove: function () {      
+        var element = document.getElementById("mask");      
+        element.parentNode.removeChild(element);      
+        element = document.getElementById("loading");      
+        element.parentNode.removeChild(element);      
+    },      
+    getPageSize: function () {      
+        var xScroll, yScroll;      
+        if (window.innerHeight && window.scrollMaxY) {      
+            xScroll = window.innerWidth + window.scrollMaxX;      
+            yScroll = window.innerHeight + window.scrollMaxY;      
+        } else {      
+            if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac          
+                xScroll = document.body.scrollWidth;      
+                yScroll = document.body.scrollHeight;      
+            } else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari          
+                xScroll = document.body.offsetWidth;      
+                yScroll = document.body.offsetHeight;      
+            }      
+        }      
+        var windowWidth = 0;      
+        var windowHeight = 0;      
+        var pageHeight = 0;      
+        var pageWidth = 0;      
+      
+        if (self.innerHeight) { // all except Explorer          
+            if (document.documentElement.clientWidth) {      
+                windowWidth = document.documentElement.clientWidth;      
+            } else {      
+                windowWidth = self.innerWidth;      
+            }      
+            windowHeight = self.innerHeight;      
+        } else {      
+            if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode          
+                windowWidth = document.documentElement.clientWidth;      
+                windowHeight = document.documentElement.clientHeight;      
+            } else {      
+                if (document.body) { // other Explorers          
+                    windowWidth = document.body.clientWidth;      
+                    windowHeight = document.body.clientHeight;      
+                }      
+            }      
+        }      
+        // for small pages with total height less then height of the viewport          
+      
+        if (yScroll < windowHeight) {      
+            pageHeight = windowHeight;      
+        } else {      
+            pageHeight = yScroll;      
+        }      
+        // for small pages with total width less then width of the viewport          
+        if (xScroll < windowWidth) {      
+            pageWidth = xScroll;      
+        } else {      
+            pageWidth = windowWidth;      
+        }      
+        var arrayPageSize = new Array(pageWidth, pageHeight, windowWidth, windowHeight);      
+        return arrayPageSize;      
+    }      
+};      
 </script>
 <script src="<%=basePath%>js/popup.js"></script>
 </body>
