@@ -96,7 +96,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="income" column="income" />
 	</resultMap>
 	
-	
+	<resultMap id="BaseResult22" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="toCity" column="toCity" />
+		<result property="productId" column="productId" />
+		<result property="tonnage" column="tonnage" />
+		<result property="carNum" column="carNum" />
+		<result property="income" column="income" />
+	</resultMap>
 	
 	<select id="getFilterResult"  resultType="org.rda.pojo.RailwayData">
 	select * from railwaydata
@@ -157,7 +166,7 @@ order by sum(tonnage) desc
      </select>
      
      <select id="getCityTonnage" resultMap="BaseResult21">
-select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
+select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
 where toCity = #{toCity}
 and productId like CONCAT(#{productId},'%') 
 group by fromCity
@@ -165,8 +174,8 @@ order by sum(tonnage) desc
 limit 20
      </select>
 
- <select id="getCityTonnage2" resultMap="BaseResult21">
-select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
+ <select id="getCityTonnage2" resultMap="BaseResult22">
+select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
 where fromCity = #{fromCity}
 and productId like CONCAT(#{productId},'%') 
 group by toCity

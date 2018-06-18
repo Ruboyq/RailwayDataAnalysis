@@ -88,13 +88,13 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			int rank=i+1;
 			Map map=maps.get(i);
 			html+="<tr>";
-			html+="<td>"+rank+"</td>";
-			html+="<td>"+map.get("fromCity")+"</td>";
-			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"</span></td>";
-			html+="<td>"+map.get("tonnage")+"</td>";
-			html+="<td>"+map.get("carNum")+"</td>";
-			html+="<td>"+map.get("income")+"</td>";
-			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("fromCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+map.get("tonnage")+">"+map.get("tonnage")+"<//td>";
+			html+="<td data-value="+map.get("carNum")+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+map.get("income")+">"+map.get("income")+"<//td>";
+			html+="<//tr>";
 		}
 		return html;
 	}
@@ -107,13 +107,13 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			int rank=i+1;
 			Map map=maps.get(i);
 			html+="<tr>";
-			html+="<td>"+rank+"</td>";
-			html+="<td>"+map.get("fromCity")+"</td>";
-			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"</span></td>";
-			html+="<td>"+map.get("tonnage")+"</td>";
-			html+="<td>"+map.get("carNum")+"</td>";
-			html+="<td>"+map.get("income")+"</td>";
-			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("toCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+map.get("tonnage")+">"+map.get("tonnage")+"<//td>";
+			html+="<td data-value="+map.get("carNum")+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+map.get("income")+">"+map.get("income")+"<//td>";
+			html+="<//tr>";
 		}
 		return html;
 	}

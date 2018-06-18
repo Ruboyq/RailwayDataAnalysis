@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Test;
 import org.rda.pojo.City;
 import org.rda.pojo.RailwayCity;
+import org.rda.service.BaseDictService;
 import org.rda.service.DataAnalyzeService;
 import org.rda.service.RailwayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class ServiceTest extends BaseTest{
 	private DataAnalyzeService dataAnalyzeService;
 	@Autowired
 	private RailwayDataService rds;
+	@Autowired
+	private BaseDictService bds;
 	@Test
 	public void getUser(){
 		/*JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum("201601", "201612", 18);
@@ -44,7 +47,8 @@ public class ServiceTest extends BaseTest{
 		
 		/*JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
 		System.out.println(jsonObject.toString());*/
-		JSONObject jsonObject1=dataAnalyzeService.getCarNumInTotal();
-		System.out.println(jsonObject1.toString());
+		/*JSONObject jsonObject1=dataAnalyzeService.getCarNumInTotal();
+		System.out.println(jsonObject1.toString());*/
+		//bds.createProvinceTable();
 	}
 }

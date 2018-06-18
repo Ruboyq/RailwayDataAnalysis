@@ -180,7 +180,7 @@
 		<div class="skin-part">
 			<div id="tree-wrap">
 				<div class="side-bar">
-					<ul class="topnav menu-left-nest">
+					<ul id="" class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="wid">系统管理</span> 
 
@@ -193,7 +193,7 @@
 						</a></li>
 					</ul>
 
-					<ul class="topnav menu-left-nest">
+					<ul id="rights2" class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="design">数据查询</span> 
 
@@ -240,7 +240,6 @@
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="design">数据预测</span> <i
 								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
-
 						</a></li>
 						<li><a class="tooltip-tip" href="#" title="Tables"> <i
 								class="icon-view-thumb"></i> <span>Tables</span>
@@ -253,10 +252,8 @@
 									href="table-dynamic.html" title="Table Dynamic"><i
 										class="entypo-menu"></i><span>Table Dynamic</span></a></li>
 							</ul></li>
-
 						<li><a class="tooltip-tip ajax-load" href="map.html"
 							title="Map"> <i class="icon-location"></i> <span>Map</span>
-
 						</a></li>
 					</ul> -->
 				</div>
@@ -357,6 +354,22 @@
     function changeTitle(notice) {
     	$("#contentTitle").html(notice);
     }
+	$(function() {
+    	var right='${user.user_authority}';
+    	var rights=right.split(',');
+    	var j;
+    	$('#rights1').css('display','none');
+		$('#rights2').css('display','none');
+		$('#menu-showhide').css('display','none');
+    	for( j= 0,len=rights.length; j < len; j++) {
+    		   if(rights[j]=='1')
+    			   $('#rights1').css('display','block');
+    		   else if(rights[j]=='2')
+    			   $('#rights2').css('display','block');
+    		   else if(rights[j]=='3')
+    			   $('#menu-showhide').css('display','block');
+    	}
+    });
     </script>
 
 

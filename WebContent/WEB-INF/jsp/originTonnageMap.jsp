@@ -363,7 +363,7 @@ html, body {
 		<div id="chart1" class="chart"
 			style="width: 100%; height: 504px; display: none">
 			<div class="body-nest" id="Footable">
-				<p class="lead well">按查询后吨数排名的前50条航线信息展示</p>
+				<p id="tt1" class="lead well">到达城市为的城市中品类运量最大的前20名城市信息</p>
 				<table id = 'table1' class="table-striped footable-res footable metro-blue"
 					data-page-size="9">
 					<thead>
@@ -418,7 +418,7 @@ html, body {
 		<div id="chart2" class="chart"
 			style="width: 100%; height: 504px; display: none">
 			<div class="body-nest" id="Footable">
-				<p class="lead well">按查询后吨数排名的前20条航线信息展示</p>
+				<p id="tt2" class="lead well">从发送的品类运量最大的前20名目的城市信息</p>
 				<table id = 'table2' class="table-striped footable-res footable metro-blue"
 					data-page-size="9">
 					<thead>
@@ -479,6 +479,8 @@ html, body {
 	var first = true;
 	var isRetrieve = false;
 	var isAble = false;
+	var type;
+	var typeText;
 		//创建地图
 		var map = new AMap.Map('container', {
 			zoom : 4
@@ -602,11 +604,12 @@ html, body {
 	        	 if(!isRetrieve)
 	        		 return;
 	              var parts = record.data.split(',');
+	              var cityName=parts[2];
 	              load.loading.add(0.4,"<%=basePath%>images/loading.gif");
 	              $.ajax({
 	  				type:'get',
-	  				url:"<%=basePath%>railwayData/cityTonnages",
-	  				data:{"type":type,"city":parts[2]},
+	  				url:"<%=basePath%>railwayData/top20Cities",
+	  				data:{"type":type,"cityName":cityName},
 	  				dataType:'json',
 	  				success:function(data1){
 	  					load.loading.remove();
@@ -622,6 +625,8 @@ html, body {
 	  					$('#table1').trigger('footable_initialized');
 	  					 $('#table2 tbody').html(data1.html2);
 	  					$('#table2').trigger('footable_initialized');
+	  					$('#tt1').text('到达城市为'+cityName+'的城市中'+typeText+'品类运量最大的前20名城市信息');
+	  					$('#tt2').text('从'+cityName+'发送的'+typeText+'品类运量最大的前20名目的城市信息');
 	  				},
 	  				error: function(json){
 	  					load.loading.remove();
@@ -635,7 +640,8 @@ html, body {
 	    });
 		function retrieveLine() {
 			//var html = '<tr><td>1</td><td>成都</td><td>北京</td><td>7777</td><td><span class="status-metro status-active"title="Active">6666</span></td><td>9999</td></tr>';
-			var type = $('#type option:selected').val();
+			type = $('#type option:selected').val();
+			typeText = $('#type option:selected').text();
 			//just some colors
 			var colors = [ "#3366cc", "#dc3912", "#ff9900", "#109618",
 					"#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e",
@@ -653,14 +659,14 @@ html, body {
 			        document.getElementById('ssjk').style.color = "#9ea7b3";
 			        document.getElementById('ssjk-1').style.color = "#9ea7b3";
 			        document.getElementById('tryc').style.display = "none"; 
-			        flashWord= window.clearInterval(flashword);
+			        flashWord= window.clearInterval(flashWord);
 			        first = true;
 			        isAble = false;
 			        isRetrieve=true;
 			    //document.getElementById('cityTitle').innerHTML="<small>"+$('#type option:selected').text()+"</small>";
 			    $("#chosenType").text($('#type option:selected').text());
 			    $("#carNums").text(data1.carnums);
-	            $("#totalFreight").text(data1.totalfreight);
+	            $("#totalFreight").text(data1.totalFreight);
 				AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function(DistrictExplorer, $) {
 
 			        //创建一个实例

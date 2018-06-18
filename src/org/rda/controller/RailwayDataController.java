@@ -146,7 +146,7 @@ public class RailwayDataController {
 	public String getTop20Cities(int type,String cityName){
 		JSONObject jsonObject=new JSONObject();
 		jsonObject.put("html1", dataAnalyzeService.getCityTonnage(type, cityName));
-		jsonObject.put("html2", dataAnalyzeService.getCityTonnage(type, cityName));
+		jsonObject.put("html2", dataAnalyzeService.getCityTonnage2(type, cityName));
 		return jsonObject.toString();
 	}
 	
