@@ -15,6 +15,12 @@ public class ManagerAuthorityServiceImpl implements ManagerAuthorityService{
 	@Autowired
 	private UserMapper userMapper;
 	
+	/**
+	 * 根据UserId查询用户拥有的权限
+	 * 
+	 * @param UserId
+	 * @return
+	 */
 	@Override
 	@SystemServiceLog(description = "查询权限")
 	public String searchUserAuthority(Integer useId) {
@@ -23,6 +29,12 @@ public class ManagerAuthorityServiceImpl implements ManagerAuthorityService{
 		return result;
 	}
 
+	/**
+	 * 根据UserId和新的UserAuthorityList更改用户拥有的权限
+	 * 
+	 * @param userId,UserAuthorityList
+	 * @return
+	 */
 	@Override
 	@SystemServiceLog(description = "更改权限")
 	public boolean updateUserAuthority(Integer useId, String userAuthority) {

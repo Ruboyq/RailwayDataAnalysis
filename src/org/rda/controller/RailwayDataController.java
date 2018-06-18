@@ -46,6 +46,12 @@ public class RailwayDataController {
 	public String showHeatMap(Model model){
 		return "heatmap";
 	}
+	
+	/**
+	 * 展示原始站点
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/originStation")
 	public String showOriginStation(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
@@ -206,6 +212,12 @@ public class RailwayDataController {
 		return "enterpriseAnalysis";
 	}
 	
+	/**
+	 * 以企业为单位分析
+	 * 1、统计发车区间内的企业数
+	 * 2、统计发车区间内的总发车数
+	 * @return
+	 */
 	@RequestMapping("/enterpriseAnalysisResult")
 	@ResponseBody
 	public String enterpriseAnalysisResult(){

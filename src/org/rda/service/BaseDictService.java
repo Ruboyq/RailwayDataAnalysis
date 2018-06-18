@@ -21,5 +21,9 @@ public interface BaseDictService {
 	 */
 	void createProvinceTable();
 
+	/**
+	 * 获取省份-城市对应表
+	 * @return
+	 */
 	JSONObject getProvincePage();
 }

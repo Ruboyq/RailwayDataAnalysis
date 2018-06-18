@@ -166,7 +166,7 @@ order by sum(tonnage) desc
      </select>
      
      <select id="getCityTonnage" resultMap="BaseResult21">
-select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
+select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
 where toCity = #{toCity}
 and productId like CONCAT(#{productId},'%') 
 group by fromCity
@@ -175,7 +175,7 @@ limit 20
      </select>
 
  <select id="getCityTonnage2" resultMap="BaseResult22">
-select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
+select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
 where fromCity = #{fromCity}
 and productId like CONCAT(#{productId},'%') 
 group by toCity

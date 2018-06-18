@@ -30,15 +30,22 @@ public class BaseDictServiceImpl implements BaseDictService {
 	@Autowired
 	private RailwayDataService railwayDataService;
 
+	/**
+	 * 根据类别代码查询
+	 * @param dictTypeCode
+	 * @return
+	 */
 	@Override
-	//此处为AOP拦截Service记录异常信息。方法不需要加try-catch  
-	@SystemServiceLog(description = "查询字典")
+	@SystemServiceLog(description = "查询字典") //此处为AOP拦截Service记录异常信息。方法不需要加try-catch  
 	public List<BaseDict> queryBaseDictByDictTypeCode(String dictTypeCode) {
 
 		List<BaseDict> list = this.baseDictMapper.queryBaseDictByDictTypeCode(dictTypeCode);
 		return list;
 	}
 	
+	/**
+	 * 创建省份-城市对应表
+	 */
 	@Override
 	public void createProvinceTable(){
 		RestTemplate request=new RestTemplate();
@@ -52,6 +59,10 @@ public class BaseDictServiceImpl implements BaseDictService {
 		}
 	}
 	
+	/**
+	 * 获取省份-城市对应表
+	 * @return
+	 */
 	@Override
 	public JSONObject getProvincePage(){
 		JSONObject table=new JSONObject();

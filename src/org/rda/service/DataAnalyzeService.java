@@ -21,7 +21,7 @@ public interface DataAnalyzeService {
 	/**
 	 * 从railway_city表中读取查询的数据，返回路线数据和数据分析结果
 	 * 
-	 * @param 
+	 * @param String from,String to
 	 * @return
 	 */
 	public JSONObject getFilterResult(String from,String to);
@@ -89,6 +89,7 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	String getCityTonnage2(int productId, String fromCity);
+	
 	/**
 	 * 获取所有中心对
 	 * @param 
