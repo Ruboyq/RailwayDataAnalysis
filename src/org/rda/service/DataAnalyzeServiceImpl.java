@@ -32,6 +32,7 @@ import com.sun.mail.handlers.message_rfc822;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import sun.text.resources.cldr.es.FormatData_es_419;
 
 @Service
 @Transactional
@@ -54,6 +55,70 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	}
 	
 	@Override
+	public JSONObject getProvince_ton(int productId){
+		JSONObject jsonObject=new JSONObject();
+		JSONObject provincergb=new JSONObject();
+		List<Map> maps=railwayDataMapper.getProvinceTonnage(productId);
+		int carnum=0;
+		float ton=0;
+		for(Map map:maps){
+			carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
+			ton+=Float.parseFloat(map.get("tonnage").toString());
+		}
+		int area=maps.size()/5;
+		int[] Interval={0,area,area*2,area*3,area*4,maps.size()}; //区间
+		String[] rgb={"#00BFFF","#1E90FF","#0000FF","#4169E1","#0000CD"}; //颜色
+		for(int i=0;i<5;i++){
+			for(int j=Interval[i];j<Interval[i+1];j++){
+				provincergb.put(maps.get(j).get("province"), rgb[i]);
+			}
+		}
+		
+		jsonObject.put("carnums", carnum);
+		jsonObject.put("totalFreight", ton);
+		jsonObject.put("colors", provincergb);
+		return jsonObject;
+	}
+	
+	@Override
+	public String getCityTonnage(int productId,String toCity){
+		String html="";
+		List<Map> maps=railwayDataMapper.getCityTonnage(productId, toCity);
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td>"+rank+"</td>";
+			html+="<td>"+map.get("fromCity")+"</td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"</span></td>";
+			html+="<td>"+map.get("tonnage")+"</td>";
+			html+="<td>"+map.get("carNum")+"</td>";
+			html+="<td>"+map.get("income")+"</td>";
+			html+="<tr>";
+		}
+		return html;
+	}
+	
+	@Override
+	public String getCityTonnage2(int productId,String fromCity){
+		String html="";
+		List<Map> maps=railwayDataMapper.getCityTonnage2(productId, fromCity);
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td>"+rank+"</td>";
+			html+="<td>"+map.get("fromCity")+"</td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"</span></td>";
+			html+="<td>"+map.get("tonnage")+"</td>";
+			html+="<td>"+map.get("carNum")+"</td>";
+			html+="<td>"+map.get("income")+"</td>";
+			html+="<tr>";
+		}
+		return html;
+	}
+	
+	@Override
 	//根据controller传来的from与to，返回路线数据和数据分析结果
 	//@SystemServiceLog(description = "模糊查询")
 	public JSONObject getFilterResult(String from,String to){
@@ -63,7 +128,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<RailwayData> list_railwayData = railwayDataMapper.getFilterResult(from, to);
 		System.out.println(1111);
 		for(Map map:list_map){
-			if(map.get("benefit") !=null){
 			RailwayCity railwayCity=new RailwayCity((String)map.get("fromCity"), 
 													(String)map.get("toCity"), 
 													Integer.valueOf(map.get("carNum").toString()).intValue(),
@@ -75,7 +139,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 													Float.parseFloat(map.get("benefit").toString()), 
 													null);
 			list_railwayCity.add(railwayCity);
-			}
 		}
 		//计算总车数、总吨数
 		int carnum = 0;
@@ -465,170 +528,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<RailwayCity> list_map = districtMapper.getAllCenterPairs();
 		return list_map;
 	}
-/*	@Override
-	public JSONObject getCarNumInCompany() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
-		JSONObject carNum_company = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		int[] carNum_list = new int[carNum_company_list.size()];
-		for(int i=0;i<carNum_list.length;i++){
-			carNum_list[i] = 1;
-		}
-		int[] position = findEqualPoints(carNum_list);
-		x_axis.add(0);
-		y_axis.add(0);
-		for(int p:position){
-			x_axis.add(carNum_company_list.get(p).get("carNum"));
-			y_axis.add(0);
-		}
-		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
-		for(Map map:carNum_company_list){
-			if(map.get("carNum") ==null)
-				continue;
-			int carNum = Integer.parseInt(map.get("carNum").toString());
-			for(int i=0;i<x_axis.size()-1;i++){
-				if(carNum<x_axis.getInt(i + 1) && carNum>=x_axis.getInt(i)){
-					y_axis.set(i, (int)y_axis.get(i)+1);
-				}
-			}
-		}
-		
-		for(int i=0;i<x_axis.size()-1;i++){
-			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
-		}
-		x_axis.remove(x_axis.size()-1);
-		carNum_company.put("x_axis", x_axis);
-		carNum_company.put("y_axis", y_axis);
-		return carNum_company;
-	}
-
-	@Override
-	public JSONObject getCarNumInTotal() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
-		JSONObject carNum_total = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		int[] carNum_list = new int[carNum_company_list.size()];
-		for(int i=0;i<carNum_list.length;i++){
-			if(carNum_company_list.get(i) ==null)
-				continue;
-			Map map = carNum_company_list.get(i);
-			if(map.get("carNum") ==null)
-				continue;
-			carNum_list[i] = Integer.parseInt(map.get("carNum").toString());
-		}
-		int[] position = findEqualPoints(carNum_list);
-		x_axis.add(0);
-		y_axis.add(0);
-		for(int p:position){
-			x_axis.add(carNum_company_list.get(p).get("carNum"));
-			y_axis.add(0);
-		}
-		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
-		for(Map map:carNum_company_list){
-			if(map.get("carNum") ==null)
-				continue;
-			int carNum = Integer.parseInt(map.get("carNum").toString());
-			for(int i=0;i<x_axis.size()-1;i++){
-				if(carNum<x_axis.getInt(i + 1) && carNum>=x_axis.getInt(i)){
-					y_axis.set(i, (int)y_axis.get(i)+carNum);
-				}
-			}
-		}
-		
-		for(int i=0;i<x_axis.size()-1;i++){
-			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
-		}
-		x_axis.remove(x_axis.size()-1);
-		carNum_total.put("x_axis", x_axis);
-		carNum_total.put("y_axis", y_axis);
-		return carNum_total;
-	}
-	
-	public int[] findEqualPoints(int[] carNumList) {
-		int total = 0;
-		int sum = 0;
-		int position = 0;
-		int[] list = new int[9];
-		for(int i:carNumList){
-			total+=i;
-		}
-	
-		int a=carNumList.length;
-		
-		for(int i=0;i<carNumList.length;i++){
-			sum+=carNumList[i];
-			if(sum>total/10.0f*(position+1)&&sum<=total/10.0f*(position+1)+carNumList[i]){
-				list[position] = i;
-				position++;
-			}
-		}
-		return list;
-	}*/
-	
-	/*@Override
-	public JSONObject getCarNumInCompany() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
-		JSONObject carNum_company = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		int[] carNum_list = new int[carNum_company_list.size()];
-		for(int i=0;i<carNum_list.length;i++){
-			carNum_list[i] = 1;
-		}
-		//int[] position = findIndexIncrease(carNum_list.length);
-		
-		for(int i=0;i<10;i++){
-			x_axis.add(Integer.parseInt(carNum_company_list.get(carNum_company_list.size()-1).get("carNum").toString())/10*(i));
-			y_axis.add(0);
-		}
-		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
-		for(Map map:carNum_company_list){
-			if(map.get("carNum")!=null){
-				int carNum = Integer.parseInt(map.get("carNum").toString());
-				for(int i=0;i<x_axis.size()-1;i++){
-					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
-						y_axis.set(i, (int)y_axis.get(i)+1);
-					}
-				}
-			}
-		}
-		carNum_company.put("x_axis", x_axis);
-		carNum_company.put("y_axis", y_axis);
-		return carNum_company;
-	}
-
-	@Override
-	public JSONObject getCarNumInTotal() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
-		JSONObject carNum_total = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		int[] carNum_list = new int[carNum_company_list.size()];
-		for(int i=0;i<carNum_list.length;i++){
-			carNum_list[i] = 1;
-		}
-		//int[] position = findIndexIncrease(carNum_list.length);
-		for(int i=0;i<10;i++){
-			x_axis.add(Integer.parseInt(carNum_company_list.get(carNum_company_list.size()-1).get("carNum").toString())/10*(i));
-			y_axis.add(0);
-		}
-		x_axis.add(carNum_company_list.get(carNum_company_list.size()-1).get("carNum"));
-		for(Map map:carNum_company_list){
-			if(map.get("carNum")!=null){
-				int carNum = Integer.parseInt(map.get("carNum").toString());
-				for(int i=0;i<x_axis.size()-1;i++){
-					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
-						y_axis.set(i, (int)y_axis.get(i)+carNum);
-					}
-				}
-			}
-		}
-		carNum_total.put("x_axis", x_axis);
-		carNum_total.put("y_axis", y_axis);
-		return carNum_total;
-	}*/
 	@Override
 	public JSONObject getCarNumInCompany() {
 		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
@@ -685,10 +584,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		JSONObject carNum_total = new JSONObject();
 		JSONArray x_axis = new JSONArray();
 		JSONArray y_axis = new JSONArray();
-		//int[] carNum_list = new int[carNum_company_list.size()];
-		//for(int i=0;i<carNum_list.length;i++){
-		//	carNum_list[i] = 1;
-		//}
 		x_axis.add("0");
 		y_axis.add(0);
 		x_axis.add("1000");
@@ -732,48 +627,5 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		carNum_total.put("x_axis", x_axis);
 		carNum_total.put("y_axis", y_axis);
 		return carNum_total;
-	}
-	public int[] getPosition(int length){
-		int[] position = new int[7];
-		for(int i=0;i<7;i++){
-			position[i] = (172643-5/10)*i;
-		}
-		position[6] = length;
-		return position;
-	}
-	public int[] findIndexEqual(int length){
-		int[] position = new int[9];
-		for(int i=0;i<9;i++){
-			position[i] = (length/10+1)*(i+1);
-		}
-		return position;
-	}
-	
-	public int[] findIndexIncrease (int length){
-		int[] position = new int[9];
-		int a = length*2/100;
-		for(int i=0;i<9;i++){
-			position[i] = a*(i+1)*(i+1)/2;
-		}
-		return position;
-	}
-	
-	public int[] findEqualPoints(int[] carNumList) {
-		int total = 0;
-		int sum = 0;
-		int position = 0;
-		int[] list = new int[9];
-		for(int i:carNumList){
-			total+=carNumList[i];
-		}
-	
-		for(int i=0;i<carNumList.length;i++){
-			sum+=carNumList[i];
-			if(sum>=total/10*(position+1)&&sum<total/10*(position+1)+carNumList[i]){
-				list[position] = i;
-				position++;
-			}
-		}
-		return list;
 	}
 }

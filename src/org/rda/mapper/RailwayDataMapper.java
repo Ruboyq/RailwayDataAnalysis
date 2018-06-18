@@ -16,7 +16,29 @@ public interface RailwayDataMapper {
 	 * @return
 	 */
 	List<RailwayData> getFilterResult(@Param("fromCity") String fromCity,@Param("toCity") String toCity);
+	 
+	/**
+	 * 根据品类名获取每个省份的总发货吨数1
+	 * @param productId
+	 * @return
+	 */
+	List<Map> getProvinceTonnage(int productId);
 	
+	/**
+	 * 根据品类名和到货城市名获得前20条线路信息2.1
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	List<Map> getCityTonnage(@Param("productId") int productId,@Param("toCity") String toCity);
+	
+	/**
+	 * 根据品类名和发货城市名获得前20条线路信息2.2
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	List<Map> getCityTonnage2(@Param("productId") int productId,@Param("fromCity") String fromCity);
 	
 	/**
 	 * 给定月份和品类id的前两位获得当月的总发货量
