@@ -64,27 +64,18 @@ html, body {
 				<div class="row">
 					<!-- left column -->
 					<div class="col-md-3">
-						<div class="text-center">
+						<div class="text-center" style="padding-top:100px;padding-left:150px">
 							<img
 								src="http://localhost:8080/RailwayDataAnalysis/images/users/${user.user_id }.jpg?date=<%=Math.random()%>"
 								class="avatar img-circle" alt="avatar" height="150px"
 								width="150px">
-							<h6>Upload a different photo...</h6>
-
-							<div class="input-group">
-								<span class="input-group-btn"> <span
-									class="btn btn-primary btn-file"> Browse <input
-										type="file" multiple="">
-								</span>
-								</span> <input type="text" class="form-control">
-							</div>
 
 						</div>
 					</div>
 
 					<!-- edit form column -->
 					<div class="col-md-9 personal-info">
-						<div class="alert alert-info alert-dismissable">
+						<div class="alert alert-info alert-dismissable" style="margin-left:150px">
 							<i class="fa fa-coffee"></i> You can edit your <strong>personal
 								information and password</strong> below.
 						</div>

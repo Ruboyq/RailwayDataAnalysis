@@ -59,7 +59,13 @@ public class RailwayDataController {
 	}
 	@RequestMapping("/originTonnage")
 	public String showOriginDrawLine(Model model){
-		return "originTonnageMap-cover";
+		List<City> list=railwayDataService.getOriginalCitys();
+		String[] strings=new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			strings[i]=list.get(i).toString();
+		}
+		model.addAttribute("stringList",Arrays.toString(strings));
+		return "originTonnageMap";
 	}
 	/**
 	 * 获取省份-城市对应表
@@ -173,13 +179,19 @@ public class RailwayDataController {
 	}
 	
 	@RequestMapping("/enterpriseAnalysis")
-	public String showOptimizedStation(Model model){
+	public String showEnterpriseAnalysis(Model model){
+		return "enterpriseAnalysis";
+	}
+	
+	@RequestMapping("/enterpriseAnalysisResult")
+	@ResponseBody
+	public String enterpriseAnalysisResult(){
 		JSONObject jsonObject1=dataAnalyzeService.getCarNumInCompany();
 		JSONObject jsonObject2=dataAnalyzeService.getCarNumInTotal();
-		
-		model.addAttribute("one",jsonObject1.toString());
-		model.addAttribute("total",jsonObject2.toString());
-		return "enterpriseAnalysis";
+		JSONObject job = new JSONObject();
+		job.put("one",jsonObject1);
+		job.put("total",jsonObject2);
+		return job.toString();
 	}
 
 }

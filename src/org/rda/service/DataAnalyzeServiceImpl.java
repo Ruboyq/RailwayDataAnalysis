@@ -567,7 +567,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return list;
 	}*/
 	
-	@Override
+	/*@Override
 	public JSONObject getCarNumInCompany() {
 		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
 		JSONObject carNum_company = new JSONObject();
@@ -628,8 +628,119 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		carNum_total.put("x_axis", x_axis);
 		carNum_total.put("y_axis", y_axis);
 		return carNum_total;
+	}*/
+	@Override
+	public JSONObject getCarNumInCompany() {
+		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
+		JSONObject carNum_company = new JSONObject();
+		JSONArray x_axis = new JSONArray();
+		JSONArray y_axis = new JSONArray();
+		x_axis.add("0");
+		y_axis.add(0);
+		x_axis.add("1");
+		y_axis.add(0);
+		x_axis.add("5");
+		y_axis.add(0);
+		x_axis.add("20");
+		y_axis.add(0);
+		x_axis.add("50");
+		y_axis.add(0);
+		x_axis.add("100");
+		y_axis.add(0);
+		x_axis.add("200");
+		y_axis.add(0);
+		x_axis.add("500");
+		y_axis.add(0);
+		x_axis.add("2000");
+		y_axis.add(0);
+		x_axis.add("172643");
+		y_axis.add(0);
+		for(Map map:carNum_company_list){
+			if(map.get("carNum")!=null){
+				int carNum = Integer.parseInt(map.get("carNum").toString());
+				for(int i=0;i<x_axis.size()-1;i++){
+					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
+						y_axis.set(i, (int)y_axis.get(i)+1);
+					}
+				}
+			}
+		}
+		for(int i=0;i<x_axis.size()-1;i++){
+			if(i==0){
+			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
+			}
+			else{
+				x_axis.set(i, String.valueOf(x_axis.getInt(i)+1)+"-"+x_axis.get(i+1).toString());
+			}
+		}
+		x_axis.remove(x_axis.size()-1);
+		y_axis.remove(y_axis.size()-1);
+		carNum_company.put("x_axis", x_axis);
+		carNum_company.put("y_axis", y_axis);
+		return carNum_company;
 	}
-	
+	@Override
+	public JSONObject getCarNumInTotal() {
+		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
+		JSONObject carNum_total = new JSONObject();
+		JSONArray x_axis = new JSONArray();
+		JSONArray y_axis = new JSONArray();
+		//int[] carNum_list = new int[carNum_company_list.size()];
+		//for(int i=0;i<carNum_list.length;i++){
+		//	carNum_list[i] = 1;
+		//}
+		x_axis.add("0");
+		y_axis.add(0);
+		x_axis.add("1000");
+		y_axis.add(0);
+		x_axis.add("2000");
+		y_axis.add(0);
+		x_axis.add("5000");
+		y_axis.add(0);
+		x_axis.add("10000");
+		y_axis.add(0);
+		x_axis.add("20000");
+		y_axis.add(0);
+		x_axis.add("50000");
+		y_axis.add(0);
+		x_axis.add("100000");
+		y_axis.add(0);
+		x_axis.add("150000");
+		y_axis.add(0);
+		x_axis.add("172643");
+		y_axis.add(0);
+		for(Map map:carNum_company_list){
+			if(map.get("carNum")!=null){
+				int carNum = Integer.parseInt(map.get("carNum").toString());
+				for(int i=0;i<x_axis.size()-1;i++){
+					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
+						y_axis.set(i, (int)y_axis.get(i)+carNum);
+					}
+				}
+			}
+		}
+		for(int i=0;i<x_axis.size()-1;i++){
+			if(i==0){
+			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
+			}
+			else{
+				x_axis.set(i, String.valueOf(x_axis.getInt(i)+1)+"-"+x_axis.get(i+1).toString());
+			}
+		}
+		x_axis.remove(x_axis.size()-1);
+		y_axis.remove(y_axis.size()-1);
+		carNum_total.put("x_axis", x_axis);
+		carNum_total.put("y_axis", y_axis);
+		return carNum_total;
+	}
+	public int[] getPosition(int length){
+		int[] position = new int[7];
+		for(int i=0;i<7;i++){
+			position[i] = (172643-5/10)*i;
+		}
+		position[6] = length;
+		return position;
+	}
 	public int[] findIndexEqual(int length){
 		int[] position = new int[9];
 		for(int i=0;i<9;i++){

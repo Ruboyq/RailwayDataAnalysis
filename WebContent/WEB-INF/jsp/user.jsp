@@ -330,10 +330,9 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="edit_user_auth_form">
 						<input type="hidden" id="edit_auth_user_id" name="user_id" /> <label><input
-							name="rights" type="checkbox" value="1" /> 用户管理 </label> <label><input
+							name="rights" type="checkbox" value="1" /> 系统管理 </label> <label><input
 							name="rights" type="checkbox" value="2" /> 数据查询 </label> <label><input
-							name="rights" type="checkbox" value="3" /> 数据分析 </label> <label><input
-							name="rights" type="checkbox" value="4" /> 数据预测 </label>
+							name="rights" type="checkbox" value="3" /> 数据分析 </label> <label>
 					</form>
 				</div>
 				<div class="modal-footer">

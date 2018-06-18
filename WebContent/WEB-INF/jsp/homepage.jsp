@@ -191,10 +191,6 @@
 							title="Social"> <i class="icon-document-edit"></i> <span>用户管理</span>
 
 						</a></li>
-						<li><a class="tooltip-tip ajax-load" href="media.html"
-							title="日志管理"> <i class="entypo-newspaper"></i> <span>日志管理</span>
-
-						</a></li>
 					</ul>
 
 					<ul class="topnav menu-left-nest">
@@ -228,8 +224,7 @@
 
 					<ul id="menu-showhide" class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
-							class="title-menu-left"> <span class="coonent">数据分析</span> <i
-								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>
+							class="title-menu-left"> <span class="coonent">数据分析</span>
 
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" target="main"

@@ -42,7 +42,9 @@ public class ServiceTest extends BaseTest{
 			System.out.println(c.getIsCenter());
 		}*/
 		
-		JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
-		System.out.println(jsonObject.toString());
+		/*JSONObject jsonObject=dataAnalyzeService.getCarNumInCompany();
+		System.out.println(jsonObject.toString());*/
+		JSONObject jsonObject1=dataAnalyzeService.getCarNumInTotal();
+		System.out.println(jsonObject1.toString());
 	}
 }

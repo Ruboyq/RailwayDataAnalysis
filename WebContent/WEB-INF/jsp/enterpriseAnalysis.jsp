@@ -36,7 +36,7 @@
      <script async="" src="<%=basePath%>js/analytics.js"></script>
      <script src="<%=basePath%>js/Chart.bundle.js"></script>
      <script src="<%=basePath%>js/utils.js"></script>
-     
+     <script src="<%=basePath%>js/waitpage.js"></script>
      <style type="text/css">/* Chart.js */
 @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
 
@@ -127,34 +127,124 @@
 /*<div id="container" class="gmap" style="width:100%;height:100%;position:relative;">
 <canvas id="chart1" width="905" height="452" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
 </div>*/
-var jdata1='${one}';
-var carNumOne=eval("("+jdata1+")");
-var jdata2='${total}';
-var carNumTotal=eval("("+jdata2+")");
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var color = Chart.helpers.color;
 var barChartData = {
-	labels: carNumOne.x_axis,
-	datasets: [{
-		label: 'Nums of Enterprise',
-		backgroundColor: [
-			window.chartColors.red,
-			window.chartColors.orange,
-			window.chartColors.yellow,
-			window.chartColors.green,
-			window.chartColors.blue,
-			window.chartColors.purple,
-			window.chartColors.red,
-			window.chartColors.orange,
-			window.chartColors.yellow,
-			window.chartColors.green
-		],
-		borderColor: window.chartColors.red,
-		borderWidth: 1,
-		data: carNumOne.y_axis,
-	}]
+		labels: MONTHS,
+		datasets: [{
+			label: 'Nums of Enterprise',
+			backgroundColor: [
+				window.chartColors.red,
+				window.chartColors.orange,
+				window.chartColors.yellow,
+				window.chartColors.green,
+				window.chartColors.blue,
+				window.chartColors.purple,
+				window.chartColors.red,
+				window.chartColors.orange,
+				window.chartColors.yellow,
+				window.chartColors.green
+			],
+			borderColor: window.chartColors.red,
+			borderWidth: 1,
+			data:[]
+		}]
 
-};
+	};
+	
+var config = {
+		type: 'line',
+		data: {
+			labels: [],
+			datasets: [{
+				label: 'Sum of Car Nums',
+				backgroundColor: Samples.utils.transparentize(window.chartColors.red),
+				borderColor: window.chartColors.red,
+				data: [],
+				fill: 'start',
+			}]
+		},
+		options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: 'The Stacking Map '
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Carnums'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Sum of Car Nums'
+					}
+				}]
+			}
+		}
+	};
+$(function(){
+	load.loading.add(0.4,"<%=basePath%>images/loading.gif");
+	 $.ajax({
+			type:'get',
+			url:"<%=basePath%>railwayData/enterpriseAnalysisResult",
+			dataType:'json',
+			success:function(data1){
+				load.loading.remove();
+				barChartData.datasets.splice(0, 1);
+				barChartData.labels=data1.one.x_axis;
+    			var newDataset1 = {
+    				label: 'Sum of Car Nums',
+    				backgroundColor:  [
+    					window.chartColors.red,
+    					window.chartColors.orange,
+    					window.chartColors.yellow,
+    					window.chartColors.green,
+    					window.chartColors.blue,
+    					window.chartColors.purple,
+    					window.chartColors.red,
+    					window.chartColors.orange,
+    					window.chartColors.yellow,
+    					window.chartColors.green
+    				],
+    				borderColor: window.chartColors.red,
+    				borderWidth: 1,
+    				data: data1.one.y_axis
+    			};
+    			barChartData.datasets.push(newDataset1);
+    			window.myBar.update();
+    			
+    			config.data.datasets.splice(0, 1);
+    			var newDataset = {
+    					label: 'Sum of Car Nums',
+    					backgroundColor: Samples.utils.transparentize(window.chartColors.red),
+    					borderColor: window.chartColors.red,
+    					data: data1.total.y_axis,
+    					fill: 'start',
+    				};
+    			config.data.labels=data1.total.x_axis;
+    			config.data.datasets.push(newDataset);
+    			window.myLine.update();
+			},
+				error: function(json){  
+					load.loading.remove();
+					alert("用户数据加载异常，请刷新后重试...");  
+				}  
+				});
+});  
 
 $("#wizard-tab").steps({
     headerTag: "h2",
@@ -166,50 +256,6 @@ $("#wizard-tab").steps({
     titleTemplate: "#title#",
     cssClass: "tabcontrol"
 });
-var config = {
-	type: 'line',
-	data: {
-		labels: carNumTotal.x_axis,
-		datasets: [{
-			label: 'Sum of Car Nums',
-			backgroundColor: Samples.utils.transparentize(window.chartColors.red),
-			borderColor: window.chartColors.red,
-			data: carNumTotal.y_axis,
-			fill: 'start',
-		}]
-	},
-	options: {
-		responsive: true,
-		title: {
-			display: true,
-			text: 'The Stacking Map '
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-		},
-		hover: {
-			mode: 'nearest',
-			intersect: true
-		},
-		scales: {
-			xAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-					labelString: 'Month'
-				}
-			}],
-			yAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-					labelString: 'Sum of Car Nums'
-				}
-			}]
-		}
-	}
-};
 
 window.onload = function() {
 	var ctx1 = document.getElementById('chart1').getContext('2d');

@@ -34,26 +34,16 @@
 	href="<%=basePath%>assets/js/dataTable/lib/jquery.dataTables/css/DT_bootstrap.css">
 <link rel="stylesheet"
 	href="<%=basePath%>assets/js/dataTable/css/datatables.responsive.css">
-
+<link rel="stylesheet"
+	href="<%=basePath%>css/footable.standalone.min.css">
+	
 <script type="text/javascript" src="<%=basePath%>assets/js/jquery.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>assets/js/switch/bootstrap-switch.js"></script>
 <script async="" src="<%=basePath%>js/analytics.js"></script>
 <script src="<%=basePath%>js/Chart.bundle.js"></script>
 <script src="<%=basePath%>js/utils.js"></script>
-<script src="<%=basePath%>assets/js/footable/js/footable.js?v=2-0-1"
-	type="text/javascript"></script>
-<script
-	src="<%=basePath%>assets/js/footable/js/footable.sort.js?v=2-0-1"
-	type="text/javascript"></script>
-<script
-	src="<%=basePath%>assets/js/footable/js/footable.filter.js?v=2-0-1"
-	type="text/javascript"></script>
-<script
-	src="<%=basePath%>assets/js/footable/js/footable.paginate.js?v=2-0-1"
-	type="text/javascript"></script>
-<script
-	src="<%=basePath%>assets/js/footable/js/footable.paginate.js?v=2-0-1"
+<script src="<%=basePath%>js/footable.min.js"
 	type="text/javascript"></script>
 
 <style type="text/css">/* Chart.js */
@@ -278,7 +268,7 @@ html, body {
 			<div class="blog-list-nest">
 				<div class="vendor" style="margin: 0;">
 					<blockquote style="margin: 0;">
-						<p>Detail Infomation of the Chosen Type</p>
+						<p>Detail Infomation of the Chosen Railway Line</p>
 						<p id="cityTitle">
 							<small></small>
 						</p>
@@ -300,7 +290,7 @@ html, body {
 					<li style="padding: 0px;" class="fontawesome-truck"
 						data-placement="right" title="aboveground-rail"></li>
 				</div>
-				<span class="label1"><span class="label s1">Total Car
+				<span class="label1"><span class="label s1">Car
 						Numbers:</span><span id="carNums" class="s2"></span> </span>
 			</div>
 			<div class="oneline">
@@ -370,55 +360,8 @@ html, body {
 			style="width: 100%; height: 504px; display: none">
 			<div class="body-nest" id="Footable">
 				<p class="lead well">按查询后吨数排名的前20条航线信息展示</p>
-				<table id = 'table1' class="table-striped footable-res footable metro-blue"
-					data-page-size="9">
-					<thead>
-						<tr>
-						    <th>排名</th>
-							<th>发站</th>
-							<th>到站</th>
-							<th>吨数</th>
-							<th>车数</th>
-							<th>总收入</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Isidra</td>
-							<td><a href="#">Boudreaux</a></td>
-							<td>Traffic Court Referee</td>
-							<td data-value="78025368997">22 Jun 1972</td>
-							<td data-value="1"><span class="status-metro status-active"
-								title="Active">Active</span></td>
-						</tr>
-						<tr>
-							<td>Shona</td>
-							<td>Woldt</td>
-							<td><a href="#">Airline Transport Pilot</a></td>
-							<td data-value="370961043292">3 Oct 1981</td>
-							<td data-value="2"><span
-								class="status-metro status-disabled" title="Disabled">Disabled</span>
-							</td>
-						</tr>
-						<tr>
-							<td>Granville</td>
-							<td>Leonardo</td>
-							<td>Business Services Sales Representative</td>
-							<td data-value="-22133780420">19 Apr 1969</td>
-							<td data-value="3"><span
-								class="status-metro status-suspended" title="Suspended">Suspended</span>
-							</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="5">
-								<div class="pagination pagination-centered"></div>
-							</td>
-						</tr>
-					</tfoot>
+				<table class="table" data-paging="true"  data-sorting="true">
 				</table>
-
 			</div>
 		</div>
 		<div id="chart2" class="chart"
@@ -446,115 +389,136 @@ html, body {
 	<!-- UI组件库 1.0 -->
 	<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	<script type="text/javascript">
-		//创建地图
-		var map = new AMap.Map('container', {
-			zoom : 4
-		});
+    //创建地图
+    var map = new AMap.Map('container', {
+        zoom: 4
+    });
 
-		var flashWord = null;
-		var first = true;
-		function retrieveLine() {
-			//var html = '<tr><td>1</td><td>成都</td><td>北京</td><td>7777</td><td><span class="status-metro status-active"title="Active">6666</span></td><td>9999</td></tr>';
-			var ctl = $('#ctl option:selected').val();
-			var type = $('#type option:selected').val();
-			//just some colors
-			var colors = [ "#3366cc", "#dc3912", "#ff9900", "#109618",
-					"#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e",
-					"#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc",
-					"#e67300", "#8b0707", "#651067", "#329262", "#5574a6",
-					"#3b3eac" ];
-			$.ajax({
-				type:'get',
-				url:"<%=basePath%>railwayData/",
-				data:{"from":$('#fromCity option:selected').val(),"to":$('#toCity option:selected').val()},
-				dataType:'json',
-				success:function(data1){
-			if (first == true) {
-				document.getElementById('ssjk').style.color = "#0DB8DF";
-				document.getElementById('ssjk-1').style.color = "#0DB8DF";
-				document.getElementById('tryc').style.display = "block";
-				flashWord = window.setInterval('set_word_shanshuo ()', 300);
-				first = false;
-				isAble = true;
-			}
-				$('#table1 tbody').html(data1.html);
-				$('#table1').trigger('footable_initialized');
-			AMapUI.loadUI([ 'geo/DistrictExplorer' ],
-					function(DistrictExplorer) {
-						//创建一个实例
-						var districtExplorer = new DistrictExplorer({
-							map : map
-						});
-						var adcode = 100000;
-						districtExplorer.loadAreaNode(adcode, function(error,
-								areaNode) {
-							//更新地图视野
-							map.setBounds(areaNode.getBounds(), null, null,
-									true);
-							//清除已有的绘制内容
-							districtExplorer.clearFeaturePolygons();
-							//绘制子区域
-							districtExplorer.renderSubFeatures(areaNode,
-									function(feature, i) {
-										var fillColor = colors[i
-												% colors.length];
-										var fillColor = data1.colors[feature.properties.name];
-										//var strokeColor = colors[colors.length
-												- 1 - i % colors.length];
-										return {
-											cursor : 'default',
-											bubble : true,
-											strokeColor : strokeColor, //线颜色
-											strokeOpacity : 1, //线透明度
-											strokeWeight : 1, //线宽
-											fillColor : fillColor, //填充色
-											fillOpacity : 0.35, //填充透明度
-										};
-									});
-							//绘制父区域
-							districtExplorer.renderParentFeature(areaNode, {
-								cursor : 'default',
-								bubble : true,
-								strokeColor : 'black', //线颜色
-								strokeOpacity : 1, //线透明度
-								strokeWeight : 1, //线宽
-								fillColor : null, //填充色
-								fillOpacity : 0.35, //填充透明度
-							});
-						});
-					});
-
-			},
+    var flashWord=null;
+    var first = true;
+    function retrieveLine(){
+    	var ctl = $('#ctl option:selected').val();
+    	var type = $('#type option:selected').val();
+    	 //just some colors
+        var colors = [
+            "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+            "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+            "#651067", "#329262", "#5574a6", "#3b3eac"
+        ];
+       /* $.ajax({
+			type:'get',
+			url:"railwayData/fuzzyQuery",
+			data:{"from":$('#fromCity option:selected').val(),"to":$('#toCity option:selected').val()},
+			dataType:'json',
+			success:function(data1){*/
+				if(first==true){
+			    	 document.getElementById('ssjk').style.color="#0DB8DF";
+					 document.getElementById('ssjk-1').style.color="#0DB8DF";
+					 document.getElementById('tryc').style.display="block";
+					 flashWord=window.setInterval('set_word_shanshuo ()', 300);
+					 first=false;
+					 isAble=true;
+			    }
+        AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
+            //创建一个实例
+            var districtExplorer = new DistrictExplorer({
+                map: map
+            });
+            var adcode = 100000;
+            districtExplorer.loadAreaNode(adcode, function(error, areaNode) {
+                //更新地图视野
+                map.setBounds(areaNode.getBounds(), null, null, true);
+                //清除已有的绘制内容
+                districtExplorer.clearFeaturePolygons();
+                //绘制子区域
+                districtExplorer.renderSubFeatures(areaNode, function(feature, i) {
+                    var fillColor = colors[i % colors.length];
+                   // var fillColor = data1.colors[feature.properties.name];
+                    var strokeColor = colors[colors.length - 1 - i % colors.length];
+                    return {
+                        cursor: 'default',
+                        bubble: true,
+                        strokeColor: strokeColor, //线颜色
+                        strokeOpacity: 1, //线透明度
+                        strokeWeight: 1, //线宽
+                        fillColor: fillColor, //填充色
+                        fillOpacity: 0.35, //填充透明度
+                    };
+                });
+                //绘制父区域
+                districtExplorer.renderParentFeature(areaNode, {
+                    cursor: 'default',
+                    bubble: true,
+                    strokeColor: 'black', //线颜色
+                    strokeOpacity: 1, //线透明度
+                    strokeWeight: 1, //线宽
+                    fillColor: null, //填充色
+                    fillOpacity: 0.35, //填充透明度
+                });
+            });
+        });
+        
+        
+			/*},
 			error: function(json){  
 				alert("用户数据加载异常，请刷新后重试...");  
 			}  
-			});
-		}
-		function showChart(ctl) {
-			if (!isAble) {
-				return;
-			}
-			if (ctl == 1) {
-				document.getElementById("chart1").style.display = "block";
-				document.getElementById("chart2").style.display = "none";
-				$("#chartTitle").text("Top 20 Hottest Railwayline");
-			}
-			if (ctl == 2) {
-				document.getElementById("chart1").style.display = "none";
-				document.getElementById("chart2").style.display = "block";
-				$("#chartTitle").text("Top 20 Hottest Stations");
-				window.myPie.update();
-			}
-		}
-		function set_word_shanshuo() {
-			var color = [ 'red', 'green', 'yellow', 'black', 'purple' ];
-			$('#tryClick').css('color',
-					color[parseInt(Math.random() * color.length)]);
-		}
-		$(function() {
-			$('#table1').footable();
-		});
-	</script>
+		});*/
+    }
+    function showChart(ctl){
+    	if(!isAble){
+    		return;
+    	}
+    	if(ctl==1){
+    		document.getElementById("chart1").style.display="block";
+    		document.getElementById("chart2").style.display="none";
+    		$("#chartTitle").text("Top 20 Hottest Railwayline");
+    	}
+    	if(ctl==2){
+    		document.getElementById("chart1").style.display="none";
+    		document.getElementById("chart2").style.display="block";
+    		$("#chartTitle").text("Top 20 Hottest Stations");
+    		window.myPie.update();
+    	}
+    }
+    function set_word_shanshuo() {
+    	var color = ['red','green','yellow','black','purple'];
+    	$('#tryClick').css('color',color[parseInt(Math.random()*color.length)]);
+    }
+    /*$(function() {
+        $('.footable-res').footable();
+    });*/
+    jQuery(function($){
+    	$('.table').footable({
+    		"paging": {
+    			"size": 5
+    		},
+    		"columns": [
+    			{ "name": "id", "title": "ID", "breakpoints": "xs" },
+    			{ "name": "firstName", "title": "First Name" },
+    			{ "name": "lastName", "title": "Last Name" },
+    			{ "name": "jobTitle", "title": "Job Title", "breakpoints": "xs" },
+    			{ "name": "started", "title": "Started On", "breakpoints": "xs sm" },
+    			{ "name": "dob", "title": "DOB", "breakpoints": "xs sm md" }
+    		],
+    		"rows": [
+    			{
+    				"options": {
+    					"expanded": true
+    				},
+    				"value": { "id": 1, "firstName": "Dennise", "lastName": "Fuhrman", "jobTitle": "High School History Teacher", "started": "November 8th 2011", "dob": "July 25th 1960" }
+    			},
+    			{ "id": 2, "firstName": "Elodia", "lastName": "Weisz", "jobTitle": "Wallpaperer Helper", "started": "October 15th 2010", "dob": "March 30th 1982" },
+    			{ "id": 3, "firstName": "Raeann", "lastName": "Haner", "jobTitle": "Internal Medicine Nurse Practitioner", "started": "November 28th 2013", "dob": "February 26th 1966" },
+    			{ "id": 4, "firstName": "Junie", "lastName": "Landa", "jobTitle": "Offbearer", "started": "October 31st 2010", "dob": "March 29th 1966" },
+    			{ "id": 5, "firstName": "Solomon", "lastName": "Bittinger", "jobTitle": "Roller Skater", "started": "December 29th 2011", "dob": "September 22nd 1964" },
+    			{ "id": 6, "firstName": "Bar", "lastName": "Lewis", "jobTitle": "Clown", "started": "November 12th 2012", "dob": "August 4th 1991" },
+    			{ "id": 7, "firstName": "Usha", "lastName": "Leak", "jobTitle": "Ships Electronic Warfare Officer", "started": "August 14th 2012", "dob": "November 20th 1979" },
+    			{ "id": 8, "firstName": "Lorriane", "lastName": "Cooke", "jobTitle": "Technical Services Librarian", "started": "September 21st 2010", "dob": "April 7th 1969" }
+    		]
+    	});
+    });
+    </script>
 	<script src="<%=basePath%>js/popup.js"></script>
 </body>
 
