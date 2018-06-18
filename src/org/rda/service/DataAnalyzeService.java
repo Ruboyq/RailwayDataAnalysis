@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.rda.pojo.City;
 import org.rda.pojo.District;
-import org.rda.pojo.RailwayCity;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -51,15 +50,7 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	JSONObject getMonthProductNum(int productId, String year);
-	/**
-	 * 获取所有中心对
-	 * @return
-	 */
-	List<RailwayCity> getAllCenterPairs();
-	/**
-	 * 获取所有区域
-	 * @return
-	 */
+
 	List<District> getAllDistrict();
 	
 	/**
@@ -75,4 +66,26 @@ public interface DataAnalyzeService {
 	 * @return
 	 */
 	JSONObject getCarNumInTotal();
+
+	/**
+	 * 获取省份吨数热力图
+	 * @return
+	 */
+	JSONObject getProvince_ton(int productId);
+
+	/**
+	 * 根据品类名和到货城市名获得前20条线路信息2.1
+	 * @param productId
+	 * @param toCity
+	 * @return
+	 */
+	String getCityTonnage(int productId, String toCity);
+
+	/**
+	 * 根据品类名和发货城市名获得前20条线路信息2.2
+	 * @param productId
+	 * @param fromCity
+	 * @return
+	 */
+	String getCityTonnage2(int productId, String fromCity);
 }

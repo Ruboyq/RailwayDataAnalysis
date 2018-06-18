@@ -122,6 +122,29 @@ public class RailwayDataController {
 	}
 	
 	/**
+	 * 获取省份吨数热力图
+	 * @return
+	 */
+	@RequestMapping("/cityTonnages")
+	@ResponseBody
+	public String getProvince_ton(int type){
+		return dataAnalyzeService.getProvince_ton(type).toString();
+	}
+	
+	/**
+	 * 最火前20名城市数据
+	 * @return
+	 */
+	@RequestMapping("/top20Cities")
+	@ResponseBody
+	public String getTop20Cities(int type,String cityName){
+		JSONObject jsonObject=new JSONObject();
+		jsonObject.put("html1", dataAnalyzeService.getCityTonnage(type, cityName));
+		jsonObject.put("html2", dataAnalyzeService.getCityTonnage(type, cityName));
+		return jsonObject.toString();
+	}
+	
+	/**
 	 * 获取模糊查询结果
 	 * @param from
 	 * @param to
