@@ -46,14 +46,22 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	@Autowired
 	private DataCompanyMapper dataCompanyMapper;
 	
+	/**
+	 * 从数据库里读取RailwayData的起始站、终点站、总吨数、总车数，算出效益
+	 * 加到RailwayCity表里
+	 * 先将RailwayCity表里的数据删除，再向RailwayCity表里添加数据
+	 */
 	@Override
-	//先将RailwayCity表里的数据删除，再向RailwayCity表里添加数据
-	//@SystemServiceLog(description = "更新RailwayCity表数据")
+	@SystemServiceLog(description = "更新RailwayCity表数据")
 	public void addRailwayCity(){
 		railwayCityMapper.delRailwayCity();
 		railwayCityMapper.addRailwayCity();
 	}
 	
+	/**
+	 * 获取省份吨数热力图
+	 * @return
+	 */
 	@Override
 	public JSONObject getProvince_ton(int productId){
 		JSONObject jsonObject=new JSONObject();
@@ -61,13 +69,16 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<Map> maps=railwayDataMapper.getProvinceTonnage(productId);
 		int carnum=0;
 		float ton=0;
+		
+		int area=maps.size()/5;
+		int[] Interval={0,area,area*2,area*3,area*4,maps.size()}; //区间
+		String[] rgb={"#00BFFF","#1E90FF","#0000FF","#4169E1","#0000CD"}; //颜色
+		
 		for(Map map:maps){
 			carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
 			ton+=Float.parseFloat(map.get("tonnage").toString());
 		}
-		int area=maps.size()/5;
-		int[] Interval={0,area,area*2,area*3,area*4,maps.size()}; //区间
-		String[] rgb={"#00BFFF","#1E90FF","#0000FF","#4169E1","#0000CD"}; //颜色
+		
 		for(int i=0;i<5;i++){
 			for(int j=Interval[i];j<Interval[i+1];j++){
 				provincergb.put(maps.get(j).get("province"), rgb[i]);
@@ -80,6 +91,12 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return jsonObject;
 	}
 	
+	/**
+	 * 根据品类名和到货城市名获得前20条线路信息2.1
+	 * @param productId
+	 * @param toCity
+	 * @return
+	 */
 	@Override
 	public String getCityTonnage(int productId,String toCity){
 		String html="";
@@ -99,6 +116,12 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return html;
 	}
 	
+	/**
+	 * 根据品类名和发货城市名获得前20条线路信息2.2
+	 * @param productId
+	 * @param fromCity
+	 * @return
+	 */
 	@Override
 	public String getCityTonnage2(int productId,String fromCity){
 		String html="";
@@ -118,15 +141,25 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return html;
 	}
 	
+	/**
+	 * 从railway_city表中读取查询的数据，返回路线数据和数据分析结果
+	 * @param String from,String to
+	 * @return
+	 */
 	@Override
-	//根据controller传来的from与to，返回路线数据和数据分析结果
-	//@SystemServiceLog(description = "模糊查询")
+	@SystemServiceLog(description = "模糊查询")
 	public JSONObject getFilterResult(String from,String to){
 		JSONObject data = new JSONObject(); 
+		int carnum = 0;
+		float tonnage = 0;
+		int capacity=0;
+		float firstbenifit=0;
+		int multiple=1;
+		Set<String> set =new HashSet<String>();
+		List<String> list=new ArrayList<String>();
 		List<Map> list_map = railwayCityMapper.getFilterResult(from, to);
 		List<RailwayCity> list_railwayCity=new ArrayList<RailwayCity>();
 		List<RailwayData> list_railwayData = railwayDataMapper.getFilterResult(from, to);
-		System.out.println(1111);
 		for(Map map:list_map){
 			RailwayCity railwayCity=new RailwayCity((String)map.get("fromCity"), 
 													(String)map.get("toCity"), 
@@ -141,20 +174,11 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			list_railwayCity.add(railwayCity);
 		}
 		//计算总车数、总吨数
-		int carnum = 0;
-		float tonnage = 0;
+		
 		for(RailwayCity railwayCity:list_railwayCity){
 			carnum += railwayCity.getCarNum();
 			tonnage += railwayCity.getTonnage();
 		}
-		
-//		//得出车数、吨数的前五位，存入HashMap
-//		JSONObject carArray=new JSONObject();
-//			carArray.put("x", new JSONArray());
-//			carArray.put("y", new JSONArray());
-//		JSONObject tonArray=new JSONObject();
-//			tonArray.put("x", new JSONArray());
-//			tonArray.put("y", new JSONArray());
 		
 		//产品频数 
 		JSONObject productArray=new JSONObject();
@@ -168,66 +192,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			benifitArray.put("y_ton", new JSONArray());
 			benifitArray.put("y_benifit", new JSONArray());
 			
-		int capacity=list_railwayCity.size()>=5?5:list_railwayCity.size();
-//		//city-carNum直方图
-//		//排序
-//		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
-//
-//			@Override
-//			public int compare(RailwayCity rc1, RailwayCity rc2) {
-//				// TODO Auto-generated method stub
-//				int i = rc2.getCarNum() - rc1.getCarNum();
-//				if(i == 0){  
-//                    return (int) (rc2.getTonnage() - rc1.getTonnage());  
-//                }  
-//				return i;
-//			}
-//		});
-//		//赋值
-//		for(int i = 0;i<capacity;i++){
-//			if(from==""&to!=""){
-//				
-//				carArray.getJSONArray("x").add(list_railwayCity.get(i).getFromCity());
-//				carArray.getJSONArray("y").add(list_railwayCity.get(i).getCarNum());
-//				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getCarNum());
-//			}
-//			else if(from!=""&to==""){
-//				carArray.getJSONArray("x").add(list_railwayCity.get(i).getToCity());
-//				carArray.getJSONArray("y").add(list_railwayCity.get(i).getCarNum());
-//				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getCarNum());
-//			}
-//			else {
-//				break;
-//			}
-//		}
-//		
-//		//city-tonnage直方图
-//		//排序
-//		Collections.sort(list_railwayCity,new Comparator<RailwayCity>(){
-//
-//			@Override
-//			public int compare(RailwayCity rc1, RailwayCity rc2) {
-//				// TODO Auto-generated method stub 
-//                return (int) (rc2.getTonnage() - rc1.getTonnage());  
-//			}
-//		});
-//		//赋值
-//		for(int i = 0;i<capacity;i++){
-//			JSONObject js=new JSONObject();
-//			if(from==""&to!=""){
-//				js.put("x", list_railwayCity.get(i).getFromCity());
-//				js.put("y", list_railwayCity.get(i).getTonnage());
-//				//System.out.println(list_railwayCity.get(i).getFromCity()+" "+list_railwayCity.get(i).getTonnage());
-//			}
-//			else if(from!=""&to==""){
-//				js.put("x", list_railwayCity.get(i).getToCity());
-//				js.put("y", list_railwayCity.get(i).getTonnage());
-//				//System.out.println(list_railwayCity.get(i).getToCity()+" "+list_railwayCity.get(i).getTonnage());
-//			}else {
-//				break;
-//			}
-//			tonArray.add(js);
-//		}
+		capacity=list_railwayCity.size()>=5?5:list_railwayCity.size();
 		
 		//city-benifit直方图
 		//排序
@@ -245,8 +210,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 					return -1;
 			}
 		});
-		float firstbenifit=list_railwayCity.get(0).getBenefit();
-		int multiple=1;
+		firstbenifit=list_railwayCity.get(0).getBenefit();
 		while(firstbenifit<10){
 			firstbenifit=firstbenifit*10;
 			multiple=multiple*10;
@@ -273,8 +237,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		
 		//productId-productNum饼图
 		//统计运输货物的频数
-		Set<String> set =new HashSet<String>();
-		List<String> list=new ArrayList<String>();
+		
 		for(RailwayData railwayData:list_railwayData){
 			list.add(railwayData.getProductName());
 			set.add(railwayData.getProductName());
@@ -319,13 +282,37 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return data;
 	}
 
+	/**
+	 * 获取特定时间段，特定品类代码的城市-发货量热力图数据
+	 * @param startmonth
+	 * @param endmonth
+	 * @param productId
+	 * @return
+	 */
 	@Override
 	public JSONObject getFromCityShipNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime(startmonth, endmonth, productId);
 		List<Map> ton_car_list = railwayDataMapper.getProductbyTime(startmonth, endmonth, productId);
-		standardNormalization(list);
 		JSONObject data = new JSONObject();
 		JSONArray jsonArray=new JSONArray();
+		
+		JSONObject per_month = new JSONObject();
+		JSONArray x_month = new JSONArray();
+		JSONArray y_carnum=new JSONArray();
+		JSONArray y_ton=new JSONArray();
+		int total_carnum = 0;
+		float total_tonnage = 0f;
+		int month = Integer.parseInt(startmonth);
+		
+		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
+		JSONObject benifit_5=new JSONObject();
+		JSONArray x_name = new JSONArray();
+		JSONArray y_benifit=new JSONArray();
+		
+		/**
+		 * 
+		 */
+		standardNormalization(list);
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
 			jsonObject.put("lat", (double)map.get("fromLatitude"));
@@ -335,14 +322,9 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		data.put("city_ton_array", jsonArray);
 		
-		
-		JSONObject per_month = new JSONObject();
-		JSONArray x_month = new JSONArray();
-		JSONArray y_carnum=new JSONArray();
-		JSONArray y_ton=new JSONArray();
-		int total_carnum = 0;
-		float total_tonnage = 0f;
-		int month = Integer.parseInt(startmonth);
+		/**
+		 * 
+		 */
 		while(month<=Integer.parseInt(endmonth)){
 			int carnum = 0;
 			float tonnage = 0f;
@@ -369,12 +351,10 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		data.put("total_carnum", total_carnum);
 		data.put("total_tonnage", total_tonnage);
 		data.put("per_month", per_month);
-
 		
-		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
-		JSONObject benifit_5=new JSONObject();
-		JSONArray x_name = new JSONArray();
-		JSONArray y_benifit=new JSONArray();
+		/**
+		 * 
+		 */
 		for(Map map:product_benifit_5){
 			x_name.add((String)map.get("productName"));
 			y_benifit.add((double)map.get("benifit"));
@@ -386,13 +366,36 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return data;
 	}
 	
+	/**
+	 * 获取特定时间段，特定品类代码的城市-收货量热力图数据
+	 * @param startmonth
+	 * @param endmonth
+	 * @param productId
+	 * @return
+	 */
 	@Override
 	public JSONObject getToCityReceiptNum(String startmonth,String endmonth,int productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime2(startmonth, endmonth, productId);
 		List<Map> ton_car_list = railwayDataMapper.getProductbyTime2(startmonth, endmonth, productId);
-		standardNormalization(list);
 		JSONObject data = new JSONObject();
 		JSONArray jsonArray=new JSONArray();
+		
+		JSONObject per_month = new JSONObject();
+		JSONArray x_month = new JSONArray();
+		JSONArray y_carnum=new JSONArray();
+		JSONArray y_ton=new JSONArray();
+		int total_carnum = 0;
+		float total_tonnage = 0f;
+		int month = Integer.parseInt(startmonth);
+		
+		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
+		JSONObject benifit_5=new JSONObject();
+		JSONArray x_name = new JSONArray();
+		JSONArray y_benifit=new JSONArray();
+		/**
+		 * 
+		 */
+		standardNormalization(list);
 		for(Map map:list){
 			JSONObject jsonObject=new JSONObject();
 			jsonObject.put("lat", (double)map.get("toLatitude"));
@@ -402,13 +405,9 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		data.put("city_ton_array", jsonArray);
 		
-		JSONObject per_month = new JSONObject();
-		JSONArray x_month = new JSONArray();
-		JSONArray y_carnum=new JSONArray();
-		JSONArray y_ton=new JSONArray();
-		int total_carnum = 0;
-		float total_tonnage = 0f;
-		int month = Integer.parseInt(startmonth);
+		/**
+		 * 
+		 */
 		while(month<=Integer.parseInt(endmonth)){
 			int carnum = 0;
 			float tonnage = 0f;
@@ -436,10 +435,6 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		data.put("total_tonnage", total_tonnage);
 		data.put("per_month", per_month);
 		
-		List<Map> product_benifit_5 = railwayDataMapper.getBenifitbyTime(startmonth, endmonth, productId);
-		JSONObject benifit_5=new JSONObject();
-		JSONArray x_name = new JSONArray();
-		JSONArray y_benifit=new JSONArray();
 		for(Map map:product_benifit_5){
 			x_name.add((String)map.get("productName"));
 			y_benifit.add((double)map.get("benifit"));
@@ -451,6 +446,13 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		return data;
 	}
 	
+	/**
+	 * 获取特定时间段，特定品类代码的城市-收货量热力图数据
+	 * @param startmonth
+	 * @param endmonth
+	 * @param productId
+	 * @return
+	 */
 	@Override
 	public JSONObject getMonthProductNum(int productId,String year){
 		String date=new String();
@@ -476,6 +478,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	public void standardNormalization(List<Map> list){
 		double average=0;
 		double standardDeviation=0;
+		double min=100;  //标准归一化后的最小值
 		List<Double> data=new ArrayList<Double>();
 		for(Map map:list){
 			data.add((double)map.get("tonnage"));
@@ -491,7 +494,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		standardDeviation=Math.sqrt(standardDeviation/data.size());
 		
-		double min=100;
+		
 		//标准归一化
 		for(int i=0;i<data.size();i++){
 			double xx=(data.get(i)-average)/standardDeviation;
@@ -528,6 +531,12 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<RailwayCity> list_map = districtMapper.getAllCenterPairs();
 		return list_map;
 	}
+	
+	/**
+	 * 在不同的车数段内的企业数的条形图
+	 * 
+	 * @return
+	 */
 	@Override
 	public JSONObject getCarNumInCompany() {
 		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
@@ -578,6 +587,12 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		carNum_company.put("y_axis", y_axis);
 		return carNum_company;
 	}
+	
+	/**
+	 * 在不同的车数段内的企业数的条形图
+	 * 
+	 * @return
+	 */
 	@Override
 	public JSONObject getCarNumInTotal() {
 		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();

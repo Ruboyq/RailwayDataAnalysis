@@ -273,13 +273,14 @@ public class UserController {
 	public String GrantAuthority(String user_id,@RequestParam("rights") String[] rights){
 		JSONObject jb=new JSONObject();
 		String authorityList="";
+		boolean isGrant =false;
 		for(int i=0;i<rights.length;i++){
 			if(i==rights.length-1)
 				authorityList+=rights[i];
 			else
 				authorityList=authorityList+rights[i]+",";
 		}
-		boolean isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(user_id), authorityList);
+		isGrant = this.managerAuthorityService.updateUserAuthority(Integer.parseInt(user_id), authorityList);
 		if(isGrant){
 			jb.put("info", "授予成功");
 			jb.put("status", "y");

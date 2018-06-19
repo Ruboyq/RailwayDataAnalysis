@@ -17,15 +17,27 @@ public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private UserMapper userMapper;
 	
+	/**
+	 * 根据id及pwd查找相应用户
+	 * 
+	 * @param id,password
+	 * @return
+	 */
 	@Override
 	//此处为AOP拦截Service记录异常信息。方法不需要加try-catch  
-	//@SystemServiceLog(description = "用户尝试登录")
+	@SystemServiceLog(description = "用户尝试登录")
 	public User loginUser(int id, String password) {
 		User user = userMapper.loginUser(id,password);
 		System.out.println(id+"###lservice####"+password);
 		return user;
 	}
 	
+	/**
+	 * 发送验证码图片到前端
+	 * 
+	 * @param os,format
+	 * @return
+	 */
 	@Override
 	//此处为AOP拦截Service记录异常信息。方法不需要加try-catch  
 	@SystemServiceLog(description = "发送验证码")

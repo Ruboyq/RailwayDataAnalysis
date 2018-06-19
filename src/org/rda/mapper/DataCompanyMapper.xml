@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
   
     <select id="getCarNum" resultMap="BaseResult11">
-		SELECT consignor,sum(carNum) car FROM railwaydata group by consignor order by car
+		SELECT company,sum(carNum) car FROM data_company group by company order by car
 	</select>
 
 
