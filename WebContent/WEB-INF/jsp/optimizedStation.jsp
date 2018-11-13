@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<%=basePath%>assets/js/switch/bootstrap-switch.css">
      <script type="text/javascript" src="<%=basePath%>assets/js/jquery.js"></script>
      <script type="text/javascript" src="<%=basePath%>assets/js/switch/bootstrap-switch.js"></script>
+     <script src="<%=basePath%>js/waitpage.js"></script>
     <style>
     html,
     body{
@@ -86,20 +87,70 @@
     .s2{
         padding-left: 15px;
     }
-     .sw{
-	right: 10px;
+ .sl1 {
 	position: absolute;
-	top: 15px;
-    }
-    .sw-label{
+	width: 80px;
+	margin-top: 5px;
+	margin-right: 700px;
 	right: 0px;
+	}
+	.ty-label1 {
 	position: absolute;
-	margin-right: 120px;
+	margin-right: 800px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
 	font-family: 'Open Sans', serif;
-    }
+	right: 0px;
+	}
+	.sl2 {
+	position: absolute;
+	width: 80px;
+	margin-top: 5px;
+	margin-right: 540px;
+	right: 0px;
+	}
+	.ty-label2 {
+	position: absolute;
+	margin-right: 630px;
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: 'Open Sans', serif;
+	right: 0px;
+	}
+	.sl3 {
+	position: absolute;
+	width: 80px;
+	margin-top: 5px;
+	margin-right: 320px;
+	right: 0px;
+	}
+	.ty-label3 {
+	position: absolute;
+	margin-right: 410px;
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: 'Open Sans', serif;
+	right: 0px;
+	}
+	.sl4 {
+	position: absolute;
+	width: 80px;
+	margin-top: 5px;
+	margin-right: 140px;
+	right: 0px;
+	}
+	.ty-label4 {
+	position: absolute;
+	margin-right: 220px;
+	margin-top: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: 'Open Sans', serif;
+	right: 0px;
+	}
     #loadingTip {
         position: absolute;
         z-index: 9999;
@@ -117,16 +168,17 @@
 </head>
 
 <body>
-    <!-- <div id="container"></div>
-     <div id="container1"></div> -->
-     <!-- <div class="content-wrap">
-                <div class="row">
-                    <div class="col-sm-12"> -->
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
-                                <h6>
-                                    All Stations Retrieve</h6>
-                                    
+                                                           <span class="ty-label1"> 最小吨数:</span> 
+                               <input id="min"	class="filter-status form-control sl1"></input> 
+                               <span class="ty-label2"> 最大吨数:</span> 
+                               <input id="max"	class="filter-status form-control sl2"></input>
+                               <span class="ty-label3"> 城市间距:</span> 
+                               <input id="distance"	class="filter-status form-control sl3"></input>
+                               <span class="ty-label4"> 城市群数量:</span> 
+                               <input id="kdistance"	class="filter-status form-control sl4"></input>
+                               <a onclick="retrieve();"style="margin-top: 5px; margin-right: 20px;"class="pull-right btn btn-info filter-api">查询</a>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container" class="gmap" style="width:100%;height:100%;position:relative;"></div>
@@ -135,7 +187,7 @@
                         <div class="nest map2" id="GmapClose">
                             <div class="title-alt">
                                 <h6>
-                                Current Chosen Station</h6>
+                                                               当前选择的站点</h6>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container2" class="gmap" style="width:100%;height:100%;position:relative;"></div>
@@ -147,7 +199,7 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Detail Infomation of the Station</p>
+                                <p>站点详情</p>
                                 <p id ="cityTitle">
                                     <small></small>
                                 </p>
@@ -158,26 +210,22 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">站点名:</span><span id="cityName" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">发车数:</span><span id="carNums" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">总吨数:</span><span id="totalFreight" class="s2"></span> </span>
                                 </div>     
                                 </div>
                             </div>
-                    <!-- </div>
-
-                </div>
-            </div> -->
     <script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.6&key=您申请的key值'></script>
     <!-- UI组件库 1.0 -->
     <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
@@ -288,27 +336,21 @@
                 var parts = dataItem.split(',');
                 return parts[2];
             },
+            //使用GroupStyleRender
             renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
             renderOptions: {
                 //点的样式
                 pointStyle: {
-                    width: 6,
-                    height: 6,
-                    color:"#00FFFF"
-                },
-                //鼠标hover时的title信息
-                hoverTitleStyle: {
-                	width: 30,
-                    height: 30,
-                    position: 'top',
-                    classNames: 'hoverStyle'
+                    fillStyle: 'red',
+                    width: 5,
+                    height: 5
                 },
                 getGroupId: function(item, idx) {
 
                     var parts = item.split(',');
-                    
+
                     //按纬度区间分组
-                    return parts[5];
+                    return Math.abs(Math.round(parseFloat(parts[1]) / 5));
                 },
                 groupStyleOptions: function(gid) {
 
@@ -319,8 +361,7 @@
                     return {
                         pointStyle: {
                             //content: gid % 2 ? 'circle' : 'rect',
-                            //fillStyle: colors[gid % colors.length],
-                            fillStyle:color,
+                            fillStyle: color,
                             width: size,
                             height: size
                         },
@@ -330,20 +371,18 @@
                         }
                     };
                 }
+
             }
         });
 
         window.pointSimplifierIns = pointSimplifierIns;
 
             //data = ['103.813963,30.817154,dataanalysis'];
-        var data = '${stringList}';
+      /*  var data = '${stringList}';
         data=data.substring(1,data.length-1).split(", ");
-        pointSimplifierIns.setData(data);
-           /* pointSimplifierIns.renderEngine.setOption('pointStyle',  utils.extend({}, defaultRenderOptions['pointStyle']));
-            pointSimplifierIns.renderLater(200);*/
+        pointSimplifierIns.setData(data);*/
 
         pointSimplifierIns.on('pointClick pointMouseover pointMouseout', function(e, record) {
-            //console.log(e.type, record);
            
         });
          pointSimplifierIns.on('pointClick', function(e, record) {
@@ -364,23 +403,6 @@
              $("#totalFreight").text(parts[4]);
          }); 
     });
-  /*  var circles = '${circleList}';
-   circles=circles.substring(1,circles.length-1).split(", ");
-   var circleInfo;
-   for(var j = 0,len = circles.length; j < len; j++){
-	   circleInfo=circles[j].split(',');
-	   var circle = new AMap.Circle({
-		   	bubble:true,
-		       center: new AMap.LngLat(circleInfo[1],circleInfo[2]),// 圆心位置
-		       radius: 100000, //半径
-		       strokeColor: "#00FFFF", //线颜色
-		       strokeOpacity: 1, //线透明度
-		       strokeWeight: 3, //线粗细度
-		       fillColor: "#7FFFD4", //填充颜色
-		       fillOpacity:0 //填充透明度
-		   });
-	  circle.setMap(map);
-	} */
    AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
 
        if (!PathSimplifier.supportCanvas) {
@@ -392,7 +414,7 @@
                pathTolerance: 2,
                keyPointTolerance: 0,
                pathLineStyle: {
-                   lineWidth: 3,
+                   lineWidth: 1,
                    strokeStyle: '#087ec4',
                    borderWidth: 1,
                    borderStyle: '#eeeeee',
@@ -469,29 +491,85 @@
        });
 
        window.pathSimplifierIns = pathSimplifierIns;
-       var jdata='${lines}';
-       var lines=eval("("+jdata+")");
-       pathSimplifierIns.setData(lines.railways);
-        for(var i =0;i<lines.railwaynum;i++){
-         var navg = pathSimplifierIns.createPathNavigator(i, {
-             loop: true, //循环播放
-             speed: 500000 //巡航速度，单位千米/小时
-           });
-           navg.start();
-   } 
-   /*for(var i =0;i<lines.railwaynum;i++){
-	   pathSimplifierIns.setSelectedPathIndex(i);
-   }*/
+
        pathSimplifierIns.on('pathClick pointClick', function(e, info){
-//info.pathData 即是相关的轨迹数据，如果info.pointIndex >= 0，则表示由轨迹上的节
-          /*$("#fromCityName").text(info.pathData.point[0]);
-          $("#toCityName").text(info.pathData.point[1]);
-          $("#carNums").text(info.pathData.carNum);
-          $("#totalFreight").text(info.pathData.tonnage);
-          document.getElementById('cityTitle').innerHTML="<small>"+info.pathData.data+"</small>";*/
          });
 
    });
+   
+	function retrieve() {
+		var min = $('#min').val();
+		var max = $('#max').val();
+		var distance=$('#distance').val();
+		var kdistance=$('#kdistance').val();
+		load.loading.add(0.4,"<%=basePath%>images/loading.gif");
+		$.ajax({
+			type:'get',
+			url:"<%=basePath%>cluster/queryOptimizedStation",
+			data:{"min":min,"max":max,"distance":distance,"knums":kdistance},
+			dataType:'json',
+			success:function(data1){
+				load.loading.remove();
+				  var points =data1.pointList.substring(1,data1.pointList.length-1).split(", ");
+				  pointSimplifierIns.setData(points);
+				  pathSimplifierIns.setData(data1.railways);
+				  for(var i =0;i<data1.railwaynum;i++){
+					  var width=1;
+					  if(data1.railways[i].tonnage >3000000)
+						  width = 8;
+					  else if(data1.railways[i].tonnage >2000000)
+						  width = 6;
+					  else if(data1.railways[i].tonnage >1500000)
+						  width = 4;
+					  else
+						  width = 1;
+				         var navg = pathSimplifierIns.createPathNavigator(i, {
+				             loop: true, //循环播放
+				             speed: 500000, //巡航速度，单位千米/小时
+				             pathNavigatorStyle: {
+	                        	  initRotateDegree: 0,
+	                              width: 16,
+	                              height: 16,
+	                              autoRotate: true,
+	                              lineJoin: 'round',
+	                              content: 'defaultPathNavigator',
+	                              fillStyle: '#087EC4',
+	                              strokeStyle: '#116394', //'#eeeeee',
+	                              lineWidth: 1,
+	                              pathLinePassedStyle: {
+	                                  lineWidth: width,
+	                                  strokeStyle: 'rgba(8, 126, 196, 1)',
+	                                  borderWidth: 1,
+	                                  borderStyle: '#eeeeee',
+	                                  dirArrowStyle: false
+	                              }
+	                          }
+				           });
+				           navg.start();
+				   }
+				  var circles=data1.circleList.toString().substring(1,data1.circleList.toString().length-1).split(",,");
+				  var circleInfo;
+				   for(var j = 0,len = circles.length; j < len; j++){
+					   circleInfo=circles[j].split(',');
+					   var circle = new AMap.Circle({
+						   	bubble:true,
+						       center: new AMap.LngLat(circleInfo[1],circleInfo[2]),// 圆心位置
+						       radius: 100000, //半径
+						       strokeColor: "#00FFFF", //线颜色
+						       strokeOpacity: 1, //线透明度
+						       strokeWeight: 3, //线粗细度
+						       fillColor: "#7FFFD4", //填充颜色
+						       fillOpacity:0.5 //填充透明度
+						   });
+					  circle.setMap(map);
+					}
+			},
+			error: function(json){
+				load.loading.remove();
+				alert("用户数据加载异常，请刷新后重试...");  
+			}  
+			});
+	}
     </script>
 </body>
 

@@ -28,6 +28,7 @@
 	<mvc:resources mapping="/yzm/**" location="/WEB-INF/yzm/" />
 	<mvc:resources mapping="/map/**" location="/WEB-INF/map/" />
 	<mvc:resources mapping="/myinfo/**" location="/WEB-INF/myinfo/" />
+	<mvc:resources mapping="/bootstrap/**" location="/WEB-INF/bootstrap/" />
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -59,7 +60,9 @@
 			<mvc:exclude-mapping path="/railwayData/testmap" />
 			<mvc:exclude-mapping path="/railwayData/ShipNum" />
 			<mvc:exclude-mapping path="/cluster/optimizedStation" />
+			<mvc:exclude-mapping path="/railwayData/crawl" />
 			<mvc:exclude-mapping path="/cluster/test" />
+			<mvc:exclude-mapping path="/railwayData/spider" />
 			<bean class="org.rda.interceptor.AuthorityInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

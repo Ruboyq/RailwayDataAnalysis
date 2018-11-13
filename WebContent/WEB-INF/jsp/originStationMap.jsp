@@ -125,9 +125,9 @@
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
                                 <h6>
-                                    All Stations Retrieve</h6>
+                                    所有城市站点查看</h6>
                                 <span class="sw-label">
-                                    Province Line:</span>
+                                    省份边界线:</span>
                                 <div class="make-switch sw" data-on="primary" data-off="info">
                                     <input type="checkbox" checked="">
                                 </div>
@@ -139,7 +139,7 @@
                         <div class="nest map2" id="GmapClose">
                             <div class="title-alt">
                                 <h6>
-                                Current Chosen Station</h6>
+                                当前选择的城市</h6>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container2" class="gmap" style="width:100%;height:100%;position:relative;"></div>
@@ -151,7 +151,7 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Detail Infomation of the Station</p>
+                                <p>城市2017年运量统计</p>
                                 <p id ="cityTitle">
                                     <small></small>
                                 </p>
@@ -162,19 +162,19 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">City Name:</span><span id="cityName" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">城市名:</span><span id="cityName" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Car Numbers:</span><span id="carNums" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">发车数:</span><span id="carNums" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Total Freight:</span><span id="totalFreight" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">总吨数:</span><span id="totalFreight" class="s2"></span> </span>
                                 </div>     
                                 </div>
                             </div>
@@ -199,7 +199,15 @@
     var map = new AMap.Map('container', {
         zoom: 6
     });
-
+    var colors = [
+        '#0cc2f2',
+        '#4fd2b1',
+        '#90e36f',
+        '#ffe700',
+        '#ff9e00',
+        '#ff6700',
+        '#ff1800'
+    ];
    AMapUI.load(['ui/misc/PointSimplifier', 'lib/$', 'lib/utils'], function(PointSimplifier, $, utils) {
 
         if (!PointSimplifier.supportCanvas) {
@@ -284,17 +292,40 @@
                 var parts = dataItem.split(',');
                 return parts[2];
             },
+            //使用GroupStyleRender
+            renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
             renderOptions: {
                 //点的样式
                 pointStyle: {
-                    width: 6,
-                    height: 6
+                    fillStyle: 'red',
+                    width: 5,
+                    height: 5
                 },
-                //鼠标hover时的title信息
-                hoverTitleStyle: {
-                    position: 'top',
-                    classNames: 'hoverStyle'
+                getGroupId: function(item, idx) {
+
+                    var parts = item.split(',');
+
+                    //按纬度区间分组
+                    return Math.abs(Math.round(parseFloat(parts[1]) / 5));
+                },
+                groupStyleOptions: function(gid) {
+
+                    var size = 4;
+
+                    return {
+                        pointStyle: {
+                            //content: gid % 2 ? 'circle' : 'rect',
+                            fillStyle: 'red',
+                            width: size,
+                            height: size
+                        },
+                        pointHardcoreStyle: {
+                            width: size - 2,
+                            height: size - 2
+                        }
+                    };
                 }
+
             }
         });
 
@@ -325,8 +356,8 @@
              marker.setAnimation('AMAP_ANIMATION_BOUNCE');
              document.getElementById('cityTitle').innerHTML="<small>"+parts[2]+"</small>";
              $("#cityName").text(parts[2]);
-             $("#carNums").text(parts[3]);
-             $("#totalFreight").text(parts[4]);
+             $("#carNums").text(parts[3]+"车");
+             $("#totalFreight").text(parts[4]+"吨");
          }); 
     });
 

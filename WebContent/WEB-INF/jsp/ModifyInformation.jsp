@@ -76,27 +76,26 @@ html, body {
 					<!-- edit form column -->
 					<div class="col-md-9 personal-info">
 						<div class="alert alert-info alert-dismissable" style="margin-left:150px">
-							<i class="fa fa-coffee"></i> You can edit your <strong>personal
-								information and password</strong> below.
+							<i class="fa fa-coffee"></i> 您可以修改<strong>部分个人资料</strong>.
 						</div>
 						<form class="form-horizontal changeMyInfo" role="form"
 							action="<%=basePath%>user/updateProfile" method="POST">
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Name:</label>
+								<label class="col-lg-3 control-label">姓名:</label>
 								<div class="col-lg-8">
 									<input id="user_name" name="user_name" class="form-control"
 										value="${user.user_name}" type="text" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Work code:</label>
+								<label class="col-lg-3 control-label">工号:</label>
 								<div class="col-lg-8">
 									<input class="form-control" id="user_id" name="user_id"
 										value="${user.user_id}" type="text" readonly="readonly">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Password:</label>
+								<label class="col-lg-3 control-label">密码:</label>
 								<div class="col-lg-8">
 									<input type="password" class="form-control" id="user_pwd"
 										name="user_pwd" value="${user.user_pwd}" class="inputxt"
@@ -110,7 +109,7 @@ html, body {
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Ensure password:</label>
+								<label class="col-lg-3 control-label">确认密码:</label>
 								<div class="col-lg-8">
 									<input type="password" class="form-control"
 										id="password_recheck" name="password_recheck"
@@ -119,7 +118,7 @@ html, body {
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Tel:</label>
+								<label class="col-lg-3 control-label">电话:</label>
 								<div class="col-lg-8">
 									<input onkeyup="this.value=this.value.replace(/\D/g,'')"
 										onafterpaste="this.value=this.value.replace(/\D/g,'')"
@@ -129,7 +128,7 @@ html, body {
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Email:</label>
+								<label class="col-lg-3 control-label">邮箱:</label>
 								<div class="col-lg-8">
 									<input class="form-control" id="user_email" name="user_email"
 										value="${user.user_email}" type="text" datatype="e"
@@ -137,7 +136,7 @@ html, body {
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Time Zone:</label>
+								<label class="col-lg-3 control-label">所属部门:</label>
 								<div class="col-lg-8">
 									<c:forEach items="${depType}" var="item">
 										<c:if test="${user.user_department == item.dict_id }">
@@ -151,16 +150,16 @@ html, body {
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-3 control-label">Tips:</label>
+								<label class="col-lg-3 control-label">提示:</label>
 								<div class="MyinfoError col-lg-8"
 									style="color: #F00; margin-top: 8px;"></div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-3 control-label"></label>
 								<div class="col-md-8">
-									<input class="btn btn-primary" value="Save Changes"
+									<input class="btn btn-primary" value="保存"
 										type="submit"> <span></span> <input
-										class="btn btn-default" value="Cancel" type="reset"
+										class="btn btn-default" value="取消" type="reset"
 										onclick="cancel()">
 								</div>
 							</div>

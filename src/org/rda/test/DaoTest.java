@@ -14,6 +14,7 @@ import org.rda.pojo.City;
 import org.rda.pojo.RailwayCity;
 import org.rda.pojo.RailwayData;
 import org.rda.pojo.User;
+import org.rda.utils.SpiderUtil;
 
 public class DaoTest extends BaseTest{
 	@Resource
@@ -24,8 +25,10 @@ public class DaoTest extends BaseTest{
 	
 	@Test
 	public void getUser(){
+		SpiderUtil test=new SpiderUtil();
+		test.scratch();
 		//boolean b = rail.addRailwayCity(new RailwayCity("yl","sd",12,12f,12f));
-		rail.getAllCenterPairs();
+		//rail.getAllCenterPairs();
 		//rail.delRailwayCity();
 		//List<RailwayCity> a=rail.getFilterResult("","");
 		//List<City> city = cityMapper.getOriginalCitys();

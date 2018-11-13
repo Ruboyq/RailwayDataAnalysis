@@ -11,7 +11,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>RailwayDataAnalysisSystem</title>
+<title>铁路货票数据分析平台</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -38,7 +38,7 @@
 </head>
 
 <body
-	style="background: url('assets/img/bg.jpg') no-repeat center center fixed;">
+	style="background:#3374b4 no-repeat center center fixed;">
 	<!-- Preloader -->
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
@@ -60,7 +60,7 @@
 
 			<div id="logo-mobile" class="visible-xs">
 				<h1>
-					RailwayData<span>v0.1</span>
+					铁路货票数据分析平台<span>v0.1</span>
 				</h1>
 			</div>
 
@@ -100,21 +100,20 @@
 			<ul style="margin-right: 0;" class="nav navbar-nav navbar-right">
 				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<img alt="" class="admin-pic img-circle"
-						src="<%=basePath%>images/users/${user.user_id}.jpg">Hi,
+						src="<%=basePath%>images/users/${user.user_id}.jpg">你好,
 						${user.user_name} <b class="caret"></b>
 				</a>
 					<ul style="margin-top: 14px;" role="menu"
 						class="dropdown-setting dropdown-menu">
-						<li><a href="<%=basePath%>toChangeProfile" target="main" onclick="changeTitle('My Profile')"> <span class="entypo-user"></span>&#160;&#160;My
-								Profile
+						<li><a href="<%=basePath%>toChangeProfile" target="main" onclick="changeTitle('我的资料')"> <span class="entypo-user"></span>&#160;&#160;我的资料
 						</a></li>
 						<li><a
 							href="<%=basePath%>user/logoff">
-								<span class="entypo-lifebuoy"></span>&#160;&#160; Log off
+								<span class="entypo-lifebuoy"></span>&#160;&#160; 注销
 						</a></li>
 					</ul></li>
 				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-						<span class="icon-gear"></span>&#160;&#160;Setting
+						<span class="icon-gear"></span>&#160;&#160;设置
 				</a>
 					<ul role="menu" class="dropdown-setting dropdown-menu">
 
@@ -145,8 +144,8 @@
 	<!-- SIDE MENU -->
 	<div id="skin-select">
 		<div id="logo">
-			<h1>
-				Railway<span>v 0.1</span>
+			<h1 style="font-size:15px">
+				铁路货票数据分析平台<span style="top:3px;">v&#160;0.1</span>
 			</h1>
 		</div>
 
@@ -180,14 +179,14 @@
 		<div class="skin-part">
 			<div id="tree-wrap">
 				<div class="side-bar">
-					<ul id="" class="topnav menu-left-nest">
+					<ul id="rights1" class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="wid">系统管理</span> 
 
 						</a></li>
 
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>user/list" title="用户管理" target="main"
-									onclick="changeTitle('User Management')"
+									onclick="changeTitle('用户管理')"
 							title="Social"> <i class="icon-document-edit"></i> <span>用户管理</span>
 
 						</a></li>
@@ -199,27 +198,22 @@
 
 						</a></li>
 						
-						<li>
-							 <a class="tooltip-tip ajax-load" href="#" title="原始数据">
-                                <i class="icon-menu"></i>
-                                <span>原始数据</span>
-							</a>
-							<ul>
                                 <li>
-                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originStation"
-							onclick="changeTitle('Retrieve City Station')" target="main" title="站点查看"> <i class="icon-location"></i> <span>站点查看</span></a>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originStation"
+							onclick="changeTitle('城市查看')" target="main" title="城市查看"> <i class="icon-location"></i> <span>城市查看</span></a>
                                 </li>
                                 <li>
-                                    <a class="tooltip-tip2 ajax-load" href="<%=basePath%>railwayData/originTonnage"
-							onclick="changeTitle('Retrieve Railway Line')" target="main" title="省市展示"> <i class="icon-preview"></i> <span>省市展示<span></a>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originTonnageProvince"
+							onclick="changeTitle('省份展示')" target="main" title="省份展示"> <i class="icon-preview"></i> <span>省份展示<span></a>
                                 </li>
-                            </ul>
-					</li>
-					<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="优化数据" target="main"
-									onclick="changeTitle('User Management')"
-							title="优化数据"> <i class="icon-menu"></i> <span>优化数据</span>
-
-						</a></li>
+                                <li>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originTonnageCity"
+							onclick="changeTitle('城市展示')" target="main" title="城市展示"> <i class="icon-preview"></i> <span>城市展示<span></a>
+                                </li>
+                                <li>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originCompany"
+							onclick="changeTitle('局运量')" target="main" title="局运量"> <i class="icon-document"></i> <span>局运量<span></a>
+                                </li>                               
 					</ul>
 
 					<ul id="menu-showhide" class="topnav menu-left-nest">
@@ -228,14 +222,34 @@
 
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/heatmap" target="main"
-									onclick="changeTitle('Heat Map')"
+									onclick="changeTitle('品类热力图')"
 							title="品类热力图"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/enterpriseAnalysis" target="main"
-									onclick="changeTitle('Analysis of Enterprise')"
+									onclick="changeTitle('企业发车数分析')"
 							title="企业发车数分析"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
 
 						</a></li>
+						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="优化数据" target="main"
+									onclick="changeTitle('优化数据')"
+							title="优化数据"> <i class="icon-menu"></i> <span>优化数据</span>
+
+						</a></li>
 							</ul>
+							
+						<!--<ul id="menu-showhide" class="topnav menu-left-nest">
+						<li><a href="#" style="border-left: 0px solid !important;"
+							class="title-menu-left"> <span class="coonent">数据源</span>
+
+						</a></li>
+						<li><a class="tooltip-tip ajax-load" href="<=basePath>railwayData/spider" target="main"
+									onclick="changeTitle('Heat Map')"
+							title="数据爬取"> <i class="icon-view-thumb"></i> <span>数据爬取 </span></a></li>
+						<li><a class="tooltip-tip ajax-load" href="<=basePath>railwayData/enterpriseAnalysis" target="main"
+									onclick="changeTitle('Analysis of Enterprise')"
+							title="文件查看"> <i class="icon-graph-pie"></i> <span>文件查看 </span>
+
+						</a></li> 
+							</ul>-->
 							<!-- <ul class="topnav menu-left-nest">
 						<li><a href="#" style="border-left: 0px solid !important;"
 							class="title-menu-left"> <span class="design">数据预测</span> <i
@@ -274,7 +288,7 @@
 				<div id="paper-top">
 					<div class="col-sm-3">
 						<h2 class="tittle-content-header">
-							<span class="entypo-doc-text"></span> <span id="contentTitle">OriginalData</span>
+							<span class="entypo-doc-text"></span> <span id="contentTitle">导航页</span>
 						</h2>
 
 					</div>
@@ -284,8 +298,7 @@
 						<div class="tittle-middle-header">
 
 							<div class="alert">
-								<span class="tittle-alert entypo-info-circled"></span> Welcome
-								back,&nbsp; <strong>${user.user_name}!</strong>
+								<span class="tittle-alert entypo-info-circled"></span> 欢迎回来,&nbsp; <strong>${user.user_name}!</strong>
 								<button type="button" class="close" data-dismiss="alert">×</button>
 							</div>
 

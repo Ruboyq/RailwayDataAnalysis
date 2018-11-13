@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 @Controller
 @RequestMapping("/cluster")
 public class cityClusterController {
@@ -24,32 +24,41 @@ public class cityClusterController {
 	@Autowired
 	private RailwayDataService railwayDataService;
 	/**
-	 * 展示聚类站点信息
+	 * 获取省份吨数热力图
 	 * @return
 	 */
 	@RequestMapping("/optimizedStation")
-	public String getDistrictString(Model model){
+	public String getProvince_ton(Model model){
+		return "optimizedStation";
+	}
+	/**
+	 * 展示聚类站点信息
+	 * @return
+	 */
+	@RequestMapping("/queryOptimizedStation")
+	@ResponseBody
+	public String getDistrictString(int min,int max,int distance,int knums){
+		System.out.println(min+"##"+max+"##"+distance+"##"+knums);
+		JSONObject returnValue=new JSONObject();
 		List<City> list=railwayDataService.getOptimizedCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
 			strings[i]=list.get(i).toString();
 		}
-		model.addAttribute("stringList",Arrays.toString(strings));
+		returnValue.put("pointList", Arrays.toString(strings));
 		
 		List<District> districts=dataAnalyzeService.getAllDistrict();
 		String[] circleList=new String[districts.size()];
 		for(int i=0;i<districts.size();i++){
 			circleList[i]=districts.get(i).toString();
 		}
-		model.addAttribute("circleList",Arrays.toString(circleList));
+		returnValue.put("circleList", Arrays.toString(circleList));
 		
-		JSONObject returnValue=new JSONObject();
 		JSONArray railwayArray=getRailwayJSONArray(dataAnalyzeService.getAllCenterPairs());
 		returnValue.put("railways",railwayArray);
 		returnValue.put("railwaynum", railwayArray.size());
-		model.addAttribute("lines",returnValue.toString());
 		
-		return "optimizedStation";
+		return returnValue.toString();
 	}
 	/**
 	 * 将航线列表包装为蛤蟆皮指定格式的JSON数组

@@ -55,24 +55,35 @@ public interface DataAnalyzeService {
 	List<District> getAllDistrict();
 	
 	/**
-	 * 在不同的车数段内的企业数的条形图
+	 * 在不同的车数段内的企业数的分析
 	 * 
 	 * @return
 	 */
-	JSONObject getCarNumInCompany();
+	JSONObject getCarNums(String productId,String time);
 	
 	/**
-	 * 在不同的车数段内的企业数的条形图
+	 * 在不同的发货吨数段内的企业数的分析
 	 * 
 	 * @return
 	 */
-	JSONObject getCarNumInTotal();
-
+	JSONObject getCarTons(String productId,String time);
+	/**
+	 * 获取局别表格信息
+	 * @return
+	 */
+	String getCompanyTable(String productId,String ctl,String time);
+	
+	/**
+	 * 获取局别直方图信息
+	 * @return
+	 */
+	JSONObject getCompanyChart(String productId,String ctl,String time);
+	
 	/**
 	 * 获取省份吨数热力图
 	 * @return
 	 */
-	JSONObject getProvince_ton(int productId);
+	JSONObject getProvince_ton(String productId,String ctl,String time);
 
 	/**
 	 * 根据品类名和到货城市名获得前20条线路信息2.1
@@ -80,15 +91,47 @@ public interface DataAnalyzeService {
 	 * @param toCity
 	 * @return
 	 */
-	String getCityTonnage(int productId, String toCity);
+	String getCityTonnage(String productId, String toCity,String time);
 
 	/**
-	 * 根据品类名和发货城市名获得前20条线路信息2.2
+	 * 根据品类名和省份名获得前20名城市信息2.2
 	 * @param productId
 	 * @param fromCity
 	 * @return
 	 */
-	String getCityTonnage2(int productId, String fromCity);
+	String getCityTonnage2(String productId, String fromCity,String time);
+	
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.1
+	 * @param productId
+	 * @param toProvince
+	 * @return
+	 */
+	String getProvinceTonnage1(String productId, String fromProvince,String time);
+
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.2
+	 * @param productId
+	 * @param fromProvince
+	 * @return
+	 */
+	String getProvinceTonnage2(String productId, String fromProvince,String time);
+
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.1
+	 * @param productId
+	 * @param toProvince
+	 * @return
+	 */
+	String getProvinceTonnage3(String productId, String toProvince,String time);
+
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.2
+	 * @param productId
+	 * @param fromProvince
+	 * @return
+	 */
+	String getProvinceTonnage4(String productId, String toProvince,String time);
 	
 	/**
 	 * 获取所有中心对

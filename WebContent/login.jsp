@@ -41,7 +41,7 @@ $(document).ready(function() {
   <h1 class="headerLogo"><a title="后台管理系统" target="_blank"><img alt="logo" src="<%=basePath%>images/logo.jpg"></a></h1>
 </div>
 
-<div class="banner" id="1" style="background:#16a085">
+<div class="banner" id="1" style="background:#3374b4">
 
 <div class="login-aside">
   <div id="o-box-up"></div>

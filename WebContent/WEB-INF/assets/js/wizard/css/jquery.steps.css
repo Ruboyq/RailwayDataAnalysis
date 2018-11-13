@@ -361,7 +361,7 @@
     height: 100%;
     overflow: hidden;
     border-top: 1px solid #bbb;
-    padding-top: 20px;
+    /*padding-top: 20px;*/
 }
 
 .tabcontrol > .content > .body

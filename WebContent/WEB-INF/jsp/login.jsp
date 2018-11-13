@@ -51,7 +51,7 @@
 		</h1>
 	</div>
 
-	<div class="banner" id="1" style="background: #16a085">
+	<div class="banner" id="1" style="background: #0c8ba9">
 
 		<div class="login-aside">
 			<div id="o-box-up"></div>

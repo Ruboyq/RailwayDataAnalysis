@@ -11,7 +11,7 @@
     font-family:'FontAwesome', sans-serif;
 }
 body {
-    color: #9ea7b3!important;
+    color: #414953!important;
     font-family:"Open Sans", Arial, sans-serif!important;
     font-size: 13px!important;
     line-height: 20px;
@@ -270,8 +270,8 @@ body {
     background-color: #FF6B6B!important;
 }
 .label, .badge {
-    background-color: #A8BDCF!important;
-    color: #FFFFFF;
+    background-color: #EAEFEF!important;
+    color: #414953;
     display: inline-block;
     font-family: Open Sans;
     font-size: 11px;
@@ -433,7 +433,7 @@ input:-webkit-autofill, textarea:-webkit-autofill {
     border: 1px solid !important;
     border-radius: 4px;
     box-shadow: none !important;
-    color: #C7D5E0 !important;
+    color: #414953 !important;
     font-size: 13px !important;
     height: 31px !important;
 }
@@ -1879,11 +1879,11 @@ img.sidebar-icon {
     border-bottom: 1px dotted #DDDDDD;
 }
 .nest .title-alt h6 {
-    color: #898F98;
+    color: #414953;
     float: left;
     font-family:'Open Sans', serif;
     font-size: 15px;
-    font-weight: normal;
+    font-weight: bold;
     left: 15px;
     padding: 0 5px 2px;
     position: relative;

@@ -47,11 +47,10 @@ public class District {
 	}
 
 	public District() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String toString() {
-		return id+","+longitude+","+latitude+","+radius;
+		return id+","+longitude+","+latitude+", ";
 	}
 
 }

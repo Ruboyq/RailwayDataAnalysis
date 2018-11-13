@@ -179,19 +179,12 @@
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
                            <select id="ctl" class="filter-status form-control sctl">
-                                        <option value="from">发站
-                                        <option value="to">到站
+                                        <option value="from">发送
+                                        <option value="to">到达
                             </select>
                                 <span class="ty-label">
-                                   Type:</span>
+                                   品类:</span>
                                  <select id="type" class="filter-status form-control sl">
-                                 <option value="01">01-煤
-                                 <option value="02">02-石油
-                                 <option value="03">03-焦炭
-                                 <option value="04">04-金属矿石
-                                 <option value="05">05-钢铁及有色金属
-                                 <option value="06">06-非金属矿石
-                                 <option value="07">07-磷矿石
                                  <option value="08">08-矿物性建筑材料
                                  <option value="09">09-水泥
                                  <option value="10">10-木材
@@ -213,14 +206,14 @@
                                  <option value="99">99-其他货物
                                 </select>
                                 <span class="st-label">
-                                   Start time:</span>
+                                   开始时间:</span>
                                         <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="15-05-2018" id="dpYears1" class="input-group date st">
 
                                             <input type="text" value="15-05-2018" class="form-control" id="time1">
                                             <span class="input-group-addon add-on entypo-calendar "></span>
                                         </div>
                                 <span class="ed-label">
-                                   End time:</span>
+                                   结束时间:</span>
                                  <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="15-05-2018" id="dpYears2" class="input-group date ed">
 
                                             <input type="text" value="15-05-2018" class="form-control" id="time2">
@@ -238,7 +231,10 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Detail Infomation about the chosen type</p>
+                                <p>信息展示栏</p>
+                                 <p id ="cityTitle">
+                                    <small>该类别详细信息</small>
+                                </p>
                             </blockquote>
                         </div>
                         </div>
@@ -246,19 +242,19 @@
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="icon icon-location" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Type Name:</span><span id="cityName" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">品类名:</span><span id="cityName" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="fontawesome-truck" data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Total tonnage:</span><span id="total_tonnage" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">总吨数:</span><span id="total_tonnage" class="s2"></span> </span>
                                 </div>
                         <div class="oneline">
                                 <div class="entypo-tooltip" style="color:#3498DB">
                                 <li style="padding:0px;"class="maki-aboveground-rail " data-placement="right" title="aboveground-rail"></li>
                                 </div>
-                                <span class="label1"><span class="label s1">Top Car Nums:</span><span id="total_carnum" class="s2"></span> </span>
+                                <span class="label1"><span class="label s1">总发车数:</span><span id="total_carnum" class="s2"></span> </span>
                                 </div>     
                                 </div>
                             </div>
@@ -268,26 +264,15 @@
                     <div class="blog-list-nest">
                         <div class="vendor">
                             <blockquote>
-                                <p>Analysis about the send station</p>
-                                <p id ="cityTitle">
-                                    <small>电器类</small>
-                                </p>
+                                <p>图表展示</p>
                             </blockquote>
                         </div>
                         </div>
-                         <div class="oneline">
+                         <div class="oneline" style="margin-top:50px;">
                      <ul class="list-inline" style="position:absolute;left:10px">
                                 <li>
                                     <a id="ssjk" style="font-size:20px;color:#9ea7b3" onclick="showChart(1);">
-                                        <span class="entypo-network" style="padding-right:15px"></span>&nbsp;&nbsp;Variety during chosen times</a>
-                                </li>
-                                </ul>
-                                </div>
-                        <div class="oneline">
-                     <ul class="list-inline" style="position:absolute;left:10px">
-                                <li>
-                                    <a id="ssjk-1" style="font-size:20px;color:#9ea7b3" onclick="showChart(2);">
-                                        <span class="entypo-network" style="padding-right:15px"></span>&nbsp;&nbsp;Top 5 Hottest Sub-types</a>
+                                        <span class="entypo-network" style="padding-right:15px"></span>&nbsp;&nbsp;2017年各月该品类发送吨数</a>
                                 </li>
                                 </ul>
                                 </div>
@@ -310,9 +295,6 @@
  <div id="chart1" class="chart" style="width: 100%; height:504px;display:none"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
 		<canvas id="canvas" width="905" height="452" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
 	</div>
-<div id="chart2" class="chart" style="width: 100%; height:504px;display:none"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-		<canvas id="chart-area" width="482" height="241" class="chartjs-render-monitor" style="display: block; height: 193px; width: 386px;"></canvas>
-	</div>
 	</div>
                     <!-- </div>
 
@@ -328,44 +310,12 @@ var randomScalingFactor = function() {
 	return Math.round(Math.random() * 100);
 };
 
-var config = {
-	type: 'pie',
-	data: {
-		datasets: [{
-			data: [
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-			],
-			backgroundColor: [
-				window.chartColors.red,
-				window.chartColors.orange,
-				window.chartColors.yellow,
-				window.chartColors.green,
-				window.chartColors.blue,
-			],
-			label: 'Dataset 1'
-		}],
-		labels: [
-			'Red',
-			'Orange',
-			'Yellow',
-			'Green',
-			'Blue'
-		]
-	},
-	options: {
-		responsive: true
-	}
-};
 
 var chartData = {
 		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 		datasets: [{
 			type: 'line',
-			label: 'tonnage(Line)',
+			label: '吨数(折线)',
 			borderColor: window.chartColors.blue,
 			borderWidth: 2,
 			fill: false,
@@ -380,7 +330,7 @@ var chartData = {
 			]
 		}, {
 			type: 'bar',
-			label: 'tonnage(Bar)',
+			label: '吨数(柱)',
 			backgroundColor: window.chartColors.red,
 			data: [
 				randomScalingFactor(),
@@ -405,7 +355,7 @@ window.onload = function() {
 			responsive: true,
 			title: {
 				display: true,
-				text: 'Variety during chosen times'
+				text: '2017年各月该品类发送吨数'
 			},
 			tooltips: {
 				mode: 'index',
@@ -413,8 +363,6 @@ window.onload = function() {
 			}
 		}
 	});
-	var ctx2 = document.getElementById('chart-area').getContext('2d');
-	window.myPie = new Chart(ctx2, config);
 };
     $('#dpYears1').datepicker();
     $('#dpYears2').datepicker();
@@ -494,7 +442,6 @@ window.onload = function() {
 					load.loading.remove();
 					if(first==true){
 				    	 document.getElementById('ssjk').style.color="#0DB8DF";
-						 document.getElementById('ssjk-1').style.color="#0DB8DF";
 						 document.getElementById('tryc').style.display="block";
 						 flashWord=window.setInterval('set_word_shanshuo ()', 300);
 						 first=false;
@@ -511,23 +458,8 @@ window.onload = function() {
         			chartData.datasets[1].data=data1.per_month.y_ton;
         			chartData.labels=data1.per_month.x_month;
         			window.myLine.update();
-                    config.data.datasets.splice(0, 1);
-         			var newDataset = {
-         					backgroundColor: [],
-         					data: data1.benifit_5.benifit,
-         					label: 'Top 5 Hottest Sub-types' ,
-         				};
-         			config.data.labels=data1.benifit_5.productName;
-         			for (var index = 0; index < config.data.labels.length; ++index) {
-         					var colorName = colorNames[index % colorNames.length];
-         					var newColor = window.chartColors[colorName];
-         					newDataset.backgroundColor.push(newColor);
-         				}
-
-         			config.data.datasets.push(newDataset);
-         			window.myPie.update();
-         			$("#total_tonnage").text(data1.total_tonnage);
-         			$("#total_carnum").text(data1.total_carnum);
+         			$("#total_tonnage").text(data1.total_tonnage+"吨");
+         			$("#total_carnum").text(data1.total_carnum+"车");
          			$("#cityName").text($('#type option:selected').text());
 				},
 				error: function(json){
@@ -542,13 +474,7 @@ window.onload = function() {
     	}
     	if(ctl==1){
     		document.getElementById("chart1").style.display="block";
-    		document.getElementById("chart2").style.display="none";
-    		$("#chartTitle").text("Variety during chosen times");
-    	}
-    	if(ctl==2){
-    		document.getElementById("chart1").style.display="none";
-    		document.getElementById("chart2").style.display="block";
-    		$("#chartTitle").text("Top 5 Hottest Sub-types");
+    		$("#chartTitle").text("2017年各月该品类发送吨数");
     	}
     }
     function set_word_shanshuo() {

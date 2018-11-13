@@ -1,5 +1,6 @@
 package org.rda.service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -59,22 +60,278 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	}
 	
 	/**
+	 * 获取局别直方图信息
+	 * @return
+	 */
+	@Override
+	public JSONObject getCompanyChart(String productId, String ctl, String time) {
+		JSONObject total = new JSONObject();
+		JSONArray x_company = new JSONArray();
+		JSONArray y_carnum=new JSONArray();
+		JSONArray y_ton=new JSONArray();
+		List<Map> ton_car_list;
+		if (ctl.equalsIgnoreCase("from"))
+			ton_car_list =railwayDataMapper.getCompanyChart1(productId,time);
+		else
+			ton_car_list =railwayDataMapper.getCompanyChart2(productId,time);
+		int n = 0;
+		for(int i=0;i<ton_car_list.size();i++){
+			Map map=ton_car_list.get(i);
+			System.out.println(map.get("company"));
+		}
+		System.out.println(ton_car_list.size());
+		loop1: while(n < 18){
+			for (Map map:ton_car_list) {
+				if (n == 0) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("哈")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 1) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("沈")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 2) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("京")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 3) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("太")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 4) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("呼")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 5) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("郑")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 6) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("武")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 7) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("西")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 8) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("济")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 9) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("上")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 10) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("南")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 11) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("广")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 12) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("宁")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 13) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("成")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 14) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("昆")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 15) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("兰")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 16) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("乌")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				} else if (n == 17) {
+					if (map.get("company") != null) {
+						if (((String) (map.get("company"))).equalsIgnoreCase("青")) {
+							x_company.add(map.get("company"));
+							y_carnum.add(map.get("carNum"));
+							y_ton.add(map.get("tonnage"));
+							n++;
+							continue loop1;
+						}
+					}
+				}
+			}
+		}
+		total.put("x_company", x_company);
+		total.put("y_carnum", y_carnum);
+		total.put("y_ton", y_ton);
+		return total;
+	}
+	
+	/**
+	 * 获取局别表格信息
+	 * @return
+	 */
+	@Override
+	public String getCompanyTable(String productId, String ctl, String time) {
+		String html="";
+		List<Map> maps;
+		if (ctl.equalsIgnoreCase("from"))
+			maps =railwayDataMapper.getCompanyTable1(productId,time);
+		else
+			maps =railwayDataMapper.getCompanyTable2(productId,time);
+		if (maps.size() == 0)
+			return null;
+		for(int i=0;i<maps.size();i++){
+			Map map=maps.get(i);
+			if (map.get("company") != null) {
+				html += "<tr>";
+				html += "<td>" + map.get("company") + "<//td>";
+				html += "<td><span class='status-metro status-active'title='Active'>" + productId + "<//span><//td>";
+				html += "<td data-value=" + Math.round((Double) map.get("tonnage")) + ">"
+						+ Math.round((Double) map.get("tonnage")) + "<//td>";
+				html += "<td data-value=" + ((BigDecimal) map.get("carNum")).intValue() + ">" + map.get("carNum")
+						+ "<//td>";
+				html += "<td data-value=" + Math.round((Double) map.get("income")) + ">"
+						+ Math.round((Double) map.get("income")) + "<//td>";
+				html += "<//tr>";
+			}
+		}
+		return html;
+	}
+	
+	/**
 	 * 获取省份吨数热力图
 	 * @return
 	 */
 	@Override
-	public JSONObject getProvince_ton(int productId){
+	public JSONObject getProvince_ton(String productId,String ctl,String time){
 		JSONObject jsonObject=new JSONObject();
 		JSONObject provincergb=new JSONObject();
-		List<Map> maps=railwayDataMapper.getProvinceTonnage(productId);
+		JSONObject provincercar=new JSONObject();
+		JSONObject provincerton=new JSONObject();
+		List<Map> maps = null;
+		if (ctl.equalsIgnoreCase("from"))
+			maps =railwayDataMapper.getProvinceTonnage1(productId,time);
+		else
+			maps =railwayDataMapper.getProvinceTonnage2(productId,time);
+		if (maps.size() == 0){
+			jsonObject.put("status","n");
+			return jsonObject;
+		}
 		int carnum=0;
 		float ton=0;
 		
 		int area=maps.size()/5;
 		int[] Interval={0,area,area*2,area*3,area*4,maps.size()}; //区间
-		String[] rgb={"#00BFFF","#1E90FF","#0000FF","#4169E1","#0000CD"}; //颜色
-		
+		//String[] rgb={"#00BFFF","#1E90FF","#0000FF","#4169E1","#0000CD"}; //颜色
+		String[] rgb={"0.5","0.4","0.3","0.2","0.1"}; //颜色
 		for(Map map:maps){
+			provincercar.put(map.get("province"),Integer.valueOf(map.get("carNum").toString()).intValue());
+			provincerton.put(map.get("province"),Float.parseFloat(map.get("tonnage").toString()));
 			carnum+=Integer.valueOf(map.get("carNum").toString()).intValue();
 			ton+=Float.parseFloat(map.get("tonnage").toString());
 		}
@@ -88,6 +345,9 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		jsonObject.put("carnums", carnum);
 		jsonObject.put("totalFreight", ton);
 		jsonObject.put("colors", provincergb);
+		jsonObject.put("province_car", provincercar);
+		jsonObject.put("province_ton", provincerton);
+		jsonObject.put("status","y");
 		return jsonObject;
 	}
 	
@@ -98,9 +358,11 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	 * @return
 	 */
 	@Override
-	public String getCityTonnage(int productId,String toCity){
+	public String getCityTonnage(String productId,String toCity,String time){
 		String html="";
-		List<Map> maps=railwayDataMapper.getCityTonnage(productId, toCity);
+		List<Map> maps=railwayDataMapper.getCityTonnage(productId, toCity,time);
+		if (maps.size() == 0)
+			return null;
 		for(int i=0;i<maps.size();i++){
 			int rank=i+1;
 			Map map=maps.get(i);
@@ -108,9 +370,9 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			html+="<td data-value="+rank+">"+rank+"<//td>";
 			html+="<td>"+map.get("fromCity")+"<//td>";
 			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
-			html+="<td data-value="+map.get("tonnage")+">"+map.get("tonnage")+"<//td>";
-			html+="<td data-value="+map.get("carNum")+">"+map.get("carNum")+"<//td>";
-			html+="<td data-value="+map.get("income")+">"+map.get("income")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
 			html+="<//tr>";
 		}
 		return html;
@@ -123,9 +385,11 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	 * @return
 	 */
 	@Override
-	public String getCityTonnage2(int productId,String fromCity){
+	public String getCityTonnage2(String productId,String fromCity,String time){
 		String html="";
-		List<Map> maps=railwayDataMapper.getCityTonnage2(productId, fromCity);
+		List<Map> maps=railwayDataMapper.getCityTonnage2(productId, fromCity,time);
+		if (maps.size() == 0)
+			return null;
 		for(int i=0;i<maps.size();i++){
 			int rank=i+1;
 			Map map=maps.get(i);
@@ -133,9 +397,117 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 			html+="<td data-value="+rank+">"+rank+"<//td>";
 			html+="<td>"+map.get("toCity")+"<//td>";
 			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
-			html+="<td data-value="+map.get("tonnage")+">"+map.get("tonnage")+"<//td>";
-			html+="<td data-value="+map.get("carNum")+">"+map.get("carNum")+"<//td>";
-			html+="<td data-value="+map.get("income")+">"+map.get("income")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
+			html+="<//tr>";
+		}
+		return html;
+	}
+	
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.1
+	 * @param productId
+	 * @param toProvince
+	 * @return
+	 */
+	@Override
+	public String getProvinceTonnage1(String productId,String fromProvince,String time){
+		String html="";
+		List<Map> maps=railwayDataMapper.getProvinceTonnageRank1(productId, fromProvince,time);
+		if (maps.size() == 0)
+			return null;
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("fromCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
+			html+="<//tr>";
+		}
+		return html;
+	}
+	
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.2
+	 * @param productId
+	 * @param fromProvince
+	 * @return
+	 */
+	@Override
+	public String getProvinceTonnage2(String productId,String fromProvince,String time){
+		String html="";
+		List<Map> maps=railwayDataMapper.getProvinceTonnageRank2(productId, fromProvince,time);
+		if (maps.size() == 0)
+			return null;
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("toCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
+			html+="<//tr>";
+		}
+		return html;
+	}
+	
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.3
+	 * @param productId
+	 * @param toProvince
+	 * @return
+	 */
+	@Override
+	public String getProvinceTonnage3(String productId,String toProvince,String time){
+		String html="";
+		List<Map> maps=railwayDataMapper.getProvinceTonnageRank3(productId, toProvince,time);
+		if (maps.size() == 0)
+			return null;
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("fromCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
+			html+="<//tr>";
+		}
+		return html;
+	}
+	
+	/**
+	 * 根据品类名和省份名获得前20名城市信息2.4
+	 * @param productId
+	 * @param fromProvince
+	 * @return
+	 */
+	@Override
+	public String getProvinceTonnage4(String productId,String toProvince,String time){
+		String html="";
+		List<Map> maps=railwayDataMapper.getProvinceTonnageRank4(productId, toProvince,time);
+		if (maps.size() == 0)
+			return null;
+		for(int i=0;i<maps.size();i++){
+			int rank=i+1;
+			Map map=maps.get(i);
+			html+="<tr>";
+			html+="<td data-value="+rank+">"+rank+"<//td>";
+			html+="<td>"+map.get("toCity")+"<//td>";
+			html+="<td><span class='status-metro status-active'title='Active'>"+productId+"<//span><//td>";
+			html+="<td data-value="+Math.round((Double)map.get("tonnage"))+">"+Math.round((Double)map.get("tonnage"))+"<//td>";
+			html+="<td data-value="+((BigDecimal)map.get("carNum")).intValue()+">"+map.get("carNum")+"<//td>";
+			html+="<td data-value="+Math.round((Double)map.get("income"))+">"+Math.round((Double)map.get("income"))+"<//td>";
 			html+="<//tr>";
 		}
 		return html;
@@ -533,114 +905,207 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	}
 	
 	/**
-	 * 在不同的车数段内的企业数的条形图
+	 * 在不同的车数段内的企业数的分析
 	 * 
 	 * @return
 	 */
 	@Override
-	public JSONObject getCarNumInCompany() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
+	public JSONObject getCarNums(String productId,String time) {
+		List<Integer> carNum_company_list = dataCompanyMapper.getCarNum(productId,time);
+		
+		JSONObject carNums = new JSONObject();
+		JSONObject carNum_total = new JSONObject();
 		JSONObject carNum_company = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		x_axis.add("0");
-		y_axis.add(0);
-		x_axis.add("1");
-		y_axis.add(0);
-		x_axis.add("5");
-		y_axis.add(0);
-		x_axis.add("20");
-		y_axis.add(0);
-		x_axis.add("50");
-		y_axis.add(0);
-		x_axis.add("100");
-		y_axis.add(0);
-		x_axis.add("200");
-		y_axis.add(0);
-		x_axis.add("500");
-		y_axis.add(0);
-		x_axis.add("2000");
-		y_axis.add(0);
-		x_axis.add("172643");
-		y_axis.add(0);
-		for(Map map:carNum_company_list){
-			if(map.get("carNum")!=null){
-				int carNum = Integer.parseInt(map.get("carNum").toString());
-				for(int i=0;i<x_axis.size()-1;i++){
-					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
-						y_axis.set(i, (int)y_axis.get(i)+1);
+		JSONArray x_axis1 = new JSONArray();
+		JSONArray x_axis2 = new JSONArray();
+		JSONArray y_axis1 = new JSONArray();
+		JSONArray y_axis2 = new JSONArray();
+		int max=100000;
+		if (carNum_company_list.size() == 0) {
+			carNums.put("status", "n");
+			return carNums;
+		}
+		carNum_company_list.removeAll(Collections.singleton(null));
+		max = Collections.max(carNum_company_list);
+		x_axis1.add("0");
+		y_axis1.add(0);
+		x_axis1.add("1");
+		y_axis1.add(0);
+		x_axis1.add("5");
+		y_axis1.add(0);
+		x_axis1.add("20");
+		y_axis1.add(0);
+		x_axis1.add("50");
+		y_axis1.add(0);
+		x_axis1.add("100");
+		y_axis1.add(0);
+		x_axis1.add("200");
+		y_axis1.add(0);
+		x_axis1.add("500");
+		y_axis1.add(0);
+		x_axis1.add("2000");
+		y_axis1.add(0);
+		x_axis1.add(String.valueOf(max));
+		y_axis1.add(0);
+		x_axis2.add("0");
+		y_axis2.add(0);
+		x_axis2.add("100");
+		y_axis2.add(0);
+		x_axis2.add("500");
+		y_axis2.add(0);
+		x_axis2.add("1000");
+		y_axis2.add(0);
+		x_axis2.add("2000");
+		y_axis2.add(0);
+		x_axis2.add("5000");
+		y_axis2.add(0);
+		x_axis2.add("10000");
+		y_axis2.add(0);
+		x_axis2.add("20000");
+		y_axis2.add(0);
+		x_axis2.add("40000");
+		y_axis2.add(0);
+		x_axis2.add(String.valueOf(max));
+		y_axis2.add(0);
+		for (Integer num : carNum_company_list) {
+			if (num != null) {
+				for (int i = 0; i < x_axis1.size() - 1; i++) {
+					if (num <= x_axis1.getInt(i + 1) && num > x_axis1.getInt(i)) {
+						y_axis1.set(i, (int) y_axis1.get(i) + 1);
+						break;
+					}
+				}
+				for (int i = 0; i < x_axis2.size() - 1; i++) {
+					if (num <= x_axis2.getInt(i + 1) && num > x_axis2.getInt(i)) {
+						y_axis2.set(i, (int) y_axis2.get(i) + num);
+						break;
 					}
 				}
 			}
 		}
-		for(int i=0;i<x_axis.size()-1;i++){
-			if(i==0){
-			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
-			}
-			else{
-				x_axis.set(i, String.valueOf(x_axis.getInt(i)+1)+"-"+x_axis.get(i+1).toString());
+		for (int i = 0; i < x_axis1.size() - 1; i++) {
+			if (i == 0) {
+				x_axis1.set(i, x_axis1.get(i).toString() + "-" + x_axis1.get(i + 1).toString());
+				x_axis2.set(i, x_axis2.get(i).toString() + "-" + x_axis2.get(i + 1).toString());
+			} else {
+				x_axis1.set(i, String.valueOf(x_axis1.getInt(i) + 1) + "-" + x_axis1.get(i + 1).toString());
+				x_axis2.set(i, String.valueOf(x_axis2.getInt(i) + 1) + "-" + x_axis2.get(i + 1).toString());
 			}
 		}
-		x_axis.remove(x_axis.size()-1);
-		y_axis.remove(y_axis.size()-1);
-		carNum_company.put("x_axis", x_axis);
-		carNum_company.put("y_axis", y_axis);
-		return carNum_company;
+		x_axis1.remove(x_axis1.size()-1);
+		x_axis2.remove(x_axis2.size()-1);
+		y_axis1.remove(y_axis1.size()-1);
+		y_axis2.remove(y_axis2.size()-1);
+		carNum_company.put("x_axis", x_axis1);
+		carNum_company.put("y_axis", y_axis1);
+		carNum_total.put("x_axis", x_axis2);
+		carNum_total.put("y_axis", y_axis2);
+		carNums.put("one", carNum_company);
+		carNums.put("total", carNum_total);
+		carNums.put("status","y");
+		return carNums;
 	}
 	
 	/**
-	 * 在不同的车数段内的企业数的条形图
+	 * 在不同的发货吨数段内的企业数的分析
 	 * 
 	 * @return
 	 */
 	@Override
-	public JSONObject getCarNumInTotal() {
-		List<Map> carNum_company_list = dataCompanyMapper.getCarNum();
-		JSONObject carNum_total = new JSONObject();
-		JSONArray x_axis = new JSONArray();
-		JSONArray y_axis = new JSONArray();
-		x_axis.add("0");
-		y_axis.add(0);
-		x_axis.add("1000");
-		y_axis.add(0);
-		x_axis.add("2000");
-		y_axis.add(0);
-		x_axis.add("5000");
-		y_axis.add(0);
-		x_axis.add("10000");
-		y_axis.add(0);
-		x_axis.add("20000");
-		y_axis.add(0);
-		x_axis.add("50000");
-		y_axis.add(0);
-		x_axis.add("100000");
-		y_axis.add(0);
-		x_axis.add("150000");
-		y_axis.add(0);
-		x_axis.add("172643");
-		y_axis.add(0);
-		for(Map map:carNum_company_list){
-			if(map.get("carNum")!=null){
-				int carNum = Integer.parseInt(map.get("carNum").toString());
-				for(int i=0;i<x_axis.size()-1;i++){
-					if(carNum<=x_axis.getInt(i + 1) && carNum>x_axis.getInt(i)){
-						y_axis.set(i, (int)y_axis.get(i)+carNum);
+	public JSONObject getCarTons(String productId,String time) {
+		List<Integer> carTon_company_list = dataCompanyMapper.getCarTon(productId,time);
+		
+		JSONObject carTons = new JSONObject();
+		JSONObject carTon_total = new JSONObject();
+		JSONObject carTon_company = new JSONObject();
+		JSONArray x_axis1 = new JSONArray();
+		JSONArray x_axis2 = new JSONArray();
+		JSONArray y_axis1 = new JSONArray();
+		JSONArray y_axis2 = new JSONArray();
+		int max=100000;
+		if (carTon_company_list.size() == 0) {
+			carTons.put("status", "n");
+			return carTons;
+		}
+		carTon_company_list.removeAll(Collections.singleton(null));
+		max = Collections.max(carTon_company_list);
+		x_axis1.add("0");
+		y_axis1.add(0);
+		x_axis1.add("10");
+		y_axis1.add(0);
+		x_axis1.add("20");
+		y_axis1.add(0);
+		x_axis1.add("50");
+		y_axis1.add(0);
+		x_axis1.add("100");
+		y_axis1.add(0);
+		x_axis1.add("200");
+		y_axis1.add(0);
+		x_axis1.add("500");
+		y_axis1.add(0);
+		x_axis1.add("1000");
+		y_axis1.add(0);
+		x_axis1.add("5000");
+		y_axis1.add(0);
+		x_axis1.add(String.valueOf(max));
+		y_axis1.add(0);
+		x_axis2.add("0");
+		y_axis2.add(0);
+		x_axis2.add("2000");
+		y_axis2.add(0);
+		x_axis2.add("5000");
+		y_axis2.add(0);
+		x_axis2.add("10000");
+		y_axis2.add(0);
+		x_axis2.add("20000");
+		y_axis2.add(0);
+		x_axis2.add("50000");
+		y_axis2.add(0);
+		x_axis2.add("100000");
+		y_axis2.add(0);
+		x_axis2.add("200000");
+		y_axis2.add(0);
+		x_axis2.add("300000");
+		y_axis2.add(0);
+		x_axis2.add(String.valueOf(max));
+		y_axis2.add(0);
+		for (Integer num : carTon_company_list) {
+			if (num != null) {
+				for (int i = 0; i < x_axis1.size() - 1; i++) {
+					if (num <= x_axis1.getInt(i + 1) && num > x_axis1.getInt(i)) {
+						y_axis1.set(i, (int) y_axis1.get(i) + 1);
+						break;
+					}
+				}
+				for (int i = 0; i < x_axis2.size() - 1; i++) {
+					if (num <= x_axis2.getInt(i + 1) && num > x_axis2.getInt(i)) {
+						y_axis2.set(i, (int) y_axis2.get(i) + num);
+						break;
 					}
 				}
 			}
 		}
-		for(int i=0;i<x_axis.size()-1;i++){
-			if(i==0){
-			x_axis.set(i, x_axis.get(i).toString()+"-"+x_axis.get(i+1).toString());
-			}
-			else{
-				x_axis.set(i, String.valueOf(x_axis.getInt(i)+1)+"-"+x_axis.get(i+1).toString());
+		for (int i = 0; i < x_axis1.size() - 1; i++) {
+			if (i == 0) {
+				x_axis1.set(i, x_axis1.get(i).toString() + "-" + x_axis1.get(i + 1).toString());
+				x_axis2.set(i, x_axis2.get(i).toString() + "-" + x_axis2.get(i + 1).toString());
+			} else {
+				x_axis1.set(i, String.valueOf(x_axis1.getInt(i) + 1) + "-" + x_axis1.get(i + 1).toString());
+				x_axis2.set(i, String.valueOf(x_axis2.getInt(i) + 1) + "-" + x_axis2.get(i + 1).toString());
 			}
 		}
-		x_axis.remove(x_axis.size()-1);
-		y_axis.remove(y_axis.size()-1);
-		carNum_total.put("x_axis", x_axis);
-		carNum_total.put("y_axis", y_axis);
-		return carNum_total;
+		x_axis1.remove(x_axis1.size()-1);
+		x_axis2.remove(x_axis2.size()-1);
+		y_axis1.remove(y_axis1.size()-1);
+		y_axis2.remove(y_axis2.size()-1);
+		carTon_company.put("x_axis", x_axis1);
+		carTon_company.put("y_axis", y_axis1);
+		carTon_total.put("x_axis", x_axis2);
+		carTon_total.put("y_axis", y_axis2);
+		carTons.put("one", carTon_company);
+		carTons.put("total", carTon_total);
+		carTons.put("status","y");
+		return carTons;
 	}
+
 }

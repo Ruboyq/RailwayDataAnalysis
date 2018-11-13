@@ -11,7 +11,7 @@
     font-family:'FontAwesome', sans-serif;
 }
 body {
-    color: #9ea7b3!important;
+    color: #414953!important;
     font-family:"Open Sans", Arial, sans-serif!important;
     font-size: 13px!important;
     line-height: 20px;
@@ -433,7 +433,7 @@ input:-webkit-autofill, textarea:-webkit-autofill {
     border: 1px solid !important;
     border-radius: 4px;
     box-shadow: none !important;
-    color: #C7D5E0 !important;
+    color: #414953 !important;
     font-size: 13px !important;
     height: 31px !important;
 }
@@ -1735,7 +1735,7 @@ ul.topnav h4 {
     padding: 15px 0 0;
 }
 .tittle-content-header {
-    color: #9EA7B3 !important;
+    color: #414953 !important;
     font-family:"Open Sans";
     font-size: 16px;
     font-weight: normal;

@@ -14,6 +14,8 @@ import org.rda.pojo.RailwayData;
 import org.rda.service.BaseDictService;
 import org.rda.service.DataAnalyzeService;
 import org.rda.service.RailwayDataService;
+import org.rda.service.SpiderService;
+import org.rda.utils.SpiderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,8 @@ public class RailwayDataController {
 	private DataAnalyzeService dataAnalyzeService;
 	@Autowired
 	private BaseDictService baseDictService;
+	@Autowired
+	private SpiderService spiderService;
 	
 	/**
 	 * 展示原始站点信息
@@ -45,6 +49,23 @@ public class RailwayDataController {
 	@RequestMapping("/heatmap")
 	public String showHeatMap(Model model){
 		return "heatmap";
+	}
+	@RequestMapping("/spider")
+	public String showSpider(Model model){
+		return "spider";
+	}
+	/**
+	 * 展示原始站点
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/crawl")
+	@ResponseBody
+	public String crawlData(){
+		spiderService.crawl("", "", "", "", "");
+		JSONObject job = new JSONObject();
+		job.put("status","y");
+		return job.toString();
 	}
 	
 	/**
@@ -63,15 +84,23 @@ public class RailwayDataController {
 
 		return "originStationMap";
 	}
-	@RequestMapping("/originTonnage")
-	public String showOriginDrawLine(Model model){
+	@RequestMapping("/originTonnageCity")
+	public String showOriginTonnageCity(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
 			strings[i]=list.get(i).toString();
 		}
 		model.addAttribute("stringList",Arrays.toString(strings));
-		return "originTonnageMap";
+		return "originTonnageCityMap";
+	}
+	@RequestMapping("/originTonnageProvince")
+	public String showOriginTonnageProvince(Model model){
+		return "originTonnageProvinceMap";
+	}
+	@RequestMapping("/originCompany")
+	public String showOriginCompanny(Model model){
+		return "originCompany";
 	}
 	/**
 	 * 获取省份-城市对应表
@@ -98,6 +127,7 @@ public class RailwayDataController {
 		String[] t2=endmonth.split("-");
 		startmonth=t1[2]+t1[1];
 		endmonth=t2[2]+t2[1];
+		System.out.println(productId);
 		JSONObject jsonArray=dataAnalyzeService.getFromCityShipNum(startmonth, endmonth, productId);
 		return jsonArray.toString();
 	}
@@ -139,8 +169,36 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/cityTonnages")
 	@ResponseBody
-	public String getProvince_ton(int type){
-		return dataAnalyzeService.getProvince_ton(type).toString();
+	public String getProvince_ton(String type,String ctl,String time){
+		return dataAnalyzeService.getProvince_ton(type,ctl,time).toString();
+	}
+	
+	/**
+	 * 某省最火前20名城市数据
+	 * @return
+	 */
+	@RequestMapping("/top20CitiesFromProvince")
+	@ResponseBody
+	public String getTop20CitiesFromProvince(String ctl,String type,String provinceName,String time){
+		JSONObject jsonObject=new JSONObject();
+		String html1 = null;
+		String html2 = null;
+		System.out.println(ctl);
+		if (ctl.equalsIgnoreCase("from")) {
+			html1 = dataAnalyzeService.getProvinceTonnage1(type, provinceName, time);
+			html2 = dataAnalyzeService.getProvinceTonnage2(type, provinceName, time);
+		}
+		else if(ctl.equalsIgnoreCase("to")){
+			html1 = dataAnalyzeService.getProvinceTonnage3(type, provinceName, time);
+			html2 = dataAnalyzeService.getProvinceTonnage4(type, provinceName, time);
+		}
+		if (html1 != null && html2 != null) {
+			jsonObject.put("html1", html1);
+			jsonObject.put("html2", html2);
+			jsonObject.put("status", "y");
+		} else
+			jsonObject.put("status", "n");
+		return jsonObject.toString();
 	}
 	
 	/**
@@ -149,10 +207,34 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/top20Cities")
 	@ResponseBody
-	public String getTop20Cities(int type,String cityName){
+	public String getTop20Cities(String type,String cityName,String time){
 		JSONObject jsonObject=new JSONObject();
-		jsonObject.put("html1", dataAnalyzeService.getCityTonnage(type, cityName));
-		jsonObject.put("html2", dataAnalyzeService.getCityTonnage2(type, cityName));
+		String html1 = dataAnalyzeService.getCityTonnage(type, cityName,time);
+		String html2 = dataAnalyzeService.getCityTonnage2(type, cityName,time);
+		if (html1 != null && html2 != null) {
+			jsonObject.put("html1", html1);
+			jsonObject.put("html2", html2);
+			jsonObject.put("status", "y");
+		} else
+			jsonObject.put("status", "n");
+		return jsonObject.toString();
+	}
+	/**
+	 * 局别运量分析
+	 * @return
+	 */
+	@RequestMapping("/originCompanyAnalysis")
+	@ResponseBody
+	public String originCompanyAnalysis(String type,String ctl,String time){
+		JSONObject jsonObject=new JSONObject();
+		String html = dataAnalyzeService.getCompanyTable(type, ctl , time);
+		if (html != null) {
+			JSONObject chart = dataAnalyzeService.getCompanyChart(type, ctl, time);
+			jsonObject.put("html", html);
+			jsonObject.put("chart", chart);
+			jsonObject.put("status", "y");
+		} else
+			jsonObject.put("status", "n");
 		return jsonObject.toString();
 	}
 	
@@ -220,12 +302,19 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/enterpriseAnalysisResult")
 	@ResponseBody
-	public String enterpriseAnalysisResult(){
-		JSONObject jsonObject1=dataAnalyzeService.getCarNumInCompany();
-		JSONObject jsonObject2=dataAnalyzeService.getCarNumInTotal();
+	public String enterpriseAnalysisResult(String type, String time){
 		JSONObject job = new JSONObject();
-		job.put("one",jsonObject1);
-		job.put("total",jsonObject2);
+		JSONObject carnum = dataAnalyzeService.getCarNums(type,time);
+		JSONObject carton = dataAnalyzeService.getCarTons(type,time);
+		if(carnum.get("status") == "n" || carton.get("status") == "n")
+			job.put("status", "n");
+		else {
+			job.put("status", "y");
+			job.put("carnumone", carnum.get("one"));
+			job.put("carnumtotal", carnum.get("total"));
+			job.put("cartonone", carton.get("one"));
+			job.put("cartontotal", carton.get("total"));
+		}
 		return job.toString();
 	}
 

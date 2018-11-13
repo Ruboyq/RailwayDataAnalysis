@@ -1,28 +1,23 @@
 package org.rda.test;
 
 
-import java.util.List;
 
 import org.junit.Test;
-import org.rda.pojo.City;
-import org.rda.pojo.RailwayCity;
-import org.rda.service.BaseDictService;
-import org.rda.service.DataAnalyzeService;
-import org.rda.service.RailwayDataService;
+import org.rda.service.SpiderService;
+import org.rda.utils.SpiderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 public class ServiceTest extends BaseTest{
+	
 	@Autowired
-	private DataAnalyzeService dataAnalyzeService;
-	@Autowired
-	private RailwayDataService rds;
-	@Autowired
-	private BaseDictService bds;
+	private SpiderService ss;
 	@Test
-	public void getUser(){
+	public void test(){
+		SpiderUtil test=new SpiderUtil();
+		test.scratch();
+		//ss.setSpiderPath("D:\\Spider", "D:\\Spider", "D:\\Spider", "D:\\Spider", "D:\\Spider");
+		//ss.startSpider();
 		/*JSONArray jsonArray=dataAnalyzeService.getToCityReceiptNum("201601", "201612", 18);
 		  for(int i=0;i<jsonArray.size();i++){  
 			  // 遍历 jsonarray 数组，把每一个对象转成 json 对象  

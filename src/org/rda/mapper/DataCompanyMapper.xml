@@ -3,20 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.rda.mapper.DataCompanyMapper">
-    <resultMap id="BaseResult11" type="java.util.Map">
-		<!-- column:数据库中表的字段 
-		property：数据库中表所有映射的实体类javaBean中的属性名 -->
-		
-		<result property="company" column="consignor" />
-		<result property="carNum" column="car" />
-		
-	</resultMap>
   
-    <select id="getCarNum" resultMap="BaseResult11">
-		SELECT company,sum(carNum) car FROM data_company group by company order by car
+    <select id="getCarNum" resultType="int">
+		SELECT sum(carNum) car FROM railwaydata where productId like CONCAT(#{productId},'%') and date like CONCAT(#{time},'%') group by consignor order by car
 	</select>
-
-
+	
+	<select id="getCarTon" resultType="int">
+		SELECT sum(tonnage) car FROM railwaydata where productId like CONCAT(#{productId},'%') and date like CONCAT(#{time},'%') group by consignor order by car
+	</select>
 
 
 </mapper>

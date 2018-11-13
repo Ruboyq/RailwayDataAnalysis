@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- column:数据库中表的字段 
 		property：数据库中表所有映射的实体类javaBean中的属性名 -->
 		
-		<result property="fromCity" column="fromCity" />
+		<result property="province" column="province" />
 		<result property="tonnage" column="tonnage" />
 		<result property="carNum" column="carNum" />
 		
@@ -105,6 +105,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="tonnage" column="tonnage" />
 		<result property="carNum" column="carNum" />
 		<result property="income" column="income" />
+	</resultMap>
+	
+	<resultMap id="BaseResult23" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="company" column="fromCompany" />
+		<result property="productId" column="productId" />
+		<result property="tonnage" column="tonnage" />
+		<result property="carNum" column="carNum" />
+		<result property="income" column="income" />
+	</resultMap>
+	
+	<resultMap id="BaseResult24" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="company" column="toCompany" />
+		<result property="productId" column="productId" />
+		<result property="tonnage" column="tonnage" />
+		<result property="carNum" column="carNum" />
+		<result property="income" column="income" />
+	</resultMap>
+	
+	<resultMap id="BaseResult25" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="company" column="fromCompany" />
+		<result property="tonnage" column="tonnage" />
+		<result property="carNum" column="carNum" />
+		
+		
+	</resultMap>
+	
+	<resultMap id="BaseResult26" type="java.util.Map">
+		<!-- column:数据库中表的字段 
+		property：数据库中表所有映射的实体类javaBean中的属性名 -->
+		
+		<result property="company" column="toCompany" />
+		<result property="tonnage" column="tonnage" />
+		<result property="carNum" column="carNum" />
+		
+		
 	</resultMap>
 	
 	<select id="getFilterResult"  resultType="org.rda.pojo.RailwayData">
@@ -156,32 +200,115 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 
-<select id="getProvinceTonnage" resultMap="BaseResult20">
+<select id="getProvinceTonnage1" resultMap="BaseResult20">
 select province,sum(carNum) as carNum,sum(tonnage) as tonnage from railwaydata,province
 where railwaydata.fromCity = province.city
-or railwaydata.toCity = province.city
 and productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
 group by province
 order by sum(tonnage) desc
      </select>
-     
+<select id="getProvinceTonnage2" resultMap="BaseResult20">
+select province,sum(carNum) as carNum,sum(tonnage) as tonnage from railwaydata,province
+where railwaydata.toCity = province.city
+and productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
+group by province
+order by sum(tonnage) desc
+     </select>
+          
      <select id="getCityTonnage" resultMap="BaseResult21">
-select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
+select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
 where toCity = #{toCity}
 and productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
 group by fromCity
 order by sum(tonnage) desc
 limit 20
      </select>
 
  <select id="getCityTonnage2" resultMap="BaseResult22">
-select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from data_company
+select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata
 where fromCity = #{fromCity}
 and productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
 group by toCity
 order by sum(tonnage) desc
 limit 20
      </select>
-	
+     
+     <select id="getProvinceTonnageRank1" resultMap="BaseResult21">
+select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata,province 
+where province.province = #{fromProvince} 
+and railwaydata.fromCity = province.city
+and railwaydata.productId like CONCAT(#{productId},'%') 
+and railwaydata.date like CONCAT(#{time},'%') 
+group by railwaydata.fromCity
+order by sum(tonnage) desc
+limit 20
+     </select>
+
+ <select id="getProvinceTonnageRank2" resultMap="BaseResult22">
+select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata,province 
+where province.province = #{fromProvince} 
+and railwaydata.fromCity = province.city
+and railwaydata.productId like CONCAT(#{productId},'%') 
+and railwaydata.date like CONCAT(#{time},'%') 
+group by railwaydata.toCity
+order by sum(tonnage) desc
+limit 20
+     </select>
+
+     <select id="getProvinceTonnageRank3" resultMap="BaseResult21">
+select fromCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata,province 
+where province.province = #{toProvince} 
+and railwaydata.toCity = province.city
+and railwaydata.productId like CONCAT(#{productId},'%') 
+and railwaydata.date like CONCAT(#{time},'%') 
+group by railwaydata.fromCity
+order by sum(tonnage) desc
+limit 20
+     </select>
+
+ <select id="getProvinceTonnageRank4" resultMap="BaseResult22">
+select toCity,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata,province 
+where province.province = #{toProvince} 
+and railwaydata.toCity = province.city
+and railwaydata.productId like CONCAT(#{productId},'%') 
+and railwaydata.date like CONCAT(#{time},'%') 
+group by railwaydata.toCity
+order by sum(tonnage) desc
+limit 20
+     </select>     
+     
+ <select id="getCompanyTable1" resultMap="BaseResult23">
+select fromCompany,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata 
+where productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
+group by fromCompany 
+order by sum(tonnage) desc
+     </select>
+
+ <select id="getCompanyTable2" resultMap="BaseResult24">
+select toCompany,productId,sum(tonnage) as tonnage ,sum(carNum) as carNum,sum(income) as income from railwaydata 
+where productId like CONCAT(#{productId},'%') 
+and date like CONCAT(#{time},'%') 
+group by toCompany 
+order by sum(tonnage) desc
+     </select>
+     
+<select id="getCompanyChart1" resultMap="BaseResult25">
+    select fromCompany,sum(tonnage) as tonnage,sum(carNum) as carNum from railwaydata 
+	 where date like CONCAT(#{time},'%') 
+	 and productId like CONCAT(#{productId},'%') 
+	 group by fromCompany 
+	</select>
+
+<select id="getCompanyChart2" resultMap="BaseResult26">
+    select toCompany,sum(tonnage) as tonnage,sum(carNum) as carNum from railwaydata 
+	 where date like CONCAT(#{time},'%') 
+	 and productId like CONCAT(#{productId},'%') 
+	 group by toCompany 
+	</select>
 </mapper>
 	

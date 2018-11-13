@@ -31,7 +31,7 @@
 
       $("#button-bg6").click(function() {
           $("body").css({
-              "background": "#2c3e50"
+              "background": "#1a527c"
           });
 
       });
