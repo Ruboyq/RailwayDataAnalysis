@@ -39,32 +39,55 @@ public class RailwayDataController {
 	private SpiderService spiderService;
 	
 	/**
-	 * 展示原始站点信息
+	 * 返回欢迎界面
 	 * @return
 	 */
 	@RequestMapping("/welcome")
-	public String showAllOriCity(Model model){
+	public String showWelcome(Model model){
 		return "welcome";
 	}
+	/**
+	 * 返回热力图界面
+	 * @return
+	 */
 	@RequestMapping("/heatmap")
 	public String showHeatMap(Model model){
 		return "heatmap";
 	}
+	/**
+	 * 返回爬虫界面
+	 * @return
+	 */
 	@RequestMapping("/spider")
 	public String showSpider(Model model){
 		return "spider";
 	}
 	/**
-	 * 展示原始站点
+	 * 启动爬虫
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("/crawl")
 	@ResponseBody
 	public String crawlData(){
-		spiderService.crawl("", "", "", "", "");
+		spiderService.crawl();
 		JSONObject job = new JSONObject();
 		job.put("status","y");
+		return job.toString();
+	}
+	
+	/**
+	 * 启动爬虫
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/showCrawlFiles")
+	@ResponseBody
+	public String showCrawlFiles(){
+		JSONArray ja = spiderService.getFiles();
+		JSONObject job = new JSONObject();
+		job.put("status","y");
+		job.put("files", ja);
 		return job.toString();
 	}
 	
@@ -84,6 +107,10 @@ public class RailwayDataController {
 
 		return "originStationMap";
 	}
+	/**
+	 * 显示城市数据界面
+	 * @return
+	 */
 	@RequestMapping("/originTonnageCity")
 	public String showOriginTonnageCity(Model model){
 		List<City> list=railwayDataService.getOriginalCitys();
@@ -94,10 +121,18 @@ public class RailwayDataController {
 		model.addAttribute("stringList",Arrays.toString(strings));
 		return "originTonnageCityMap";
 	}
+	/**
+	 * 显示省份数据界面
+	 * @return
+	 */
 	@RequestMapping("/originTonnageProvince")
 	public String showOriginTonnageProvince(Model model){
 		return "originTonnageProvinceMap";
 	}
+	/**
+	 * 显示局运量界面
+	 * @return
+	 */
 	@RequestMapping("/originCompany")
 	public String showOriginCompanny(Model model){
 		return "originCompany";
@@ -122,7 +157,7 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/ShipNum")
 	@ResponseBody
-	public String getFromCityShipNum(String startmonth,String endmonth,int productId){
+	public String getFromCityShipNum(String startmonth,String endmonth,String productId){
 		String[] t1=startmonth.split("-");
 		String[] t2=endmonth.split("-");
 		startmonth=t1[2]+t1[1];
@@ -141,7 +176,7 @@ public class RailwayDataController {
 	 */
 	@RequestMapping("/ReceiptNum")
 	@ResponseBody
-	public String getToCityReceiptNum(String startmonth,String endmonth,int productId){
+	public String getToCityReceiptNum(String startmonth,String endmonth,String productId){
 		String[] t1=startmonth.split("-");
 		String[] t2=endmonth.split("-");
 		startmonth=t1[2]+t1[1];
@@ -288,7 +323,10 @@ public class RailwayDataController {
 		}
 		return railwayJSONArray;
 	}
-	
+	/**
+	 * 显示企业分析界面
+	 * @return
+	 */
 	@RequestMapping("/enterpriseAnalysis")
 	public String showEnterpriseAnalysis(Model model){
 		return "enterpriseAnalysis";
@@ -296,8 +334,8 @@ public class RailwayDataController {
 	
 	/**
 	 * 以企业为单位分析
-	 * 1、统计发车区间内的企业数
-	 * 2、统计发车区间内的总发车数
+	 * 1、统计区间内的企业数
+	 * 2、统计区间内的总发车\吨数
 	 * @return
 	 */
 	@RequestMapping("/enterpriseAnalysisResult")
@@ -310,10 +348,8 @@ public class RailwayDataController {
 			job.put("status", "n");
 		else {
 			job.put("status", "y");
-			job.put("carnumone", carnum.get("one"));
-			job.put("carnumtotal", carnum.get("total"));
-			job.put("cartonone", carton.get("one"));
-			job.put("cartontotal", carton.get("total"));
+			job.put("carnum", carnum.get("carnum"));
+			job.put("carton", carton.get("carton"));
 		}
 		return job.toString();
 	}

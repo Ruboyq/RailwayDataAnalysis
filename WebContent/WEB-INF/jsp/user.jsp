@@ -17,7 +17,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>客户列表-BootCRM</title>
+<title>用户管理</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet">

@@ -13,7 +13,7 @@
     <base href="//webapi.amap.com/ui/1.0/ui/misc/PointSimplifier/examples/" />
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>海量点展示</title>
+    <title>品类热力图</title>
      <!-- MAIN EFFECT -->
     <link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/bootstrap.css">
@@ -185,8 +185,9 @@
                                 <span class="ty-label">
                                    品类:</span>
                                  <select id="type" class="filter-status form-control sl">
-                                 <option value="08">08-矿物性建筑材料
-                                 <option value="09">09-水泥
+                                <option value="">全品类
+                                 <option value="8">08-矿物性建筑材料
+                                 <option value="9">09-水泥
                                  <option value="10">10-木材
                                  <option value="11">11-粮食
                                  <option value="12">12-棉花
@@ -219,7 +220,7 @@
                                             <input type="text" value="15-05-2018" class="form-control" id="time2">
                                             <span class="input-group-addon add-on entypo-calendar "></span>
                                         </div>
-                                <a onclick="showHeat();" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">Retrieve</a>
+                                <a onclick="showHeat();" style="margin-top:5px;margin-right:20px;"class="pull-right btn btn-info filter-api">查询</a>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
                                 <div id="container" class="gmap" style="width:100%;height:100%;position:relative;"></div>
@@ -316,7 +317,8 @@ var chartData = {
 		datasets: [{
 			type: 'line',
 			label: '吨数(折线)',
-			borderColor: window.chartColors.blue,
+			borderColor: window.chartColors.grey,
+			backgroundColor: window.chartColors.grey,
 			borderWidth: 2,
 			fill: false,
 			data: [
@@ -331,7 +333,7 @@ var chartData = {
 		}, {
 			type: 'bar',
 			label: '吨数(柱)',
-			backgroundColor: window.chartColors.red,
+			backgroundColor: window.chartColors.blue,
 			data: [
 				randomScalingFactor(),
 				randomScalingFactor(),
@@ -341,7 +343,7 @@ var chartData = {
 				randomScalingFactor(),
 				randomScalingFactor()
 			],
-			borderColor: 'white',
+			borderColor: window.chartColors.grey,
 			borderWidth: 2
 		}]
 	};

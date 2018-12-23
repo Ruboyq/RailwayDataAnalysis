@@ -1,6 +1,4 @@
-/jdbc.properties
-/log4j.properties
-/logs/
-/mybatis/
 /org/
+/files/
+/logs/
 /spring/

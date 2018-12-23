@@ -100,7 +100,7 @@
 			<ul style="margin-right: 0;" class="nav navbar-nav navbar-right">
 				<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<img alt="" class="admin-pic img-circle"
-						src="<%=basePath%>images/users/${user.user_id}.jpg">你好,
+						src="<%=basePath%>images/users/7.jpg">你好,
 						${user.user_name} <b class="caret"></b>
 				</a>
 					<ul style="margin-top: 14px;" role="menu"
@@ -213,7 +213,11 @@
                                 <li>
                                     <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originCompany"
 							onclick="changeTitle('局运量')" target="main" title="局运量"> <i class="icon-document"></i> <span>局运量<span></a>
-                                </li>                               
+                                </li>
+                                <li>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/spider"
+							onclick="changeTitle('数据源')" target="main" title="数据源"> <i class="entypo-newspaper"></i> <span>数据源<span></a>
+                                </li>                                 
 					</ul>
 
 					<ul id="menu-showhide" class="topnav menu-left-nest">
@@ -225,8 +229,8 @@
 									onclick="changeTitle('品类热力图')"
 							title="品类热力图"> <i class="icon-view-thumb"></i> <span>品类热力图 </span></a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/enterpriseAnalysis" target="main"
-									onclick="changeTitle('企业发车数分析')"
-							title="企业发车数分析"> <i class="icon-graph-pie"></i> <span>企业发车数分析 </span>
+									onclick="changeTitle('企业分析')"
+							title="企业分析"> <i class="icon-graph-pie"></i> <span>企业分析 </span>
 
 						</a></li>
 						<li><a class="tooltip-tip ajax-load" href="<%=basePath%>cluster/optimizedStation" title="优化数据" target="main"

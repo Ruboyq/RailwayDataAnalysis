@@ -24,22 +24,25 @@ public class cityClusterController {
 	@Autowired
 	private RailwayDataService railwayDataService;
 	/**
-	 * 获取省份吨数热力图
+	 * 获取优化数据页面
 	 * @return
 	 */
 	@RequestMapping("/optimizedStation")
-	public String getProvince_ton(Model model){
+	public String getOptimizedStation(Model model){
 		return "optimizedStation";
 	}
 	/**
-	 * 展示聚类站点信息
+	 * 计算聚类结果
 	 * @return
 	 */
 	@RequestMapping("/queryOptimizedStation")
 	@ResponseBody
-	public String getDistrictString(int min,int max,int distance,int knums){
-		System.out.println(min+"##"+max+"##"+distance+"##"+knums);
+	public String getDistrictString(int distance,int tons,String type,int clusterNum){
 		JSONObject returnValue=new JSONObject();
+		if(!dataAnalyzeService.computeCenterPairs(distance, tons, type, clusterNum)){
+			returnValue.put("status", "n");
+			return returnValue.toString();
+		}
 		List<City> list=railwayDataService.getOptimizedCitys();
 		String[] strings=new String[list.size()];
 		for(int i=0;i<list.size();i++){
@@ -61,7 +64,7 @@ public class cityClusterController {
 		return returnValue.toString();
 	}
 	/**
-	 * 将航线列表包装为蛤蟆皮指定格式的JSON数组
+	 * 将航线列表包装为指定格式的JSON数组
 	 * @param railways
 	 * @return
 	 */

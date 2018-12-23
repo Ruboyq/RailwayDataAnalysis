@@ -102,14 +102,14 @@ public interface RailwayDataMapper {
 	 * @return
 	 */
 	List<Map> getProductTonnagebyTime(@Param("startmonth") String startmonth,
-			@Param("endmonth") String endmonth,@Param("productId") int productId);
+			@Param("endmonth") String endmonth,@Param("productId") String productId);
 	
 	/**
 	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个到货城市的该商品发货量
 	 * @return
 	 */
 	List<Map> getProductTonnagebyTime2(@Param("startmonth") String startmonth,
-			@Param("endmonth") String endmonth,@Param("productId") int productId);
+			@Param("endmonth") String endmonth,@Param("productId") String productId);
 	
 	
 	/**
@@ -117,14 +117,14 @@ public interface RailwayDataMapper {
 	 * @return
 	 */
 	List<Map> getProductbyTime(@Param("startmonth") String startmonth,
-			@Param("endmonth") String endmonth,@Param("productId") int productId);
+			@Param("endmonth") String endmonth,@Param("productId") String productId);
 	
 	/**
 	 * 给定起止月份 和 品类代码的前两位 获得该时间段内每个到货城市的该商品发货量，车数
 	 * @return
 	 */
 	List<Map> getProductbyTime2(@Param("startmonth") String startmonth,
-			@Param("endmonth") String endmonth,@Param("productId") int productId);
+			@Param("endmonth") String endmonth,@Param("productId") String productId);
 	
 	/**
 	 * 给定年份 和 品类代码的前两位 获得该时间段内局别的吨数、车数直方图横纵轴-发站
@@ -143,5 +143,5 @@ public interface RailwayDataMapper {
 	 * @return
 	 */
 	List<Map> getBenifitbyTime(@Param("startmonth") String startmonth,
-			@Param("endmonth") String endmonth,@Param("productId") int productId);
+			@Param("endmonth") String endmonth,@Param("productId") String productId);
 }

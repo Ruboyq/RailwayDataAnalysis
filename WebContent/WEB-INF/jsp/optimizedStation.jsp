@@ -13,7 +13,7 @@
     <base href="//webapi.amap.com/ui/1.0/ui/misc/PointSimplifier/examples/" />
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>海量点展示</title>
+    <title>优化数据</title>
      <!-- MAIN EFFECT -->
     <link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/bootstrap.css">
@@ -89,14 +89,14 @@
     }
  .sl1 {
 	position: absolute;
-	width: 80px;
+	width: 150px;
 	margin-top: 5px;
-	margin-right: 700px;
+	margin-right: 650px;
 	right: 0px;
 	}
 	.ty-label1 {
 	position: absolute;
-	margin-right: 800px;
+	margin-right: 820px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -107,12 +107,12 @@
 	position: absolute;
 	width: 80px;
 	margin-top: 5px;
-	margin-right: 540px;
+	margin-right: 480px;
 	right: 0px;
 	}
 	.ty-label2 {
 	position: absolute;
-	margin-right: 630px;
+	margin-right: 570px;
 	margin-top: 10px;
 	font-size: 15px;
 	font-weight: bold;
@@ -170,14 +170,34 @@
 <body>
                         <div class="nest map1" id="GmapClose">
                             <div class="title-alt">
-                                                           <span class="ty-label1"> 最小吨数:</span> 
-                               <input id="min"	class="filter-status form-control sl1"></input> 
-                               <span class="ty-label2"> 最大吨数:</span> 
-                               <input id="max"	class="filter-status form-control sl2"></input>
+                            <span class="ty-label1"> 类别:</span> <select id="type" class="filter-status form-control sl1">
+                            <option value="">全品类
+                            <option value="8">08-矿物性建筑材料
+                            <option value="9">09-水泥
+                            <option value="10">10-木材
+                            <option value="11">11-粮食
+                            <option value="12">12-棉花
+                            <option value="13">13-化肥及农药
+                            <option value="14">14-盐
+                            <option value="15">15-化工品
+                            <option value="16">16-金属制品
+                            <option value="17">17-工业机械
+                            <option value="18">18-电子电气机械
+                            <option value="19">19-农业机具
+                            <option value="20">20-鲜活货物
+                            <option value="21">21-农副产品
+                            <option value="22">22-饮食品及烟草制品
+                            <option value="23">23-纺织品
+                            <option value="24">24-纸及文教用品
+                            <option value="25">25-医药品
+                            <option value="99">99-其他货物
+                            </select> 
+                               <span class="ty-label2"> 最小吨数:</span> 
+                               <input id="tons"	class="filter-status form-control sl2"></input>
                                <span class="ty-label3"> 城市间距:</span> 
                                <input id="distance"	class="filter-status form-control sl3"></input>
                                <span class="ty-label4"> 城市群数量:</span> 
-                               <input id="kdistance"	class="filter-status form-control sl4"></input>
+                               <input id="clusterNum"	class="filter-status form-control sl4"></input>
                                <a onclick="retrieve();"style="margin-top: 5px; margin-right: 20px;"class="pull-right btn btn-info filter-api">查询</a>
                             </div>
                             <div class="body-nest mapshow" id="Gmap">
@@ -241,7 +261,7 @@
     var markers=[];
     //创建地图
     var map = new AMap.Map('container', {
-        zoom: 6
+        zoom: 4
     });
     var colors = [
         '#0cc2f2',
@@ -328,7 +348,6 @@
                 }
 
                 var parts = item.split(',');
-
                 //返回经纬度
                 return [parseFloat(parts[0]), parseFloat(parts[1])];
             },
@@ -350,7 +369,7 @@
                     var parts = item.split(',');
 
                     //按纬度区间分组
-                    return Math.abs(Math.round(parseFloat(parts[1]) / 5));
+                    return parts[5];
                 },
                 groupStyleOptions: function(gid) {
 
@@ -498,18 +517,24 @@
    });
    
 	function retrieve() {
-		var min = $('#min').val();
-		var max = $('#max').val();
-		var distance=$('#distance').val();
-		var kdistance=$('#kdistance').val();
+		var distance = $('#distance').val();
+		var tons = $('#tons').val();
+		var clusterNum=$('#clusterNum').val();
+		var type = $('#type option:selected').val();
 		load.loading.add(0.4,"<%=basePath%>images/loading.gif");
 		$.ajax({
 			type:'get',
 			url:"<%=basePath%>cluster/queryOptimizedStation",
-			data:{"min":min,"max":max,"distance":distance,"knums":kdistance},
+			data:{"distance":distance,"tons":tons,"type":type,"clusterNum":clusterNum},
 			dataType:'json',
 			success:function(data1){
 				load.loading.remove();
+        if(data1.status == 'n'){
+         alert("查询失败！服务器报错！");
+         return; 
+        }
+        
+                  map.clearMap();
 				  var points =data1.pointList.substring(1,data1.pointList.length-1).split(", ");
 				  pointSimplifierIns.setData(points);
 				  pathSimplifierIns.setData(data1.railways);

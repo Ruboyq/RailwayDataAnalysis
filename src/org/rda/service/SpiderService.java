@@ -1,11 +1,20 @@
 package org.rda.service;
 
+import java.util.List;
+
+import net.sf.json.JSONArray;
+
 public interface SpiderService {
 	/**
 	 * 设置爬虫路径
 	 * 
-	 * @param path
 	 * @return
 	 */
-	public void crawl(String path1,String path2,String path3,String path4,String path5);
+	public void crawl();
+	/**
+	 * 获取爬取的文件
+	 * 
+	 * @return
+	 */
+	public JSONArray getFiles();
 }

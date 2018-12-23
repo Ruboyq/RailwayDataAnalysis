@@ -13,7 +13,7 @@
     <base href="//webapi.amap.com/ui/1.0/ui/misc/PointSimplifier/examples/" />
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>海量点展示</title>
+    <title>企业数分析</title>
      <!-- MAIN EFFECT -->
      <link rel="stylesheet" type="text/css" href="//webapi.amap.com/ui/1.0/ui/geo/DistrictExplorer/examples/area.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
@@ -177,31 +177,17 @@
                            
                             <div style="margin-top: 50px" class="body-nest mapshow" id="tab">
                                 <div id="wizard-tab" style="height:100%">
-                                    <h2>企业发车数分布图</h2>
+                                    <h2>企业发车数相关图表</h2>
                                     <section>
                                     <div class="chart" style="width: 100%; height:504px;">
                                     <canvas id="chart1" width="500" height="200px" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
                                     </div>
                                     </section>
 
-                                    <h2>企业发车数堆积图</h2>
+                                    <h2>企业发货吨数相关图表</h2>
                                     <section>
                                     <div class="chart" style="width: 100%; height:504px;">
                                     <canvas id="chart2" width="500" height="200px" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
-                                    </div>
-                                    </section>
-
-                                    <h2>企业发货吨数分布图</h2>
-                                    <section>
-                                    <div class="chart" style="width: 100%; height:504px;">
-                                    <canvas id="chart3" width="500" height="200px" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
-                                    </div>
-                                    </section>
-
-                                    <h2>企业发货吨数堆积图</h2>
-                                    <section>
-                                    <div class="chart" style="width: 100%; height:504px;">
-                                    <canvas id="chart4" width="500" height="200px" class="chartjs-render-monitor" style="display: block; height: 362px; width: 724px;"></canvas>
                                     </div>
                                     </section>
 
@@ -230,8 +216,8 @@ var barChartData1 = {
 		datasets: [{
             type: 'line',
             label: '该区间企业发车数之和',
-            borderColor: window.chartColors.red,
-            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.grey,
+            backgroundColor: window.chartColors.grey,
             borderWidth: 2,
             fill: false,
 			data:[],
@@ -241,7 +227,7 @@ var barChartData1 = {
             label: '该区间企业数量',
             backgroundColor: window.chartColors.blue,
             data: [],
-            borderColor: 'white',
+            borderColor: window.chartColors.grey,
             borderWidth: 2,
             yAxisID: 'y-axis-2'
         }]
@@ -251,163 +237,25 @@ var barChartData1 = {
 var barChartData2 = {
         labels: MONTHS,
         datasets: [{
-            label: '发货吨数',
-            backgroundColor: [
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue
-            ],
-            borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data:[]
+            type: 'line',
+            label: '该区间企业吨数数之和',
+            borderColor: window.chartColors.grey,
+            backgroundColor: window.chartColors.grey,
+            borderWidth: 2,
+            fill: false,
+            data:[],
+            yAxisID: 'y-axis-3'
+        },{
+            type:'bar',
+            label: '该区间企业数量',
+            backgroundColor: window.chartColors.blue,
+            data: [],
+            borderColor: window.chartColors.grey,
+            borderWidth: 2,
+            yAxisID: 'y-axis-4'
         }]
 
-    };	
-var config1 = {
-		type: 'line',
-		data: {
-			labels: [],
-			datasets: [{
-				label: '发车数之和',
-				backgroundColor: Samples.utils.transparentize(window.chartColors.blue),
-				borderColor: window.chartColors.blue,
-				data: [],
-				fill: 'start',
-			}]
-		},
-		options: {
-			responsive: true,
-			title: {
-				display: true,
-				text: '不同运量规模客户企业运量堆积图(发车数)'
-			},
-			tooltips: {
-				mode: 'index',
-				intersect: false,
-			},
-			hover: {
-				mode: 'nearest',
-				intersect: true
-			},
-			scales: {
-				xAxes: [{
-					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: '企业发车数'
-					}
-				}],
-				yAxes: [{
-					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: '该区间企业发车数之和'
-					}
-				}]
-			}
-		}
-	};
-var config2 = {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: '发货吨数之和',
-                backgroundColor: Samples.utils.transparentize(window.chartColors.blue),
-                borderColor: window.chartColors.blue,
-                data: [],
-                fill: 'start',
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: '不同运量规模客户企业运量堆积图(吨数)'
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: '企业发货吨数'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: '该区间企业发货吨数之和'
-                    }
-                }]
-            }
-        }
     };
-$(function(){
-	/*load.loading.add(0.4,"<%=basePath%>images/loading.gif");
-	 $.ajax({
-			type:'get',
-			url:"<%=basePath%>railwayData/enterpriseAnalysisResult",
-			dataType:'json',
-			success:function(data1){
-				load.loading.remove();
-				barChartData.datasets.splice(0, 1);
-				barChartData.labels=data1.one.x_axis;
-    			var newDataset1 = {
-    				label: '企业数',
-    				backgroundColor:  [
-    					window.chartColors.red,
-    					window.chartColors.orange,
-    					window.chartColors.yellow,
-    					window.chartColors.green,
-    					window.chartColors.blue,
-    					window.chartColors.purple,
-    					window.chartColors.red,
-    					window.chartColors.orange,
-    					window.chartColors.yellow,
-    					window.chartColors.green
-    				],
-    				borderColor: window.chartColors.red,
-    				borderWidth: 1,
-    				data: data1.one.y_axis
-    			};
-    			barChartData.datasets.push(newDataset1);
-    			window.myBar.update();
-    			
-    			config.data.datasets.splice(0, 1);
-    			var newDataset = {
-    					label: '企业发车数之和',
-    					backgroundColor: Samples.utils.transparentize(window.chartColors.red),
-    					borderColor: window.chartColors.red,
-    					data: data1.total.y_axis,
-    					fill: 'start',
-    				};
-    			config.data.labels=data1.total.x_axis;
-    			config.data.datasets.push(newDataset);
-    			window.myLine.update();
-			},
-				error: function(json){  
-					load.loading.remove();
-					alert("用户数据加载异常，请刷新后重试...");  
-				}  
-				});*/
-});  
-
 $("#wizard-tab").steps({
     headerTag: "h2",
     bodyTag: "section",
@@ -453,24 +301,37 @@ window.onload = function() {
                 }
             });
 	var ctx2 = document.getElementById('chart2').getContext('2d');
-	window.myLine1 = new Chart(ctx2, config1);
-    var ctx3 = document.getElementById('chart3').getContext('2d');
-    window.myBar2 = new Chart(ctx3, {
+	window.myBar2 = new Chart(ctx2, {
         type: 'bar',
         data: barChartData2,
         options: {
             responsive: true,
-            legend: {
-                position: 'top',
-            },
+            hoverMode: 'index',
+            stacked: false,
             title: {
                 display: true,
-                text: '不同运量规模客户企业分布图(吨数)'
-            }
-        }
-    });
-    var ctx4 = document.getElementById('chart4').getContext('2d');
-    window.myLine2 = new Chart(ctx4, config2);
+                text: '不同运量规模客户企业分布图(吨数数)'
+            },
+            scales: {
+                yAxes: [{
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: 'left',
+                            id: 'y-axis-3',
+                        }, {
+                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-4',
+
+                            // grid line settings
+                            gridLines: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                        }],
+                    }
+                }
+            });
 };
 
 function retrieveLine() {
@@ -491,76 +352,17 @@ function retrieveLine() {
             load.loading.remove();
             barChartData1.datasets[0].data.splice(0, 1);
             barChartData1.datasets[1].data.splice(0, 1);            
-            barChartData1.labels=data1.carnumone.x_axis;
-            barChartData1.datasets[0].data=data1.carnumtotal.y_axis;
-            barChartData1.datasets[1].data=data1.carnumone.y_axis;           
-            var newDataset1 = {
-                label: '企业数',
-                backgroundColor:  [
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue
-                ],
-                borderColor: window.chartColors.blue,
-                borderWidth: 1,
-                data: data1.carnumone.y_axis
-            };
-            //barChartData1.datasets.push(newDataset1);
+            barChartData1.labels=data1.carnum.x_axis;
+            barChartData1.datasets[0].data=data1.carnum.y_axis2;
+            barChartData1.datasets[1].data=data1.carnum.y_axis1;           
             window.myBar1.update();
 
-            config1.data.datasets.splice(0, 1);
-            var newDataset2 = {
-                label: '企业发车数之和',
-                backgroundColor: Samples.utils.transparentize(window.chartColors.blue),
-                borderColor: window.chartColors.blue,
-                data: data1.carnumtotal.y_axis,
-                fill: 'start',
-            };
-            config1.data.labels=data1.carnumtotal.x_axis;
-            config1.data.datasets.push(newDataset2);
-            window.myLine1.update();
-
-            barChartData2.datasets.splice(0, 1);
-            barChartData2.labels=data1.cartonone.x_axis;
-            var newDataset3 = {
-                label: '企业数',
-                backgroundColor:  [
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue,
-                window.chartColors.blue
-                ],
-                borderColor: window.chartColors.blue,
-                borderWidth: 1,
-                data: data1.cartonone.y_axis
-            };
-            barChartData2.datasets.push(newDataset3);
+            barChartData2.datasets[0].data.splice(0, 1);
+            barChartData2.datasets[1].data.splice(0, 1);            
+            barChartData2.labels=data1.carton.x_axis;
+            barChartData2.datasets[0].data=data1.carton.y_axis2;
+            barChartData2.datasets[1].data=data1.carton.y_axis1; 
             window.myBar2.update();
-
-            config2.data.datasets.splice(0, 1);
-            var newDataset4 = {
-                label: '企业发车数之和',
-                backgroundColor: Samples.utils.transparentize(window.chartColors.blue),
-                borderColor: window.chartColors.blue,
-                data: data1.cartontotal.y_axis,
-                fill: 'start',
-            };
-            config2.data.labels=data1.cartontotal.x_axis;
-            config2.data.datasets.push(newDataset4);
-            window.myLine2.update();
         },
         error: function(json){  
             load.loading.remove();

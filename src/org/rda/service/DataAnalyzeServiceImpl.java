@@ -23,6 +23,7 @@ import org.rda.pojo.City;
 import org.rda.pojo.District;
 import org.rda.pojo.RailwayCity;
 import org.rda.pojo.RailwayData;
+import org.rda.spark.SparkKM;
 import org.rda.utils.SystemServiceLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,9 +78,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		int n = 0;
 		for(int i=0;i<ton_car_list.size();i++){
 			Map map=ton_car_list.get(i);
-			System.out.println(map.get("company"));
 		}
-		System.out.println(ton_car_list.size());
 		loop1: while(n < 18){
 			for (Map map:ton_car_list) {
 				if (n == 0) {
@@ -662,7 +661,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	 * @return
 	 */
 	@Override
-	public JSONObject getFromCityShipNum(String startmonth,String endmonth,int productId){
+	public JSONObject getFromCityShipNum(String startmonth,String endmonth,String productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime(startmonth, endmonth, productId);
 		List<Map> ton_car_list = railwayDataMapper.getProductbyTime(startmonth, endmonth, productId);
 		JSONObject data = new JSONObject();
@@ -746,7 +745,7 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 	 * @return
 	 */
 	@Override
-	public JSONObject getToCityReceiptNum(String startmonth,String endmonth,int productId){
+	public JSONObject getToCityReceiptNum(String startmonth,String endmonth,String productId){
 		List<Map> list=railwayDataMapper.getProductTonnagebyTime2(startmonth, endmonth, productId);
 		List<Map> ton_car_list = railwayDataMapper.getProductbyTime2(startmonth, endmonth, productId);
 		JSONObject data = new JSONObject();
@@ -893,11 +892,20 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 	}
 	
+	/**
+	 * 获取所有划分区域
+	 * 
+	 * @return
+	 */
 	@Override
 	public List<District> getAllDistrict(){
 		return districtMapper.getAllDistrict();
 	}
-
+	/**
+	 * 获取所有中心对
+	 * 
+	 * @return
+	 */
 	@Override
 	public List<RailwayCity> getAllCenterPairs() {
 		List<RailwayCity> list_map = districtMapper.getAllCenterPairs();
@@ -914,10 +922,8 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<Integer> carNum_company_list = dataCompanyMapper.getCarNum(productId,time);
 		
 		JSONObject carNums = new JSONObject();
-		JSONObject carNum_total = new JSONObject();
-		JSONObject carNum_company = new JSONObject();
-		JSONArray x_axis1 = new JSONArray();
-		JSONArray x_axis2 = new JSONArray();
+		JSONObject carNum = new JSONObject();
+		JSONArray x_axis = new JSONArray();
 		JSONArray y_axis1 = new JSONArray();
 		JSONArray y_axis2 = new JSONArray();
 		int max=100000;
@@ -927,81 +933,68 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		carNum_company_list.removeAll(Collections.singleton(null));
 		max = Collections.max(carNum_company_list);
-		x_axis1.add("0");
 		y_axis1.add(0);
-		x_axis1.add("1");
 		y_axis1.add(0);
-		x_axis1.add("5");
 		y_axis1.add(0);
-		x_axis1.add("20");
 		y_axis1.add(0);
-		x_axis1.add("50");
 		y_axis1.add(0);
-		x_axis1.add("100");
 		y_axis1.add(0);
-		x_axis1.add("200");
 		y_axis1.add(0);
-		x_axis1.add("500");
 		y_axis1.add(0);
-		x_axis1.add("2000");
 		y_axis1.add(0);
-		x_axis1.add(String.valueOf(max));
 		y_axis1.add(0);
-		x_axis2.add("0");
+		x_axis.add("0");
 		y_axis2.add(0);
-		x_axis2.add("100");
+		x_axis.add("50");
 		y_axis2.add(0);
-		x_axis2.add("500");
+		x_axis.add("100");
 		y_axis2.add(0);
-		x_axis2.add("1000");
+		x_axis.add("500");
 		y_axis2.add(0);
-		x_axis2.add("2000");
+		x_axis.add("1000");
 		y_axis2.add(0);
-		x_axis2.add("5000");
+		x_axis.add("2000");
 		y_axis2.add(0);
-		x_axis2.add("10000");
+		x_axis.add("5000");
 		y_axis2.add(0);
-		x_axis2.add("20000");
+		x_axis.add("10000");
 		y_axis2.add(0);
-		x_axis2.add("40000");
+		x_axis.add("30000");
 		y_axis2.add(0);
-		x_axis2.add(String.valueOf(max));
+		x_axis.add(String.valueOf(max));
 		y_axis2.add(0);
 		for (Integer num : carNum_company_list) {
 			if (num != null) {
-				for (int i = 0; i < x_axis1.size() - 1; i++) {
-					if (num <= x_axis1.getInt(i + 1) && num > x_axis1.getInt(i)) {
+				for (int i = 0; i < x_axis.size() - 1; i++) {
+					if (num <= x_axis.getInt(i + 1) && num > x_axis.getInt(i)) {
+						if((int) y_axis1.get(i) >= 100)
+							break;
 						y_axis1.set(i, (int) y_axis1.get(i) + 1);
 						break;
 					}
 				}
-				for (int i = 0; i < x_axis2.size() - 1; i++) {
-					if (num <= x_axis2.getInt(i + 1) && num > x_axis2.getInt(i)) {
+				for (int i = 0; i < x_axis.size() - 1; i++) {
+					if (num <= x_axis.getInt(i + 1) && num > x_axis.getInt(i)) {
 						y_axis2.set(i, (int) y_axis2.get(i) + num);
 						break;
 					}
 				}
 			}
 		}
-		for (int i = 0; i < x_axis1.size() - 1; i++) {
+		for (int i = 0; i < x_axis.size() - 1; i++) {
 			if (i == 0) {
-				x_axis1.set(i, x_axis1.get(i).toString() + "-" + x_axis1.get(i + 1).toString());
-				x_axis2.set(i, x_axis2.get(i).toString() + "-" + x_axis2.get(i + 1).toString());
+				x_axis.set(i, x_axis.get(i).toString() + "-" + x_axis.get(i + 1).toString());
 			} else {
-				x_axis1.set(i, String.valueOf(x_axis1.getInt(i) + 1) + "-" + x_axis1.get(i + 1).toString());
-				x_axis2.set(i, String.valueOf(x_axis2.getInt(i) + 1) + "-" + x_axis2.get(i + 1).toString());
+				x_axis.set(i, String.valueOf(x_axis.getInt(i) + 1) + "-" + x_axis.get(i + 1).toString());
 			}
 		}
-		x_axis1.remove(x_axis1.size()-1);
-		x_axis2.remove(x_axis2.size()-1);
+		x_axis.remove(x_axis.size()-1);
 		y_axis1.remove(y_axis1.size()-1);
 		y_axis2.remove(y_axis2.size()-1);
-		carNum_company.put("x_axis", x_axis1);
-		carNum_company.put("y_axis", y_axis1);
-		carNum_total.put("x_axis", x_axis2);
-		carNum_total.put("y_axis", y_axis2);
-		carNums.put("one", carNum_company);
-		carNums.put("total", carNum_total);
+		carNum.put("x_axis", x_axis);
+		carNum.put("y_axis1", y_axis1);
+		carNum.put("y_axis2", y_axis2);
+		carNums.put("carnum", carNum);
 		carNums.put("status","y");
 		return carNums;
 	}
@@ -1016,10 +1009,8 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		List<Integer> carTon_company_list = dataCompanyMapper.getCarTon(productId,time);
 		
 		JSONObject carTons = new JSONObject();
-		JSONObject carTon_total = new JSONObject();
-		JSONObject carTon_company = new JSONObject();
-		JSONArray x_axis1 = new JSONArray();
-		JSONArray x_axis2 = new JSONArray();
+		JSONObject carTon = new JSONObject();
+		JSONArray x_axis = new JSONArray();
 		JSONArray y_axis1 = new JSONArray();
 		JSONArray y_axis2 = new JSONArray();
 		int max=100000;
@@ -1029,83 +1020,81 @@ public class DataAnalyzeServiceImpl implements DataAnalyzeService{
 		}
 		carTon_company_list.removeAll(Collections.singleton(null));
 		max = Collections.max(carTon_company_list);
-		x_axis1.add("0");
 		y_axis1.add(0);
-		x_axis1.add("10");
 		y_axis1.add(0);
-		x_axis1.add("20");
 		y_axis1.add(0);
-		x_axis1.add("50");
 		y_axis1.add(0);
-		x_axis1.add("100");
 		y_axis1.add(0);
-		x_axis1.add("200");
 		y_axis1.add(0);
-		x_axis1.add("500");
 		y_axis1.add(0);
-		x_axis1.add("1000");
 		y_axis1.add(0);
-		x_axis1.add("5000");
 		y_axis1.add(0);
-		x_axis1.add(String.valueOf(max));
 		y_axis1.add(0);
-		x_axis2.add("0");
+		x_axis.add("0");
 		y_axis2.add(0);
-		x_axis2.add("2000");
+		x_axis.add("500");
 		y_axis2.add(0);
-		x_axis2.add("5000");
+		x_axis.add("1000");
 		y_axis2.add(0);
-		x_axis2.add("10000");
+		x_axis.add("2000");
 		y_axis2.add(0);
-		x_axis2.add("20000");
+		x_axis.add("5000");
 		y_axis2.add(0);
-		x_axis2.add("50000");
+		x_axis.add("10000");
 		y_axis2.add(0);
-		x_axis2.add("100000");
+		x_axis.add("30000");
 		y_axis2.add(0);
-		x_axis2.add("200000");
+		x_axis.add("50000");
 		y_axis2.add(0);
-		x_axis2.add("300000");
+		x_axis.add("100000");
 		y_axis2.add(0);
-		x_axis2.add(String.valueOf(max));
+		x_axis.add(String.valueOf(max));
 		y_axis2.add(0);
 		for (Integer num : carTon_company_list) {
 			if (num != null) {
-				for (int i = 0; i < x_axis1.size() - 1; i++) {
-					if (num <= x_axis1.getInt(i + 1) && num > x_axis1.getInt(i)) {
+				for (int i = 0; i < x_axis.size() - 1; i++) {
+					if (num <= x_axis.getInt(i + 1) && num > x_axis.getInt(i)) {
+						if((int) y_axis1.get(i) >= 100)
+							break;
 						y_axis1.set(i, (int) y_axis1.get(i) + 1);
 						break;
 					}
 				}
-				for (int i = 0; i < x_axis2.size() - 1; i++) {
-					if (num <= x_axis2.getInt(i + 1) && num > x_axis2.getInt(i)) {
+				for (int i = 0; i < x_axis.size() - 1; i++) {
+					if (num <= x_axis.getInt(i + 1) && num > x_axis.getInt(i)) {
 						y_axis2.set(i, (int) y_axis2.get(i) + num);
 						break;
 					}
 				}
 			}
 		}
-		for (int i = 0; i < x_axis1.size() - 1; i++) {
+		for (int i = 0; i < x_axis.size() - 1; i++) {
 			if (i == 0) {
-				x_axis1.set(i, x_axis1.get(i).toString() + "-" + x_axis1.get(i + 1).toString());
-				x_axis2.set(i, x_axis2.get(i).toString() + "-" + x_axis2.get(i + 1).toString());
+				x_axis.set(i, x_axis.get(i).toString() + "-" + x_axis.get(i + 1).toString());
 			} else {
-				x_axis1.set(i, String.valueOf(x_axis1.getInt(i) + 1) + "-" + x_axis1.get(i + 1).toString());
-				x_axis2.set(i, String.valueOf(x_axis2.getInt(i) + 1) + "-" + x_axis2.get(i + 1).toString());
+				x_axis.set(i, String.valueOf(x_axis.getInt(i) + 1) + "-" + x_axis.get(i + 1).toString());
 			}
 		}
-		x_axis1.remove(x_axis1.size()-1);
-		x_axis2.remove(x_axis2.size()-1);
+		x_axis.remove(x_axis.size()-1);
 		y_axis1.remove(y_axis1.size()-1);
 		y_axis2.remove(y_axis2.size()-1);
-		carTon_company.put("x_axis", x_axis1);
-		carTon_company.put("y_axis", y_axis1);
-		carTon_total.put("x_axis", x_axis2);
-		carTon_total.put("y_axis", y_axis2);
-		carTons.put("one", carTon_company);
-		carTons.put("total", carTon_total);
+		carTon.put("x_axis", x_axis);
+		carTon.put("y_axis1", y_axis1);
+		carTon.put("y_axis2", y_axis2);
+		carTons.put("carton", carTon);
 		carTons.put("status","y");
 		return carTons;
+	}
+	
+	/**
+	 * 计算中心对
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean computeCenterPairs(int distance, int tons, String type, int clusterNum) {
+		SparkKM skm = new SparkKM();
+		return skm.optimizeStation(distance, tons, type, clusterNum);
 	}
 
 }

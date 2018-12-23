@@ -13,7 +13,7 @@
     <base href="//webapi.amap.com/ui/1.0/ui/misc/PointSimplifier/examples/" />
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>海量点展示</title>
+    <title>城市查看</title>
      <!-- MAIN EFFECT -->
     <link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
     <link rel="stylesheet" href="<%=basePath%>assets/css/bootstrap.css">

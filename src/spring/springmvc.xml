@@ -29,6 +29,7 @@
 	<mvc:resources mapping="/map/**" location="/WEB-INF/map/" />
 	<mvc:resources mapping="/myinfo/**" location="/WEB-INF/myinfo/" />
 	<mvc:resources mapping="/bootstrap/**" location="/WEB-INF/bootstrap/" />
+	<mvc:resources mapping="/classes/files/**" location="/WEB-INF/classes/files/" />
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -52,17 +53,12 @@
 			<mvc:exclude-mapping path="/**/*.woff" />
 			<mvc:exclude-mapping path="/**/*.ttf" />
 			<mvc:exclude-mapping path="/**/*.svg" />
+			<mvc:exclude-mapping path="/**/*.txt" />
 			<mvc:exclude-mapping path="/picturecheckcode" />
 			<mvc:exclude-mapping path="/checkcode" />
 			<mvc:exclude-mapping path="/login" />
 			<mvc:exclude-mapping path="/error/*" />
 			<mvc:exclude-mapping path="/user/toActivate" />
-			<mvc:exclude-mapping path="/railwayData/testmap" />
-			<mvc:exclude-mapping path="/railwayData/ShipNum" />
-			<mvc:exclude-mapping path="/cluster/optimizedStation" />
-			<mvc:exclude-mapping path="/railwayData/crawl" />
-			<mvc:exclude-mapping path="/cluster/test" />
-			<mvc:exclude-mapping path="/railwayData/spider" />
 			<bean class="org.rda.interceptor.AuthorityInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

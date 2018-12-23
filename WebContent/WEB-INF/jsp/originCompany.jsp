@@ -14,7 +14,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="initial-scale=1.0, user-scalable=no, width=device-width">
-<title>海量点展示</title>
+<title>局运量</title>
 <!-- MAIN EFFECT -->
  <link rel="stylesheet" type="text/css" href="//webapi.amap.com/ui/1.0/ui/geo/DistrictExplorer/examples/area.css">
 <link rel="stylesheet" href="<%=basePath%>assets/css/loader-style.css">
@@ -285,21 +285,6 @@ var chartData = {
 		datasets: [{
 			type: 'bar',
 			label: '吨数',
-			backgroundColor: window.chartColors.red,
-			data: [
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor(),
-				randomScalingFactor()
-			],
-			borderColor: 'white',
-			borderWidth: 2
-		}, {
-			type: 'bar',
-			label: '车数',
 			backgroundColor: window.chartColors.blue,
 			data: [
 				randomScalingFactor(),
@@ -310,7 +295,22 @@ var chartData = {
 				randomScalingFactor(),
 				randomScalingFactor()
 			],
-			borderColor: 'white',
+			borderColor: window.chartColors.grey,
+			borderWidth: 2
+		}, {
+			type: 'bar',
+			label: '车数',
+			backgroundColor: window.chartColors.grey,
+			data: [
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor(),
+				randomScalingFactor()
+			],
+			borderColor: window.chartColors.blue,
 			borderWidth: 2
 		}]
 	};
