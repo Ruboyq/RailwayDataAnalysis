@@ -29,7 +29,7 @@ public class SparkKM {
 			SparkSession spark = SparkSession.builder().appName("Railway Application").master("local[*]").getOrCreate();
 			CenterPairProcessor centerPairProcessor = new CenterPairProcessor();
 			// 读取铁路货运数据表
-			Dataset<Row> data = DataLoader.readTable(spark, "jdbc:mysql://localhost:3306/rda",
+			Dataset<Row> data = DataLoader.readTable(spark, properties.getProperty("url"),
 					properties.getProperty("railwayDataTable"), properties);
 			// 传入品类id前四位或前两位
 			Dataset<Row> lines = data.filter(data.col("productId").startsWith(type));

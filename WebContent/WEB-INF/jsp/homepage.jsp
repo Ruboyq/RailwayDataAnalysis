@@ -197,15 +197,16 @@
 							class="title-menu-left"> <span class="design">数据查询</span> 
 
 						</a></li>
-						
+						        <li>
+                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originTonnageProvince"
+							onclick="changeTitle('省份展示')" target="main" title="省份展示"> <i class="icon-preview"></i> <span>省份展示<span></a>
+                                </li>
+                                
                                 <li>
                                     <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originStation"
 							onclick="changeTitle('城市查看')" target="main" title="城市查看"> <i class="icon-location"></i> <span>城市查看</span></a>
                                 </li>
-                                <li>
-                                    <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originTonnageProvince"
-							onclick="changeTitle('省份展示')" target="main" title="省份展示"> <i class="icon-preview"></i> <span>省份展示<span></a>
-                                </li>
+                                
                                 <li>
                                     <a class="tooltip-tip ajax-load" href="<%=basePath%>railwayData/originTonnageCity"
 							onclick="changeTitle('城市展示')" target="main" title="城市展示"> <i class="icon-preview"></i> <span>城市展示<span></a>
